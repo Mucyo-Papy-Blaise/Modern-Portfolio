@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Acme&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+@import "@fontsource/poppins";
+
+html {
+    scroll-behavior: smooth;
+  }
+  
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
