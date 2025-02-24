@@ -4,6 +4,22 @@ import css from '../assets/css-3.png'
 import react from '../assets/science.png'
 import photoshop from '../assets/photoshop.png'
 import ui from '../assets/ui.png'
+import cyber  from '../assets/Cyber.jpg'
+import rwandaNziza from '../assets/rwanda web.jpg'
+import edgeReach from '../assets/Edge-reach.webp'
+import streaming from '../assets/streaming web.webp'
+
+
+interface project {
+  id: number;
+  title: string;
+  category: string;
+  image: string;
+  description: string;
+  tools: string[];
+  challenges: string[];
+  link: string;
+}
 
 
 export const education = [
@@ -34,7 +50,7 @@ export const experience = [
         workType:"Full Time",
         Time:"Jan 24 - Dec 24",
         TotalTime:"11 Months",
-        description : "As a Front-End Developer at EdgeReach Tech, I design and implement user interfaces for web applications, ensuring responsiveness and accessibility across devices. My role involves writing clean, efficient code using HTML, CSS, JavaScript, and frameworks like React.js. I collaborate with back-end developers and designers to create seamless user experiences and troubleshoot performance issues to optimize application functionality.",
+        description : "As a Front-End Developer at EdgeReach Tech, I design and implement user interfaces for web applications, ensuring responsiveness and accessibility across devices",
     },
     {
         company:"B&P Beach Villa and Ever Design Group Ltd",
@@ -42,7 +58,7 @@ export const experience = [
         workType:"Full Time",
         Time:"Jan 24 - Present",
         TotalTime:"About 2 Years",
-        description : "As a Graphic Designer at B&P Beach Villa and Ever Design Group Ltd, I created visually compelling designs for various projects, including marketing materials, social media content, and brand identities. I collaborated with cross-functional teams to ensure designs aligned with company goals and consistently delivered creative solutions within tight deadlines. My role also included staying updated on design trends, and contributing to the development of innovative visual strategies.",
+        description : "As a Graphic Designer at B&P Beach Villa and Ever Design Group Ltd, I created visually compelling designs for various projects, including marketing materials, social media content, and brand identities.",
     }
 ]
 
@@ -83,4 +99,76 @@ export const experience = [
     level: "w-[80%] bg-[#ffc86b] h-full",
     percentage: 80
 },
+
+]
+
+export const projects: project[] = [
+  {
+    id: 1,
+    title: "CyberPro Group",
+    category: "Web Development",
+    image: cyber,
+    description: "A professional website for CyberPro Group, providing cybersecurity, consultancy, and camera installation services.",
+    tools: ["React", "Node.js", "TailwindCss"],
+    challenges: [
+      "Ensuring website security",
+      "Building a secure payment system",
+      'Optimizing performance for a professional and fast-loading experience.',
+    ],
+    link: "https://ecommerce-example.com"
+  },
+  {
+    id: 2,
+    title: "Edge Reach Tech",
+    category: "Web Development",
+    image: edgeReach,
+    description: "A modern and dynamic website for Edgreach Tech, showcasing its IT solutions, software development, and innovation-driven services.",
+    tools: ["React", "Node.js", "Tailwindcss"],
+    challenges: [
+      "Creating a professional UI/UX ",
+      "Effectively structuring and presenting services and past projects.",
+    ],
+    link: "https://www.edgereachtech.com/"
+  },
+  {
+    id: 3,
+    title: "Rwanda-Nziza",
+    category: "Web Development",
+    image: rwandaNziza,
+    description: "A tourism-focused website showcasing Rwanda’s beauty, hotels, and attractions to promote travel experiences.",
+    tools: ["React", "Node.js", "TailwindCss"],
+    challenges: [
+      "Optimizing images for fast loading",
+      "integrating interactive maps",
+      "Ensuring a seamless user experience."
+    ],
+    link: ""
+  },
+  {
+    id: 4,
+    title: "Streaming Website",
+    category: "Web Development",
+    image: streaming,
+    description: " A platform to stream your DJ mixes, allowing users to listen and engage with your music.",
+    tools: ["React", "Node.js", "TailWindCss"],
+    challenges: [
+      "Implementing real-time inventory sync across multiple warehouses",
+      "Optimizing database queries for large product catalogs",
+      "Building a secure payment processing system"
+    ],
+    link: "https://ecommerce-example.com"
+  },
+  {
+    id: 5,
+    title: "Person Portfolio",
+    category: "Web Development",
+    image: cyber,
+    description: "A personal website showcasing your skills, projects, and DJing experience.",
+    tools: ["React", "Node.js", "TailwindCss"],
+    challenges: [
+      "Balancing design and functionality,",
+      "Ensuring fast load times, and making it mobile-friendly.",
+    ],
+    link: "https://ecommerce-example.com"
+  },
 ]

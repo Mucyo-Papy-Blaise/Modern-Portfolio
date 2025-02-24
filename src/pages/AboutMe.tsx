@@ -4,12 +4,20 @@ import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
 import { education, experience, skills } from "../Data/Data";
 import { useNavigate } from "react-router-dom";
+import { FaDownload } from "react-icons/fa";
+import Mycv from '../assets/My_Cv.pdf'
 
 const AboutMe: React.FC = () => {
   const navigate = useNavigate()
   return (
     <div className="w-full min-h-screen bg-[#111111] p-8">
       <div className="max-w-[1024px] mx-auto">
+        <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.1 }}
+        className="relative pl-8 pb-12 last:pb-0"
+        >
         <button className="pb-8 flex flex-row justify-center items-center gap-3" onClick={()=> navigate("/")}>
           <FaArrowLeft className="text-gray-400" />
           <p className="text-gray-400 font-poppins text-[20px]">Back</p>
@@ -27,14 +35,23 @@ const AboutMe: React.FC = () => {
             <p className="text-[15px] text-gray-400 font-poppins mt-5 ">
               I'm a passionate Web Designer based in Kigali, Rwanda, with a
               strong focus on creating beautiful and functional digital
-              experiences. With 7 years of experience in the field, I've had the
+              experiences. With 3 years of experience in the field, I've had the
               pleasure of working with clients worldwide. <br /> <br /> My
               approach combines creativity with technical expertise, ensuring
               that every project not only looks stunning but also delivers
               results.
             </p>
+              <a href={Mycv} 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 border-[#ffc86b] border-[1px] w-[50%] p-2 rounded-lg flex flex-row justify-center items-center gap-6 hover:bg-[#39393952]"
+              >
+            <FaDownload className="text-white "/>
+            <p className="text-white font-poppins">Download CV</p>
+              </a>
           </div>
         </div>
+        </motion.div>
 
         {/*Education Background  */}
         <div className="mt-8 font-poppins">

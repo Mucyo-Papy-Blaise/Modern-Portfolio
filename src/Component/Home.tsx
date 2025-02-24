@@ -119,8 +119,11 @@ const Home: React.FC = () => {
               <p className="text-gray-400 text-[13px]">MORE ABOUT ME</p>
               <h2 className="text-xl font-normal text-white">Credentials</h2>
             </div>
-            <div className="w-12 h-12 bg-[#393939] rounded-full flex items-center justify-center transition-all hover:scale-[1.02] hover:bg-[#625454]">
-              <span className="text-2xl text-center text-white "><FaPlus onClick={()=> navigate("/AboutMe")} /></span>
+            <div className="w-12 h-12 bg-[#393939] rounded-full flex items-center 
+            justify-center transition-all hover:scale-[1.02] hover:bg-[#625454]"
+            onClick={()=> navigate("/AboutMe")} 
+            >
+              <span className="text-2xl text-center text-white "><FaPlus /></span>
             </div>
           </div>
 
@@ -138,7 +141,9 @@ const Home: React.FC = () => {
               <p className="text-gray-400 text-[13px]">SHOWCASE</p>
               <h2 className="text-xl text-white font-normal">Projects</h2>
             </div>
-            <div className="w-12 h-12 bg-[#393939] rounded-full flex items-center justify-center transition-all hover:scale-[1.02] hover:bg-[#625454]">
+            <div className="w-12 h-12 bg-[#393939] rounded-full flex items-center justify-center transition-all hover:scale-[1.02] hover:bg-[#625454]"
+             onClick={()=>navigate("/ShowCase")}
+            >
               <span className="text-2xl text-white"><FaPlus /></span>
             </div>
           </div>

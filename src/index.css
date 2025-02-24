@@ -5,6 +5,27 @@
 html {
     scroll-behavior: smooth;
   }
+
+  .no-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  }
+
+  ::-webkit-scrollbar {
+    width: 2px;
+    height: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #b16d83;
+    border-radius: 10px;
+    border: 3px solid #161720;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #161720;
+    border-radius: 10px; 
+  }
   
 @tailwind base;
 @tailwind components;
