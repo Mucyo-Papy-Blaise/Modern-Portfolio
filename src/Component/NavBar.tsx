@@ -13,9 +13,9 @@ const LandingPage:React.FC = () => {
 
         <div className='font-poppins text-[#9396A4] text-[15px] flex justify-center items-center gap-14'>
             <Link to="/">Home</Link>
-            <Link to="/">About</Link>
-            <Link to="/">Works</Link>
-            <Link to="/">Contact</Link>
+            <Link to="/AboutMe">About</Link>
+            <Link to="/ShowCase">Works</Link>
+            <Link to="/Contact">Contact</Link>
         </div>
 
         <div className='bg-[#9396A4] w-[150px] h-10 flex justify-center items-center font-poppins rounded-md ml-[200px]'>

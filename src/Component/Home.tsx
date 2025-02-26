@@ -164,7 +164,9 @@ const Home: React.FC = () => {
               <p className="text-gray-400 text-[13px]">BLOG</p>
               <h2 className="text-xl text-white font-normal">GFonts</h2>
             </div>
-            <div className="w-12 h-12 bg-[#393939] rounded-full flex items-center justify-center ml-20 transition-all hover:scale-[1.02] hover:bg-[#625454]">
+            <div className="w-12 h-12 bg-[#393939] rounded-full flex items-center justify-center ml-20 transition-all hover:scale-[1.02] hover:bg-[#625454]"
+            onClick={()=> navigate("/Blog")}
+            >
               <span className="text-2xl text-white"><FaPlus /></span>
             </div>
           </div>
@@ -201,7 +203,9 @@ const Home: React.FC = () => {
                 Service Offering
               </h2>
             </div> 
-            <div className="w-12 h-12 bg-[#393939] rounded-full flex items-center justify-center ml-[125px] transition-all hover:scale-[1.02] hover:bg-[#625454]">
+            <div className="w-12 h-12 bg-[#393939] rounded-full flex items-center justify-center ml-[125px] transition-all hover:scale-[1.02] hover:bg-[#625454]"
+            onClick={()=> navigate('/Service')}
+            >
               <span className="text-2xl text-white"><FaPlus /></span>
             </div>
           </div>
@@ -280,6 +284,7 @@ const Home: React.FC = () => {
         <div
           className="bg-[#1A1A1A] rounded-2xl p-6 col-span-6 flex flex-row gap-4 w-full h-[200px] font-poppins 
         transform transition-all duration-300 hover:scale-[1.02] hover:bg-[#242424] cursor-pointer group opacity-0 translate-y-10 animate-slideUp"
+        onClick={()=> navigate('/Contact')}
         >
           <div className="flex items-center font-poppins">
             <img src="" alt="" />

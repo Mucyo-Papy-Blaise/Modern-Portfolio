@@ -10,6 +10,7 @@ import edgeReach from '../assets/Edge-reach.webp'
 import streaming from '../assets/streaming web.webp'
 
 
+
 interface project {
   id: number;
   title: string;
@@ -20,7 +21,6 @@ interface project {
   challenges: string[];
   link: string;
 }
-
 
 export const education = [
     {
@@ -148,7 +148,7 @@ export const projects: project[] = [
     id: 4,
     title: "Streaming Website",
     category: "Web Development",
-    image: streaming,
+    image: streaming ,
     description: " A platform to stream your DJ mixes, allowing users to listen and engage with your music.",
     tools: ["React", "Node.js", "TailWindCss"],
     challenges: [

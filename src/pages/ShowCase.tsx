@@ -22,7 +22,7 @@ const Projects: React.FC = () => {
       <div className="w-full min-h-screen bg-[#111111] p-8">
         <div className="max-w-[1024px] mx-auto">
           <button
-            className="pb-8 flex flex-row items-center gap-3"
+            className="pb-8 flex flex-row items-center justify-center gap-1"
             onClick={() => navigate("/")}
           >
             <ArrowLeft className="text-gray-400" />
