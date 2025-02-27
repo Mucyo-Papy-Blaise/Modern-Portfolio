@@ -4,22 +4,21 @@ import PageTransition from "../Component/PageTransition";
 import { ArrowLeft,Calendar,Clock,User } from "lucide-react";
 import { motion,AnimatePresence } from "framer-motion";
 
-
-const Blog: React.FC = () => {
 interface blogProps {
-    id: number;
-    title: string;
-    excerpt: string;
-    content: string;
-    author: string;
-    date: string;
-    readTime: string;
-    category: string;
-    image: string;
-    tags: string[];
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  author: string;
+  date: string;
+  readTime: string;
+  category: string;
+  image: string;
+  tags: string[];
 }
 
 
+const Blog: React.FC = () => {
   const categories = ["All","Design Trends","Development","UI Design","Accessibility","UX Research"];
 
   const blogs: blogProps[] = [
@@ -74,19 +73,31 @@ interface blogProps {
   ]
 
   const navigate = useNavigate();
-  const [selectedCategory, setselectedCategory] = useState<number | null>(null);
+  const [selectedCategory, setselectedCategory] = useState<string | null>(null);
   const [isHoveredCard,setIsHoveredCard] = useState<number |null>(null)
   const [selectedPost, setSelectedPost] =  useState<blogProps | null> (null)
+  const [searchItem, setSearchItem] = useState("")
   
  
-  const handleCategory = (index: number) => {
-    setselectedCategory(selectedCategory === index ? null : index);
+  const handleCategory = (category: string) => {
+    setselectedCategory(selectedCategory === category ? "All" : category);
   };
 
+  const filteredBlogs = blogs.filter((blog) => {
+    const matchesCategory = selectedCategory === "All" || !selectedCategory 
+      ? true 
+      : blog.category === selectedCategory;
+  
+    const matchesSearch = !searchItem 
+      ? true 
+      : blog.title.toLowerCase().includes(searchItem.toLowerCase());
+  
+    return matchesCategory && matchesSearch;
+  });
   const handleClickPost =(blog:blogProps)=>{
     setSelectedPost(blog)
   }
-  
+
   const handleBack =()=>{
     setSelectedPost(null)
   }
@@ -108,6 +119,8 @@ interface blogProps {
             <div className="flex-1 bg-[#1A1A1A] h-[1px]" />
             <input
               type="text"
+              value={searchItem}
+              onChange={(e)=> setSearchItem(e.target.value)}
               className="bg-[#1A1A1A] w-[300px] h-10 outline-none focus:ring-2 focus:ring-[#ffc86b] rounded-xl p-4"
               placeholder="Search Articles"
             />
@@ -117,9 +130,9 @@ interface blogProps {
             {categories.map((category, index) => (
               <button
                 key={index}
-                onClick={() => handleCategory(index)}
+                onClick={() => handleCategory(category)}
                 className={`p-2 rounded-full font-poppin font-extralight text-[15px] ${
-                  selectedCategory === index
+                  selectedCategory === category
                     ? "bg-[#ffc86b] text-black"
                     : "bg-[#1A1A1A] text-white"
                 }`}
@@ -169,7 +182,7 @@ interface blogProps {
  
         :(
           <div className="grid md:grid-cols-3 gap-4 mt-8">
-            {blogs.map((blog)=>
+            {filteredBlogs.map((blog)=>
             <motion.div
             key={blog.id}
             className={`bg-[#111111] rounded-xl cursor-pointer ${
