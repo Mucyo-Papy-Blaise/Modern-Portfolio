@@ -8,9 +8,7 @@ import cyber  from '../assets/Cyber.jpg'
 import rwandaNziza from '../assets/rwanda web.jpg'
 import edgeReach from '../assets/Edge-reach.webp'
 import streaming from '../assets/streaming web.webp'
-
-
-
+ 
 interface project {
   id: number;
   title: string;
@@ -24,22 +22,22 @@ interface project {
 
 export const education = [
     {
-      year: "2020",
-      title: "Frontend Development",
-      institution: "School of Design, Kigali",
-      description: "Advanced web development with focus on modern JavaScript frameworks and responsive design principles.",
+      year: "2021-2025",
+      title: "Business Information and Technology",
+      institution: "University Of Rwanda",
+      description: "Bachelor's degree Information Technology and Communication (ICTs), Computer Science, Computer & Software Engineering",
     },
     {
-      year: "2018",
-      title: "UI/UX Design",
-      institution: "Design Academy, Kigali",
-      description: "Comprehensive study of user interface design, user experience principles, and design systems.",
+      year: "2018-2021",
+      title: "Accounting",
+      institution: "E.A.V Ntendezi(Ecole Agricole et Veterinaire Ntendezi)",
+      description: "High school diploma Business and Economics (Administration, Commerce, Finance, Accounting and Human Resource)",
     },
     {
-      year: "2016",
-      title: "Graphic Design",
-      institution: "Creative Institute, Kigali",
-      description: "Foundation in visual design, typography, and brand identity development.",
+      year: "2016-2017",
+      title: "Ordinary Level",
+      institution: "SAINT MATTHEW'S",
+      description: "Some college / No degree",
     },
   ];
 
@@ -172,3 +170,66 @@ export const projects: project[] = [
     link: "https://ecommerce-example.com"
   },
 ]
+
+export const searchAllData = (query: string) => {
+  if (!query || query.trim() === '') {
+    return {
+      education: education,
+      experience: experience,
+      skills: skills,
+      projects: projects,
+      resultsFound: true
+    };
+  }
+
+  // Convert query to lowercase for case-insensitive search
+  const searchQuery = query.toLowerCase().trim();
+
+  // Search through education
+  const filteredEducation = education.filter(item => 
+    item.title.toLowerCase().includes(searchQuery) ||
+    item.institution.toLowerCase().includes(searchQuery) ||
+    item.description.toLowerCase().includes(searchQuery) ||
+    item.year.toLowerCase().includes(searchQuery)
+  );
+
+  // Search through experience
+  const filteredExperience = experience.filter(item =>
+    item.company.toLowerCase().includes(searchQuery) ||
+    item.workAs.toLowerCase().includes(searchQuery) ||
+    item.workType.toLowerCase().includes(searchQuery) ||
+    item.Time.toLowerCase().includes(searchQuery) ||
+    item.TotalTime.toLowerCase().includes(searchQuery) ||
+    item.description.toLowerCase().includes(searchQuery)
+  );
+
+  // Search through skills
+  const filteredSkills = skills.filter(item =>
+    item.title.toLowerCase().includes(searchQuery) ||
+    item.percentage.toString().includes(searchQuery)
+  );
+
+  // Search through projects
+  const filteredProjects = projects.filter(item =>
+    item.title.toLowerCase().includes(searchQuery) ||
+    item.category.toLowerCase().includes(searchQuery) ||
+    item.description.toLowerCase().includes(searchQuery) ||
+    item.tools.some(tool => tool.toLowerCase().includes(searchQuery)) ||
+    item.challenges.some(challenge => challenge.toLowerCase().includes(searchQuery))
+  );
+
+  // Check if any results were found
+  const resultsFound = 
+    filteredEducation.length > 0 || 
+    filteredExperience.length > 0 || 
+    filteredSkills.length > 0 || 
+    filteredProjects.length > 0;
+
+  return {
+    education: filteredEducation,
+    experience: filteredExperience,
+    skills: filteredSkills,
+    projects: filteredProjects,
+    resultsFound
+  };
+};

@@ -126,12 +126,12 @@ const Blog: React.FC = () => {
             />
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex overflow-x-auto overflow-y-auto gap-4 no-scrollbar scroll-smooth">
             {categories.map((category, index) => (
               <button
                 key={index}
                 onClick={() => handleCategory(category)}
-                className={`p-2 rounded-full font-poppin font-extralight text-[15px] ${
+                className={`p-2 rounded-full font-poppin font-extralight text-[12px] md:text-[15px] text-nowrap ${
                   selectedCategory === category
                     ? "bg-[#ffc86b] text-black"
                     : "bg-[#1A1A1A] text-white"
@@ -155,13 +155,13 @@ const Blog: React.FC = () => {
             </button>
             <div className="bg-[#1A1A1A] p-6 rounded-lg">
                 <img src={selectedPost.image} alt={selectedPost.title} className="w-full h-72 object-cover rounded-lg" />
-                <div className="flex flex-row justify-start items-center gap-4 text-gray-400 mt-3">
+                <div className="flex flex-row justify-start items-center gap-1 md:gap-4 text-gray-400 mt-3">
                   <User className="w-[14px]"/>
-                  <p  className="text-14px"> {selectedPost.author}</p>• 
+                  <p  className="text-[12px] text-nowrap md:text-14px"> {selectedPost.author}</p>• 
                   <Calendar className="w-[14px]"/>
-                   <p className="text-14px">{selectedPost.date} </p> • 
+                   <p className="text-[12px] text-nowrap md:text-14px">{selectedPost.date} </p> • 
                    <Clock className="w-[14px]"/>
-                   <p className="text-14px">{selectedPost.readTime}</p>
+                   <p className="text-[12px] text-nowrap md:text-14px">{selectedPost.readTime}</p>
                 </div>
 
                 <h1 className="text-[#ffc86b] text-2xl font-bold mt-4">{selectedPost.title}</h1>

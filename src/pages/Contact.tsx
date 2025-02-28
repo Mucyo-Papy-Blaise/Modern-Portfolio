@@ -26,7 +26,7 @@ const Contact: React.FC = () => {
           <div className="flex-1 bg-[#1A1A1A] h-[1px]" />
         </div>
 
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-col md:flex-row justify-between">
           <div className="flex flex-col gap-5">
             <h1 className="text-white text-[25px] font-poppins">
               Get in Touch
@@ -52,7 +52,7 @@ const Contact: React.FC = () => {
           </div>
 
         {/* Contact Boxes */}
-          <div className="flex flex-col bg-[#1A1A1A] w-[400px] p-4 rounded-2xl gap-6">
+          <div className="flex flex-col bg-[#1A1A1A] w-[350px] md:w-[400px] p-4 rounded-2xl gap-6 mt-10 md:mt-0">
             <div className="flex flex-col">
             <label htmlFor="names" className="text-gray-400 font-poppins mb-1">Names</label>
             <input type="text" name="names" className="bg-[#333333] h-10 rounded-xl outline-none p-4 text-white font-poppins  focus:ring-2 focus:ring-[#ffc86b]"/>

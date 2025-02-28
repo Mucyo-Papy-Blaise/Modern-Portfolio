@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import pflPhoto from "../assets/123.jpg";
+import pflPhoto from "../assets/Mucyo Papy Blaise 222004130jpg copy.jpg";
 import signature from "../assets/signature.png";
 import logo from "../assets/My logo.png";
 import projectImg from "../assets/programming.png";
-import { Code, Facebook, Github, Instagram, Youtube } from "lucide-react";
+import { Code, Facebook, Github, Instagram, Search, X, Youtube } from "lucide-react";
 import {
   FaSearch,
   FaCamera,
@@ -17,6 +17,8 @@ import {
 } from "react-icons/fa";
 import blogPng from "../assets/Blog.png";
 import { AnimatePresence, motion } from "framer-motion";
+import PageTransition from "./PageTransition";
+import { searchAllData } from "../Data/Data";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -64,8 +66,9 @@ const Home: React.FC = () => {
   };
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
   const [isIconHovered, setisIconHovered] = useState<number | null>(null);
+
+
   const icons = [
     { icon: <Code />, label: "Web Develop" },
     { icon: <FaPaintBrush />, label: "Graphic Design" },
@@ -82,23 +85,136 @@ const Home: React.FC = () => {
     { name: "Facebook", icon: Facebook, url: "https://facebook.com" },
   ];
   const [showSocialOverlay, setShowSocialOverlay] = useState(false);
+  const [showSearch, setShowSearch] = useState<boolean>(false)
+  const [searchQuery,setsearchQuery] =  useState('')
+  const [searchResult,setSearchResult] = useState<any>(null)
 
   const toggleSocialOverlay = (e: React.MouseEvent) => {
     e.stopPropagation();
     setShowSocialOverlay(!showSocialOverlay);
   };
 
+  const handleSearch = () =>{
+    setShowSearch(!showSearch)
+
+    if(showSearch){
+      setsearchQuery('')
+      setSearchResult(null)
+    }
+  }
+
+  const performSearch =(query: string)=>{
+    setsearchQuery(query)
+    const result = searchAllData(query)
+    setSearchResult(result)
+
+  }
+ 
   return (
     <div className="w-full min-h-screen bg-[#111111] pb-10">
       {/* Search Box */}
-      <div className="flex justify-center items-center pt-6 sm:pt-8 md:pt-12 px-4 sm:px-8 md:px-16 lg:px-32 max-w-[1400px] mx-auto relative">
+      <div className="hidden md:flex justify-center items-center pt-6 sm:pt-8 md:pt-12 px-4 sm:px-8 md:px-16 lg:px-32 max-w-[1400px] mx-auto relative">
         <input
           className="relative text-xs sm:text-sm w-full h-[40px] sm:h-[50px] bg-[#1A1A1A] flex justify-center items-center p-3 sm:p-4 outline-none text-white font-poppins rounded-xl sm:rounded-2xl 
           transition-all duration-300 hover:bg-[#242424] focus:bg-[#242424] lg:focus:ring-2 lg:focus:ring-[#393939] opacity-0 translate-y-10 animate-slideUp"
-          placeholder="SEARCH ST WORK AND FEATURED•LATEST WORK AND FEATURED"
+          placeholder="SEARCH WORK AND FEATURED"
+          value={searchQuery}
+          onChange={(e) => performSearch(e.target.value)}
         />
         <FaSearch className="absolute right-8 sm:right-12 md:right-20 lg:right-36 text-white font-poppins cursor-pointer translate-y-10 animate-slideUp" />
       </div>
+      
+      <PageTransition>
+      <div className="pl-5">
+      <button onClick={()=> handleSearch()} className="md:hidden mb-3 text-white bg-[#393939] p-2 font-bold rounded-full hover:bg-[#ffc86b] hover:text-black">
+      <Search size={13}/>
+      </button>
+
+      {showSearch ? (
+        <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.1 }}
+        className=""
+        >
+          <input
+          className="bg-[#1A1A1A] rounded-2xl p-2 w-[95%] text-white font-poppins text-[13px]"
+          placeholder="SEARCH WORK AND FEATURED"
+          value={searchQuery}
+          onChange={(e) => performSearch(e.target.value)}
+        />
+        </motion.div>
+      ): ""}
+      </div>
+      </PageTransition>
+
+      {searchResult && (
+  <div className="bg-[#1A1A1A] rounded-xl p-4 mt-4 text-white font-poppins max-h-[400px] overflow-y-auto mx-4 sm:mx-8 md:mx-16 lg:mx-32 max-w-[1400px]">
+
+    <button className="bg-[#ffc86b] p-1 rounded-full flex">
+      <X  
+      onClick={()=> setSearchResult(null)}
+      className="text-black" />
+    </button>
+    {!searchResult.resultsFound ? (
+      <p className="text-center text-gray-400">No results found for "{searchQuery}"</p>
+    ) : (
+      <div className="space-y-4">
+        {searchResult.projects.length > 0 && (
+          <div>
+            <h3 className="text-[#ffc86b] text-lg mb-2">Projects</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {searchResult.projects.map((project: { id: React.Key | null | undefined; title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; category: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
+                <div key={project.id} className="bg-[#242424] p-3 rounded-lg">
+                  <h4 className="font-medium">{project.title}</h4>
+                  <p className="text-sm text-gray-300">{project.category}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {searchResult.skills.length > 0 && (
+          <div>
+            <h3 className="text-[#ffc86b] text-lg mb-2">Skills</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {searchResult.skills.map((skill: { title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; percentage: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }, index: React.Key | null | undefined) => (
+                <div key={index} className="bg-[#242424] p-3 rounded-lg">
+                  <h4 className="font-medium">{skill.title}</h4>
+                  <p className="text-sm text-gray-300">{skill.percentage}%</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {searchResult.experience.length > 0 && (
+          <div>
+            <h3 className="text-[#ffc86b] text-lg mb-2">Experience</h3>
+            {searchResult.experience.map((exp: { workAs: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; company: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; Time: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }, index: React.Key | null | undefined) => (
+              <div key={index} className="bg-[#242424] p-3 rounded-lg mb-2">
+                <h4 className="font-medium">{exp.workAs} at {exp.company}</h4>
+                <p className="text-sm text-gray-300">{exp.Time}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        
+        {searchResult.education.length > 0 && (
+          <div>
+            <h3 className="text-[#ffc86b] text-lg mb-2">Education</h3>
+            {searchResult.education.map((edu: { title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; institution: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; year: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }, index: React.Key | null | undefined) => (
+              <div key={index} className="bg-[#242424] p-3 rounded-lg mb-2">
+                <h4 className="font-medium">{edu.title}</h4>
+                <p className="text-sm text-gray-300">{edu.institution} ({edu.year})</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+)}
 
       {/* Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-12 gap-3 sm:gap-4 pt-4 sm:pt-6 md:pt-8 px-4 sm:px-8 md:px-16 lg:px-32 max-w-[1400px] mx-auto">
@@ -274,10 +390,10 @@ const Home: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.2 }}
-                className="absolute inset-0 bg-[#1A1A1A] rounded-xl sm:rounded-2xl p-4 sm:p-6 z-10 shadow-xl"
+                className="absolute inset-0 bg-[#1A1A1A] rounded-xl sm:rounded-2xl md:p-2 p-6 z-10 shadow-xl"
               >
-                <div className="flex justify-between items-center mb-3 sm:mb-4">
-                  <h3 className="font-semibold text-white text-sm sm:text-base">
+                <div className="flex justify-between items-center md:mb-2 sm:mb-4">
+                  <h3 className="font-semibold text-white text-[10px] sm:text-base">
                     Social Profiles
                   </h3>
                   <button
@@ -288,7 +404,7 @@ const Home: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                <div className="grid grid-cols-2 md:gap-1 gap-3">
                   {socialLinks.map((social, index) => {
                     const Icon = social.icon;
                     return (
@@ -302,8 +418,8 @@ const Home: React.FC = () => {
                         transition={{ delay: index * 0.05 }}
                         className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-[#252525] rounded-lg sm:rounded-xl hover:bg-[#333333] transition-colors"
                       >
-                        <Icon className="text-[#ffc86b]" size={16} />
-                        <span className="text-white text-xs sm:text-sm">
+                        <Icon className="text-[#ffc86b]" size={12} />
+                        <span className="text-white md:text-sm text-xs">
                           {social.name}
                         </span>
                       </motion.a>
