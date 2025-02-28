@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageTransition from "../Component/PageTransition";
 import { ArrowLeft,Calendar,Clock,User } from "lucide-react";
-import { motion,AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface blogProps {
   id: number;
