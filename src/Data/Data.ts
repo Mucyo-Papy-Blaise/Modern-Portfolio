@@ -113,7 +113,7 @@ export const projects: project[] = [
       "Building a secure payment system",
       'Optimizing performance for a professional and fast-loading experience.',
     ],
-    link: "https://ecommerce-example.com"
+    link: "https://cyberprogroup.com/"
   },
   {
     id: 2,
@@ -140,7 +140,7 @@ export const projects: project[] = [
       "integrating interactive maps",
       "Ensuring a seamless user experience."
     ],
-    link: ""
+    link: "https://rwandanziza.vercel.app/"
   },
   {
     id: 4,
