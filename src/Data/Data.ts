@@ -182,7 +182,7 @@ export const searchAllData = (query: string) => {
     };
   }
 
-  // Convert query to lowercase for case-insensitive search
+
   const searchQuery = query.toLowerCase().trim();
 
   // Search through education

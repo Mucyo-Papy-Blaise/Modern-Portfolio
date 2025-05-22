@@ -80,7 +80,7 @@ const Home: React.FC = () => {
     { name: "Twitter", icon: FaTwitter, url: "https://twitter.com" },
     { name: "LinkedIn", icon: FaLinkedin, url: "https://linkedin.com" },
     { name: "Instagram", icon: Instagram, url: "https://instagram.com" },
-    { name: "GitHub", icon: Github, url: "https://github.com" },
+    { name: "GitHub", icon: Github, url: "https://github.com/Mucyo-Papy-Blaise" },
     { name: "YouTube", icon: Youtube, url: "https://youtube.com" },
     { name: "Facebook", icon: Facebook, url: "https://facebook.com" },
   ];
