@@ -7,6 +7,7 @@ import ShowCase from './pages/ShowCase';
 import Service from './pages/Service';
 import Contact from './pages/Contact';
 import Blog from './pages/Blog';
+import Education from './Admin/Education';
 
 const App: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const App: React.FC = () => {
       <Route path='/Service' element = {<Service />} />
       <Route path='/Contact' element = {< Contact/>} />
       <Route path='/Blog' element = {<Blog />} />
+      <Route path='/education' element={<Education />} />
       </Routes>
     </Router>
   );

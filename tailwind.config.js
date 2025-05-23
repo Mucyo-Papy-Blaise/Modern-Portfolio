@@ -11,9 +11,9 @@ export default {
       
       },
       colors: {
-        'Color1': '#1A232C',
-        'Color2': '#0F161C',
-        'Color3': '#20CA5F',
+        'Color1': '#111111',
+        'Color2': '#1A1A1A',
+        'Color3': '#393939',
       },
       keyframes: {
         slideUp: {

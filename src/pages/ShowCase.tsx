@@ -13,7 +13,7 @@ const Projects: React.FC = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [isScrollable, setIsScrollable] = useState(false);
 
-  const handleClick = (projectId: any) => {
+  const handleClick = (projectId: number) => {
   setSelectedId(selectedId === projectId ? null : projectId);
   setIsScrollable(selectedId !== projectId);
 };

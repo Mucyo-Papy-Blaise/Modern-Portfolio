@@ -1,14 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import pflPhoto from "../assets/Mucyo Papy Blaise 222004130jpg copy.jpg";
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
-import { education, experience, skills } from "../Data/Data";
+import { experience, skills } from "../Data/Data";
 import { useNavigate } from "react-router-dom";
 import { FaDownload } from "react-icons/fa";
 import Mycv from '../assets/My_Cv.pdf'
+import axios from "axios";
+import Spinner from "../Component/Spinner";
 
 const AboutMe: React.FC = () => {
   const navigate = useNavigate()
+
+  const [educations, setEducations] = useState<{
+  startYear: string;
+  endYear: string;
+  program: string;
+  school: string;
+  degree: string;
+  }[]>([]);
+
+  const [isloading, setIsLoading] =  useState(false)
+
+  useEffect(()=>{
+    const getEducation = async() =>{
+      try {
+        setIsLoading(true)
+        const res = await axios.get('http://localhost:5000/education')
+        setEducations(res.data)
+      } catch (error) {
+        console.error('Error fetching education data:', error)
+      }finally{
+        setIsLoading(false)
+      }
+    }
+    getEducation()
+  },[])
   return (
     <div className="w-full min-h-screen bg-[#111111] p-2 md:p-8">
       <div className="w-full md:max-w-[1024px] md:mx-auto">
@@ -61,7 +88,10 @@ const AboutMe: React.FC = () => {
           </div>
           <div className="mt-5 md:mt-10 relative">
             <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-[#ffc86b] opacity-20"></div>
-            {education.map((edu, index) => (
+            {isloading ? (
+              <Spinner />
+            ): (
+              educations?.map((edu, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
@@ -70,16 +100,21 @@ const AboutMe: React.FC = () => {
                 className="relative pl-4 md:pl-8 pb-12 last:pb-0"
               >
                 <div className="absolute left-[-5px] top-0 w-[11px] h-[11px] rounded-full bg-[#ffc86b]"></div>
-                <div className="text-[#ffc86b] text-sm mb-2">{edu.year}</div>
+                <div className="flex flex-row gap-2">
+                  <p className="text-[#ffc86b] text-sm mb-2">{edu.startYear}</p>
+                  <span className="font-bold text-xl text-white">-</span>
+                  <p className="text-[#ffc86b] text-sm mb-2">{edu.endYear}</p>
+                </div>
                 <div className="text-xl text-white font-semibold mb-1">
-                  {edu.title}
+                  {edu.program}
                 </div>
                 <div className="text-gray-400 text-sm mb-2">
-                  {edu.institution}
+                  {edu.school}
                 </div>
-                <div className="text-gray-400">{edu.description}</div>
+                <div className="text-gray-400">{edu.degree}</div>
               </motion.div>
-            ))}
+            ))
+            )}
           </div>
         </div>
 
