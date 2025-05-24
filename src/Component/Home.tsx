@@ -135,7 +135,6 @@ const Home: React.FC = () => {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.1 }}
-        className=""
         >
           <input
           className="bg-[#1A1A1A] rounded-2xl p-2 w-[95%] text-white font-poppins text-[13px]"

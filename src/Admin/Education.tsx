@@ -1,7 +1,10 @@
 import axios from 'axios'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 
 const Education =()=> {
+  const navigate = useNavigate() 
   const [formData, setFormData] =  useState({
     startYear:"",
     endYear: "",
@@ -37,13 +40,20 @@ const Education =()=> {
         degree: "",
       })
     } catch (error) {
-      console.log('registration failed', error)
+      console.log('enter education failed', error)
     }
   }
 
   return (
-    <div className="min-h-screen bg-Color1 flex items-center justify-center p-6 font-poppins">
+    <div className="min-h-screen bg-Color1 flex flex-col items-center justify-center p-6 font-poppins">
       <div className="bg-Color2 shadow-2xl rounded-2xl p-8 w-full max-w-4xl">
+        <div 
+        className='flex flex-row gap-3 mb-5 cursor-pointer text-white hover:text-teal-800'
+        onClick={()=> navigate('/')}
+        >
+        <ArrowLeft />
+        <p>Back Home</p>
+      </div>
         <h2 className="text-2xl font-bold text-white mb-6">Upload Education</h2>
         <form onSubmit={handleSubmitChange} className="flex flex-col gap-4">
           {/* Start Year */}
