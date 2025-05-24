@@ -31,6 +31,13 @@ const AboutMe: React.FC = () => {
       endDate: string; 
       description: string }[]
   >([]);
+
+  const [profiles, setProfiles] = useState<{
+      image: string,
+      cv: string,
+      description: string
+  }[]>([])
+
   const [isloading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -63,6 +70,23 @@ const AboutMe: React.FC = () => {
     }
     getExperience()
   },[])
+
+  useEffect(()=>{
+    const getProfile = async()=>{
+        try {
+          setIsLoading(true)
+          const res = await axios.get('http://localhost:5000/profile')
+          console.log(res.data)
+          setProfiles(res.data)
+        } catch (error) {
+          console.log('Error Fetching profile data', error)
+        }finally{
+          setIsLoading(false)
+        }
+    }
+    getProfile()
+  },[])
+
   return (
     <div className="w-full min-h-screen bg-[#111111] p-2 md:p-8">
       <div className="w-full md:max-w-[1024px] md:mx-auto">
@@ -79,10 +103,17 @@ const AboutMe: React.FC = () => {
             <FaArrowLeft className="text-gray-400" />
             <p className="text-gray-400 font-poppins text-[20px]">Back</p>
           </button>
-          <div className="flex flex-col md:flex-row gap-10">
+          {isloading ? (
+            <Spinner />
+          ): (
+          profiles.map((profile, index)=>
+          <div 
+          key={index}
+          className="flex flex-col md:flex-row gap-10"
+          >
             <div className="w-[300px] md:w-[250px] h-[250px] bg-white overflow-hidden rounded-2xl">
               <img
-                src={pflPhoto}
+                src={profile.image}
                 alt="Profile photo"
                 className="w-full h-full object-cover"
               />
@@ -90,16 +121,10 @@ const AboutMe: React.FC = () => {
             <div className="flex flex-col max-w-[320px] md:max-w-[500px]">
               <h1 className="font-poppins text-white text-[25px]">Who am I?</h1>
               <p className="text-[15px] text-gray-400 font-poppins mt-5 ">
-                I'm a passionate Web Designer based in Kigali, Rwanda, with a
-                strong focus on creating beautiful and functional digital
-                experiences. With 3 years of experience in the field, I've had
-                the pleasure of working with clients worldwide. <br /> <br /> My
-                approach combines creativity with technical expertise, ensuring
-                that every project not only looks stunning but also delivers
-                results.
+                {profile.description}
               </p>
               <a
-                href={Mycv}
+                href={profile.cv}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 border-[#ffc86b] border-[1px] w-full md:w-[50%] p-2 rounded-lg flex flex-row justify-center items-center gap-2 md:gap-6 hover:bg-[#39393952]"
@@ -111,6 +136,8 @@ const AboutMe: React.FC = () => {
               </a>
             </div>
           </div>
+          )
+          )}
         </motion.div>
 
         {/*Education Background  */}
@@ -137,10 +164,10 @@ const AboutMe: React.FC = () => {
                   <div className="absolute left-[-5px] top-0 w-[11px] h-[11px] rounded-full bg-[#ffc86b]"></div>
                   <div className="flex flex-row gap-2">
                     <p className="text-[#ffc86b] text-sm mb-2">
-                      {edu.startYear}
+                      {DateFormat(edu.startYear)}
                     </p>
                     <span className="font-bold text-xl text-white">-</span>
-                    <p className="text-[#ffc86b] text-sm mb-2">{edu.endYear}</p>
+                    <p className="text-[#ffc86b] text-sm mb-2">{DateFormat(edu.endYear)}</p>
                   </div>
                   <div className="text-xl text-white font-semibold mb-1">
                     {edu.program}
