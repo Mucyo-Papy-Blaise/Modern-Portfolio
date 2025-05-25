@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import pflPhoto from "../assets/Mucyo Papy Blaise 222004130jpg copy.jpg";
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
 import { skills } from "../Data/Data";
 import { useNavigate } from "react-router-dom";
 import { FaDownload } from "react-icons/fa";
-import Mycv from "../assets/My_Cv.pdf";
 import axios from "axios";
 import Spinner from "../Component/Spinner";
 import DateFormat from '../Component/DateFormat'

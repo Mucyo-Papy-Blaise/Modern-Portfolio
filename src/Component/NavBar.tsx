@@ -15,7 +15,7 @@ const LandingPage:React.FC = () => {
   }
 
   return (
-    <div className='w-full h-[80px] bg-[#111111] p-5 flex items-center'>
+    <div className='fixed w-full h-[80px] bg-[#111111] p-5 flex items-center z-10 '>
       <nav className='hidden md:flex items-center justify-center w-full md:mx-4 md:space-x-10 lg:mx-32 lg:space-x-[290px]'>
         <div>
         <img src={logo} alt="Logo" className='w-[60px] h-[40px]' />

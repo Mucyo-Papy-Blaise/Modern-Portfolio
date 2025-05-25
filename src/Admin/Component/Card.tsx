@@ -1,0 +1,32 @@
+import type React from "react"
+interface CardProps {
+  children: React.ReactNode
+  className?: string
+}
+
+export function Card({ children, className = "" }: CardProps) {
+  return (
+    <div
+      className={`rounded-lg border shadow-sm ${className}`}
+      style={{ backgroundColor: "#1A1A1A", borderColor: "#393939" }}
+    >
+      {children}
+    </div>
+  )
+}
+
+export function CardHeader({ children, className = "" }: CardProps) {
+  return <div className={`flex flex-col space-y-1.5 p-6 ${className}`}>{children}</div>
+}
+
+export function CardTitle({ children, className = "" }: CardProps) {
+  return <h3 className={`text-2xl font-semibold leading-none tracking-tight text-white ${className}`}>{children}</h3>
+}
+
+export function CardDescription({ children, className = "" }: CardProps) {
+  return <p className={`text-sm text-white ${className}`}>{children}</p>
+}
+
+export function CardContent({ children, className = "" }: CardProps) {
+  return <div className={`p-6 pt-0 ${className}`}>{children}</div>
+}
