@@ -7,12 +7,14 @@ import Badge from "../Component/Badge"
 import {BriefcaseBusiness,Clock11Icon, MapPlus,TrashIcon,ArrowUpRightFromSquare} from "lucide-react"
 import DateFormat from '../../Component/DateFormat'
 import Spinner from "../../Component/Spinner"
+import ConfirmDialog from "../Component/ConfirmDialog"
 
 const Experience = () => {
-
   const [isloading,setIsLoading] =  useState<boolean>(false)
+  const [selectedId, setSelectedId] =  useState<string | null>(null)
+  const [showDialog, setShowDialog] = useState<boolean>(false)
   const [experiences, setExperiences] =  useState<{
-    id: number
+    _id: string,
     company: string,
     role: string,
     employment: string,
@@ -37,11 +39,23 @@ const Experience = () => {
     getExperiences()
   },[])
 
-  const handleDelete = (id: number) => {
-    if (window.confirm("Are you sure you want to delete this experience?")) {
-      setExperiences(experiences.filter((exp) => exp.id !== id))
+  const handleDelete = (id: string) => {
+   setSelectedId(id)
+   setShowDialog(true)
+  }
+  const handleConfirmDelete =async()=>{
+    if(!selectedId) return null
+    try {
+      await axios.delete(`http://localhost:5000/experience/${selectedId}`)
+      setExperiences(experiences.filter((prev)=> prev._id !== selectedId))
+    } catch (error) {
+      console.log('failed to delete experience')
+    }finally{
+      setSelectedId(null)
+      setShowDialog(false)
     }
   }
+
   return (
     <div className="space-y-6 font-poppins">
       <div className="flex justify-between items-center">
@@ -60,7 +74,7 @@ const Experience = () => {
         <Spinner />
       ): 
         experiences.length > 0 ? 
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-3">
         {experiences.map((experience, index) => (
           <Card key={index}>
             <CardContent className="pt-6">
@@ -72,17 +86,17 @@ const Experience = () => {
                       <div className="flex items-center gap-3 ">
                         <span className="text-2xl text-white"><BriefcaseBusiness/></span>
                         <div>
-                          <p className="text-lg text-color5 font-medium">{experience.company}</p>
+                          <p className="text-lg text-Color5 font-medium">{experience.company}</p>
                         </div>
                         <div className="flex flex-row gap-5 items-center">
                           <Clock11Icon size={15} className="text-white"/>
-                          <p className="text-white">{DateFormat(experience.startDate)}</p> <span className="font-bold text-xl text-white">-</span>
+                          <p className="text-Color4">{DateFormat(experience.startDate)}</p> <span className="font-bold text-xl text-white">-</span>
                         {experience.current ? (
-                          <Badge variant="default" className="bg-color5 text-Color1">
+                          <Badge variant="default" className="bg-Color5 text-Color1">
                             Current
                           </Badge>
                         ) : (
-                          <p className="text-white">{DateFormat(experience.endDate ?? new Date())}</p>
+                          <p className="text-Color4">{DateFormat(experience.endDate ?? new Date())}</p>
                         )}
                         </div>
                       </div>
@@ -93,20 +107,26 @@ const Experience = () => {
                       <button
                         className="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500 hover:bg-opacity-20 rounded-md transition-colors"
                         title="Edit Experience"
-                        onClick={() => console.log(`Edit experience ${experience.id}`)}
+                        onClick={() => console.log(`Edit experience ${experience._id}`)}
                       >
                         <span className="text-lg"><ArrowUpRightFromSquare/></span>
                       </button>
                       <button
                         className="p-2 text-red-500 hover:text-red-300 hover:bg-red-700 hover:bg-opacity-20 rounded-md transition-colors"
                         title="Delete Experience"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => handleDelete(experience._id)}
                       >
                         <span className="text-lg"><TrashIcon /></span>
                       </button>
                     </div>
                   </div>
-                  
+                  <ConfirmDialog 
+                    open = {showDialog}
+                    title="Delete Experience Entry"
+                    message="Do you want to delete this experience entry?"
+                    onConfirm={handleConfirmDelete}
+                    onCancel={()=> setShowDialog(false)}
+                  />
                   {/* Description */}
                   <p className="text-white mb-4 leading-relaxed">{experience.description}</p>
                 </div>

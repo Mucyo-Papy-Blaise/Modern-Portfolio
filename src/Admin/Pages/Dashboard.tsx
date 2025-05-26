@@ -1,14 +1,40 @@
 import { Link } from "react-router-dom"
 import { Card, CardContent, CardHeader, CardTitle } from "../Component/Card"
 import Button from "../Component/Button"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
  const Dashboard =()=> {
+  const [counts, setCounts] = useState({
+    experience: 0,
+    education:0,
+  })
+
+  useEffect(()=>{
+    const fetchCounts =async()=>{
+      try {
+        const [experiencesRes,educationsRes] = await Promise.all([
+          axios.get('http://localhost:5000/experience'),
+          axios.get('http://localhost:5000/education'),
+        ])
+
+        setCounts({
+          experience: experiencesRes.data.length,
+          education: educationsRes.data.length
+        })
+      } catch (error) {
+        
+      }
+    }
+    fetchCounts()
+  },[])
+
   const stats = [
-    { name: "Projects", value: 0, icon: "📁", href: "/projects" },
-    { name: "Blog Posts", value: 0, icon: "📝", href: "/blogs" },
-    { name: "Experience", value: 0, icon: "💼", href: "/experience" },
-    { name: "Skills", value: 0, icon: "🏆", href: "/skills" },
-    { name: "Education", value: 0, icon: "🎓", href: "/education" },
+    { name: "Projects", value: 0, icon: "📁", href: "/admin/projects" },
+    { name: "Blog Posts", value: 0, icon: "📝", href: "/admin/blogs" },
+    { name: "Experience", value: counts.experience, icon: "💼", href: "/admin/experience" },
+    { name: "Skills", value: 0, icon: "🏆", href: "/admin/skills" },
+    { name: "Education", value: counts.education, icon: "🎓", href: "/admin/education" },
   ]
 
   return (
@@ -47,7 +73,7 @@ import Button from "../Component/Button"
           </CardHeader>
           <CardContent>
             <p className="text-sm text-white mb-4">Create and manage your projects</p>
-            <Link to="/projects/new">
+            <Link to="/admin/projects/new">
               <Button className="w-full">Add Project</Button>
             </Link>
           </CardContent>
@@ -62,7 +88,7 @@ import Button from "../Component/Button"
           </CardHeader>
           <CardContent>
             <p className="text-sm text-white mb-4">Write and publish blog posts</p>
-            <Link to="/blogs/new">
+            <Link to="/admin/blogs/new">
               <Button className="w-full">Add Blog</Button>
             </Link>
           </CardContent>
@@ -77,7 +103,7 @@ import Button from "../Component/Button"
           </CardHeader>
           <CardContent>
             <p className="text-sm text-white mb-4">Add your work experience</p>
-            <Link to="/experience/new">
+            <Link to="/admin/experience/new">
               <Button className="w-full">Add Experience</Button>
             </Link>
           </CardContent>
@@ -92,7 +118,7 @@ import Button from "../Component/Button"
           </CardHeader>
           <CardContent>
             <p className="text-sm text-white mb-4">Showcase your skills</p>
-            <Link to="/skills/new">
+            <Link to="/admin/skills/new">
               <Button className="w-full">Add Skill</Button>
             </Link>
           </CardContent>
@@ -107,7 +133,7 @@ import Button from "../Component/Button"
           </CardHeader>
           <CardContent>
             <p className="text-sm text-white mb-4">Add your education background</p>
-            <Link to="/education/new">
+            <Link to="/admin/education/new">
               <Button className="w-full">Add Education</Button>
             </Link>
           </CardContent>

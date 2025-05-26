@@ -4,8 +4,20 @@ import { Link } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../Component/Card"
 import Button from "../Component/Button"
 import Input from "../Component/Input"
+import Notification from "../Component/Notification"
 
 const EducationNew = ()=> {
+
+  const [notification, setNotification] = useState<{
+    message: string
+    type: "success" | "error"
+    visible: boolean
+  }>({
+    message: "",
+    type: "success",
+    visible: false
+  })
+
   const [formData, setFormData] =  useState({
     startYear:"",
     endYear: "",
@@ -36,8 +48,24 @@ const EducationNew = ()=> {
         school: "",
         degree: "",
       })
+
+      setNotification({
+        message: "Experience created successfully!",
+        type: "success",
+        visible: true
+      })
     } catch (error) {
       console.log('enter education failed', error)
+
+      setNotification({
+        message: "Failed to create experience. Try again",
+        type: "error",
+        visible: true
+      })
+    }finally{
+      setTimeout(() => {
+        setNotification((prev)=>({...prev, visible:false}))
+      }, 3000);
     }
   }
 
@@ -144,8 +172,14 @@ const EducationNew = ()=> {
               Cancel
             </Button>
           </Link>
-        </div>
-      </form>
+    </div>
+    </form>
+    {notification.visible && (
+        <Notification 
+        message={notification.message}
+        type={notification.type}
+        />
+      )}
     </div>
     </div>
   )

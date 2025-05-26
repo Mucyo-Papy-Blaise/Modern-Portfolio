@@ -28,8 +28,8 @@ const LandingPage:React.FC = () => {
             <Link to="/Contact" className='hover:text-white'>Contact</Link>
         </div>
 
-        <div className='bg-[#9396A4] w-[150px] h-10 flex justify-center items-center font-poppins rounded-md ml-[200px] hover:bg-[#38393d]'>
-            <button className='text-white text-[20px] font-normal p-4 text-nowrap'
+        <div className='bg-Color5 w-[150px] h-10 flex justify-center items-center font-poppins rounded-md ml-[200px] hover:bg-Color6'>
+            <button className='text-Color1 text-[20px] font-normal p-4 text-nowrap'
             onClick={() => navigate('/Contact')}
             >Let's Talk</button>
         </div>

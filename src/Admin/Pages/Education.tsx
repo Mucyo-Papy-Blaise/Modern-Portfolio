@@ -3,14 +3,17 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '../Component/Card';
 import Button from '../Component/Button';
-import {BriefcaseBusiness,Clock11Icon, MapPlus,TrashIcon,ArrowUpRightFromSquare} from "lucide-react"
+import {Clock11Icon, MapPlus,TrashIcon,ArrowUpRightFromSquare} from "lucide-react"
 import Spinner from '../../Component/Spinner';
 import DateFormat from '../../Component/DateFormat'
+import ConfirmDialog from '../Component/ConfirmDialog';
 
 const Education =()=> {
   const [isLoading, setIsloading] = useState<boolean>(false)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [showDialog, setShowDialog] = useState<boolean>(false)
   const [educations, setEducations] = useState<{
-    id: number;
+    _id: string;
     startYear: Date,
     endYear:Date,
     program: string,
@@ -33,10 +36,22 @@ const Education =()=> {
     getEducations()
   },[])
 
-  const handleDelete = (id: number) => {
-    if (window.confirm("Are you sure you want to delete this experience?")) {
-      setEducations(educations.filter((exp) => exp.id !== id))
-    }
+  const handleDelete =(id: string)=>{
+    setSelectedId(id)
+    setShowDialog(true)
+  }
+
+  const handleConfirmDelete = async() => {
+   if(!selectedId) return null
+   try {
+      await axios.delete(`http://localhost:5000/education/${selectedId}`)
+      setEducations(educations.filter((prev)=> prev._id !== selectedId))
+   } catch (error) {
+    console.log('Failed to delete selected education')
+   }finally{
+    setSelectedId(null)
+    setShowDialog(false)
+   }
   }
 
   return (
@@ -58,7 +73,7 @@ const Education =()=> {
         <Spinner />
       ): 
         educations.length > 0 ? 
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-3">
         {educations.map((education, index) => (
           <Card key={index}>
             <CardContent className="pt-6">
@@ -69,16 +84,16 @@ const Education =()=> {
                     <div className="flex-1">
                       <div className="flex flex-col gap-3 ">
                         <div className='flex flex-col'>
-                            <p className="text-lg text-color5 font-medium">{education.program}</p>
+                            <p className="text-lg text-Color5 font-medium">{education.program}</p>
                           <p className='font-bold text-white text-2xl '>{education.school}</p>
                         </div>
 
                         <div className="flex flex-row gap-5 items-center">
                             <Clock11Icon size={13} className="text-white"/>
-                            <p className="text-color4 text-[13px]">{DateFormat(education.startYear)}</p> 
+                            <p className="text-Color4 text-[13px]">{DateFormat(education.startYear)}</p> 
                             <span className="font-bold text-xl text-white">-</span>
-                            <p className='text-color4 text-[13px]'>{DateFormat(education.endYear)}</p>
-                            </div>
+                            <p className='text-color4 text-[13px] text-Color4'>{DateFormat(education.endYear)}</p>
+                        </div>
                       </div>
                     </div>
 
@@ -87,20 +102,27 @@ const Education =()=> {
                       <button
                         className="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500 hover:bg-opacity-20 rounded-md transition-colors"
                         title="Edit Experience"
-                        onClick={() => console.log(`Edit experience ${education.id}`)}
+                        onClick={() => console.log(`Edit experience ${education._id}`)}
                       >
                         <span className="text-lg"><ArrowUpRightFromSquare/></span>
                       </button>
                       <button
                         className="p-2 text-red-500 hover:text-red-300 hover:bg-red-700 hover:bg-opacity-20 rounded-md transition-colors"
                         title="Delete Experience"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => handleDelete(education._id)}
                       >
                         <span className="text-lg"><TrashIcon /></span>
                       </button>
                     </div>
                   </div>
-                  
+                  <ConfirmDialog 
+                  open = {showDialog}
+                  title='Confirm Deletion'
+                  message='Do you want to delete this education entry?'
+                  onConfirm={handleConfirmDelete}
+                  onCancel={()=> setShowDialog(false)}
+                  />
+                
                   {/* Description */}
                   <p className="text-white mb-4 leading-relaxed">{education.degree}</p>
                 </div>

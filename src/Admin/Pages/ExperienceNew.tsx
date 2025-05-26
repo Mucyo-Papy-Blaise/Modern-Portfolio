@@ -5,8 +5,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../Co
 import Button from "../Component/Button"
 import Input from "../Component/Input"
 import Textarea from "../Component/Textarea"
+import Notification from "../Component/Notification"
 
 export default function ExperienceNew() {
+  const [notification, setNotification] = useState<{
+    message: string,
+    type: "success" | "error",
+    visible: boolean,
+  }>({
+    message: '',
+    type: 'success',
+    visible: false
+  })
+
   const [formData, setFormData] = useState({
           company: "",
           role: "",
@@ -22,8 +33,34 @@ export default function ExperienceNew() {
           try {
               const response =  await axios.post('http://localhost:5000/experience', formData)
               console.log(response.data)
+
+              setFormData({
+                company: "",
+                role: "",
+                employment: "",
+                startDate: "",
+                endDate: "",
+                description: "",
+                current: false
+              })
+
+              setNotification({
+                message: "Experience created successfully!",
+                type: "success",
+                visible: true,
+              });
           } catch (error) {
-              console.log('enter experience in database failed', error)
+             console.log("Enter experience in database failed", error);
+
+              setNotification({
+                message: "Failed to create experience. Try again",
+                type: "error",
+                visible: true
+              })
+          }finally{
+            setTimeout(() => {
+              setNotification((prev)=>({...prev, visible: false}))
+            }, 3000);
           }
       }
 
@@ -166,6 +203,12 @@ export default function ExperienceNew() {
           </Link>
         </div>
       </form>
+      {notification.visible && (
+        <Notification 
+        message={notification.message}
+        type={notification.type}
+        />
+      )}
     </div>
   )
 }
