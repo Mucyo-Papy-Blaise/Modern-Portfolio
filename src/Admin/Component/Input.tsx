@@ -7,6 +7,7 @@ interface InputProps {
   required?: boolean
   id?: string
   name?: string
+  disabled?: boolean
 }
 
 export default function Input({
@@ -17,6 +18,7 @@ export default function Input({
   className = "",
   required = false,
   id,
+  disabled = false
 }: InputProps) {
   return (
     <input
@@ -26,6 +28,7 @@ export default function Input({
       value={value}
       onChange={onChange}
       required={required}
+      disabled={disabled}
       className={`flex h-10 w-full rounded-md border px-3 py-2 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
       style={{ backgroundColor: "#111111", borderColor: "#393939" }}
     />

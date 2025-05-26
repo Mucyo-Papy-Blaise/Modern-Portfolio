@@ -16,11 +16,6 @@ export default function ExperienceNew() {
           description: "",
           current: false
       })
-  
-      const handleInputChange =(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
-          setFormData({...formData, [e.target.name]: e.target.value})
-      }
-  
       const handleSubmitChange = async(e: React.FormEvent)=>{
           e.preventDefault()
   
@@ -58,7 +53,7 @@ export default function ExperienceNew() {
                 <Input
                   id="company"
                   value={formData.company}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, company: e.target.value }))}
                   placeholder="e.g., Tech Corp"
                   required
                 />
@@ -71,7 +66,7 @@ export default function ExperienceNew() {
                 <Input
                   id="job"
                   value={formData.role}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, company: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, role: e.target.value }))}
                   placeholder="e.g., Senior Front-end developer"
                   required
                 />
@@ -84,7 +79,7 @@ export default function ExperienceNew() {
                 <Input
                   id="employment"
                   value={formData.employment}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, location: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, employment: e.target.value }))}
                   placeholder="e.g., Full Time or Partial"
                   required
                 />
@@ -113,6 +108,7 @@ export default function ExperienceNew() {
                     type="date"
                     value={formData.endDate}
                     onChange={(e) => setFormData((prev) => ({ ...prev, endDate: e.target.value }))}
+                    disabled={formData.current}
                   />
                 </div>
               </div>

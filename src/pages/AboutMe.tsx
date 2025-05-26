@@ -26,7 +26,8 @@ const AboutMe: React.FC = () => {
       role: string; 
       employment: string; 
       startDate: string; 
-      endDate: string; 
+      endDate: string;
+      current: boolean 
       description: string }[]
   >([]);
 
@@ -202,7 +203,7 @@ const AboutMe: React.FC = () => {
                   {exp.role} • {exp.employment}
                 </div>
                 <div className="text-gray-400 text-sm mb-2">
-                  {DateFormat(exp.startDate)} - {DateFormat(exp.endDate)}
+                  {DateFormat(exp.startDate)} -{exp.current ? "Present" : DateFormat(exp.endDate)}
                 </div>
                 <div className="text-gray-300">{exp.description}</div>
               </motion.div>
