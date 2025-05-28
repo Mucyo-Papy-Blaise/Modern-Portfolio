@@ -1,9 +1,10 @@
-import React, {useState } from 'react'
+import {useState } from 'react'
 import { ArrowLeft, Code,Laptop } from "lucide-react";
 import { motion,AnimatePresence } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import PageTransition from '../Component/PageTransition';
 import { ChevronDown,ChevronUp } from 'lucide-react';
+import IconRenderer from '../Admin/Component/IconRender';
 
 import {
   FaCamera,
@@ -13,7 +14,7 @@ import {
 } from "react-icons/fa";
 
 
-const Service:React.FC = () => {
+const Service = () => {
 
   interface service {
     id:number;
@@ -21,9 +22,6 @@ const Service:React.FC = () => {
     descr:string;
     title:string;
     features: string[];
-    ftitle:string;
-    price: string;
-    delivery:string;
   }
 
   const services:service[] = [
@@ -37,9 +35,6 @@ const Service:React.FC = () => {
         "Custom designs tailored to your brand",
         "Consistent color schemes and typography",
       ],
-      price: '',
-      delivery: '',
-      ftitle: 'Features'
     },
     {
       id: 2,
@@ -51,9 +46,6 @@ const Service:React.FC = () => {
         "Secure and high-performance functionality",
         "Cross-browser compatibility",
       ],
-      price: '',
-      delivery: '',
-      ftitle: 'Features'
     },
     {
       id: 3,
@@ -65,9 +57,6 @@ const Service:React.FC = () => {
         "Mobile-friendly navigation and touch gestures",
         "Optimized images and fast loading",
       ],
-      price: '',
-      delivery: '',
-      ftitle: 'Features'
     },
     {
       id: 4,
@@ -79,9 +68,6 @@ const Service:React.FC = () => {
         "Secure and high-performance functionality",
         "Cross-browser compatibility",
       ],
-      price: '',
-      delivery: '',
-      ftitle: 'Features'
     },
     {
       id: 5,
@@ -93,9 +79,6 @@ const Service:React.FC = () => {
         "Mobile-friendly navigation and touch gestures",
         "Optimized images and fast loading",
       ],
-      price: '',
-      delivery: '',
-      ftitle: 'Features'
     },
     {
       id: 6,
@@ -107,9 +90,6 @@ const Service:React.FC = () => {
         "Wireframing and prototyping",
         "Accessibility and usability-focused designs",
       ],
-      price: '',
-      delivery: '',
-      ftitle: 'Features'
     },
   ]
   
@@ -181,7 +161,7 @@ const Service:React.FC = () => {
                   <div>
                     <div className='flex-1 bg-[#1A1A1A] h-[1px]'/>
                     <div className='font-poppins'>
-                      <h1 className='text-white text-[20px] mt-3 pb-3'>{service.ftitle}</h1>
+                      <h1 className='text-white text-[20px] mt-3 pb-3'>Features</h1>
                       <ul className=' flex flex-col space-y-2 text-gray-400'>
                         {service.features.map((feature, i)=>
                         <li key={i}

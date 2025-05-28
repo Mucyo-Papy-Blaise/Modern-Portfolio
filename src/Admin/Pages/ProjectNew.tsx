@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../Component/Card'
 import Button from "../Component/Button"
 import Input from "../Component/Input"
@@ -7,33 +7,77 @@ import Textarea from "../Component/Textarea"
 import Select from "../Component/Select"
 import Badge from "../Component/Badge"
 import FileUpload from "../Component/FileUpload"
+import Notification from "../Component/Notification"
+import axios from "axios"
 
 const ProjectNew =()=> {
-  const navigate = useNavigate()
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    longDescription: "",
-    status: "Draft",
-    liveUrl: "",
-    githubUrl: "",
-    technologies: [] as string[],
+    projectName: "",
     category: "",
-    images: [] as File[],
+    image: null as File | null,
+    description: "",
+    tools: [] as string[],
+    features: [] as string[],
+    Livelink: "",
+    githubLink: "",
   })
-  const [newTech, setNewTech] = useState("")
+  const [notification, setNotification] = useState<{
+    message: string
+    type: "success" | "error"
+    visible: boolean
+  }>({
+    message: "",
+    type: "success",
+    visible: false
+  })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [newTech, setNewTech] = useState("")
+  const [newFeature, setNewFeature] =  useState("")
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Project data:", formData)
-    navigate("/projects")
+
+    const data = new FormData()
+    data.append('projectName', formData.projectName)
+    data.append('category', formData.category)
+    if (formData.image) {
+        data.append('image', formData.image)
+      }
+    data.append('description', formData.description)
+    data.append('tools',JSON.stringify(formData.tools))
+    data.append('features', JSON.stringify(formData.features))
+    data.append('Livelink', formData.Livelink)
+    data.append('githubLink', formData.githubLink)
+    try {
+      const response = await axios.post('http://localhost:5000/project', data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      })
+      console.log(response.data)
+      setNotification({
+        message: "Experience created successfully!",
+        type: "success",
+        visible: true,
+      })
+    } catch (error) {
+      setNotification({
+        message: "Failed to create experience. Try again",
+        type: "error",
+        visible: true,
+      })
+    }finally{
+      setTimeout(() => {
+        setNotification((prev)=>({...prev, visible: false}))
+      }, 3000);
+    }
   }
 
   const addTechnology = () => {
-    if (newTech.trim() && !formData.technologies.includes(newTech.trim())) {
+    if (newTech.trim() && !formData.tools.includes(newTech.trim())) {
       setFormData((prev) => ({
         ...prev,
-        technologies: [...prev.technologies, newTech.trim()],
+        tools: [...prev.tools, newTech.trim()],
       }))
       setNewTech("")
     }
@@ -42,14 +86,26 @@ const ProjectNew =()=> {
   const removeTechnology = (tech: string) => {
     setFormData((prev) => ({
       ...prev,
-      technologies: prev.technologies.filter((t) => t !== tech),
+      tools: prev.tools.filter((t) => t !== tech),
     }))
   }
 
   const handleImageUpload = (files: File[]) => {
-    setFormData((prev) => ({ ...prev, images: [...prev.images, ...files] }))
+  if (files.length > 0) {
+    setFormData((prev) => ({ ...prev, image: files[0] }))
   }
+}
 
+const addFeature = () =>{
+  if(newFeature.trim() && !formData.features.includes(newFeature.trim())){
+    setFormData((prev)=>({...prev, features:[...prev.features, newFeature.trim()]}))
+    setNewFeature('')
+  }
+}
+
+const removeFeature =(feature: string)=>{
+  setFormData((prev)=> ({...prev, features: prev.features.filter((f)=> f !== feature)}))
+}
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4">
@@ -66,7 +122,7 @@ const ProjectNew =()=> {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             <Card>
@@ -81,35 +137,21 @@ const ProjectNew =()=> {
                   </label>
                   <Input
                     id="title"
-                    value={formData.title}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
+                    value={formData.projectName}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, projectName: e.target.value }))}
                     placeholder="Enter project title"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-white mb-2">
-                    Short Description
-                  </label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-                    placeholder="Brief description of the project"
-                    rows={3}
-                    required
-                  />
-                </div>
-
-                <div>
                   <label htmlFor="longDescription" className="block text-sm font-medium text-white mb-2">
-                    Detailed Description
+                    Description
                   </label>
                   <Textarea
                     id="longDescription"
-                    value={formData.longDescription}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, longDescription: e.target.value }))}
+                    value={formData.description}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
                     placeholder="Detailed description, features, challenges, etc."
                     rows={6}
                   />
@@ -123,8 +165,8 @@ const ProjectNew =()=> {
                     <Input
                       id="liveUrl"
                       type="url"
-                      value={formData.liveUrl}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, liveUrl: e.target.value }))}
+                      value={formData.Livelink}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, Livelink: e.target.value }))}
                       placeholder="https://example.com"
                     />
                   </div>
@@ -136,8 +178,8 @@ const ProjectNew =()=> {
                     <Input
                       id="githubUrl"
                       type="url"
-                      value={formData.githubUrl}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, githubUrl: e.target.value }))}
+                      value={formData.githubLink}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, githubLink: e.target.value }))}
                       placeholder="https://github.com/username/repo"
                     />
                   </div>
@@ -147,8 +189,8 @@ const ProjectNew =()=> {
 
             <Card>
               <CardHeader>
-                <CardTitle>Technologies</CardTitle>
-                <CardDescription>Add technologies used in this project</CardDescription>
+                <CardTitle>Tools</CardTitle>
+                <CardDescription>Add Tools used in this project</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex gap-2">
@@ -163,12 +205,46 @@ const ProjectNew =()=> {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  {formData.technologies.map((tech) => (
+                  {formData.tools.map((tech) => (
                     <Badge key={tech} variant="secondary" className="flex items-center gap-1">
                       {tech}
                       <button
                         type="button"
                         onClick={() => removeTechnology(tech)}
+                        className="ml-1 text-white hover:text-red-300"
+                      >
+                        ✕
+                      </button>
+                    </Badge>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Features</CardTitle>
+                <CardDescription>Add Features of this project</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex gap-2">
+                  <Input
+                    value={newFeature}
+                    onChange={(e) => setNewFeature(e.target.value)}
+                    placeholder="Enter Feature name"
+                  />
+                  <Button type="button" onClick={addFeature}>
+                    Add
+                  </Button>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {formData.features.map((feature) => (
+                    <Badge key={feature} variant="secondary" className="flex items-center gap-1">
+                      {feature}
+                      <button
+                        type="button"
+                        onClick={() => removeFeature(feature)}
                         className="ml-1 text-white hover:text-red-300"
                       >
                         ✕
@@ -188,34 +264,18 @@ const ProjectNew =()=> {
                 <FileUpload
                   onFileSelect={handleImageUpload}
                   accept="image/*"
-                  multiple={true}
-                  maxSize={10 * 1024 * 1024} // 10MB
+                  multiple={false}
+                  maxSize={10 * 1024 * 1024}
                 />
               </CardContent>
             </Card>
           </div>
-
-          {/* Sidebar */}
           <div className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>Project Settings</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div>
-                  <label htmlFor="status" className="block text-sm font-medium text-white mb-2">
-                    Status
-                  </label>
-                  <Select
-                    id="status"
-                    value={formData.status}
-                    onChange={(value) => setFormData((prev) => ({ ...prev, status: value }))}
-                  >
-                    <option value="Draft">Draft</option>
-                    <option value="Published">Published</option>
-                  </Select>
-                </div>
-
                 <div>
                   <label htmlFor="category" className="block text-sm font-medium text-white mb-2">
                     Category
@@ -249,6 +309,12 @@ const ProjectNew =()=> {
           </div>
         </div>
       </form>
+      {notification.visible && (
+        <Notification 
+        message={notification.message}
+        type={notification.type}
+        />
+      )}
     </div>
   )
 }

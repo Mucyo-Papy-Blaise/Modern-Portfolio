@@ -7,29 +7,27 @@ import Input from "../Component/Input"
 import axios from "axios"
 import Spinner from "../../Component/Spinner"
 import ConfirmDialog from "../Component/ConfirmDialog"
+import IconRenderer from "../Component/IconRender"
 
-const Projects = ()=> {
+const Services = ()=> {
   const [isLoading, setIsloading] = useState<boolean>(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedId, setSelectedId] =  useState<string | null>(null)
   const [showDialog, setShowDialog] = useState<boolean>(false)
-  const [projects, setProjects] = useState<{
+  const [services, setServices] = useState<{
     _id: string,
-    projectName: string,
-    category: string,
-    image: string,
+    icon: string,
+    serviceName: string,
     description: string,
-    tools: string[],
     features: string[],
-    link: string,
   }[]>([])
 
   useEffect(()=>{
-    const getProjects = async()=>{
+    const getServices = async()=>{
       setIsloading(true)
       try {
-        const res = await axios.get('http://localhost:5000/project')
-        setProjects(res.data)
+        const res = await axios.get('http://localhost:5000/service')
+        setServices(res.data.services)
         console.log(res.data)
       } catch (error) {
         console.log("Failed to Fetch Projects data", error)
@@ -37,38 +35,36 @@ const Projects = ()=> {
         setIsloading(false)
       }
     }
-    getProjects()
+    getServices()
   },[])
-
-  const handleDelete =(id: string)=>{
-    setSelectedId(id)
-    setShowDialog(true)
-  }
-
   const handleConfirmDelete =async()=>{
     if(!showDialog) return null
     try {
-      await axios.delete('/')
-      setProjects(projects.filter((prev)=> prev._id !== selectedId))
+      await axios.delete('/') 
+      setServices((services.filter((prev)=>prev._id !== selectedId)))
     } catch (error) {
-      console.log('Failed to delete Projects Entry!')
+      console.log('Failed to delete Service!')
     }finally{
-      setSelectedId(null)
       setShowDialog(false)
+      setSelectedId(null)
     }
   }
-
+  
+const handleDelete =(id: string)=>{
+    setSelectedId(id)
+    setShowDialog(true)
+}
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-white">Projects</h1>
-          <p className="mt-2 text-white">Manage your project portfolio</p>
+          <h1 className="text-3xl font-bold text-white">Services</h1>
+          <p className="mt-2 text-white">Manage your Services portfolio</p>
         </div>
-        <Link to="/admin/projects/new">
+        <Link to="/admin/service/new">
           <Button>
             <span className="mr-2"><MapPlus/></span>
-            Add Project
+            Add Service
           </Button>
         </Link>
       </div>
@@ -93,52 +89,46 @@ const Projects = ()=> {
       {isLoading ? (
         <Spinner />
       ): 
-        projects.length > 0 ? 
+        services.length > 0 ? 
         <div className="flex flex-col gap-3">
-          {projects.map((project, index)=>
+          {services.map((service, index)=>
           <Card key={index}>
             <CardContent className="pt-6">
               <div className="flex flex-col gap-4">
-                  <img src={project.image} alt={project.projectName} className="w-20 h-20" />
+                  <div className="bg-Color4 p-1 w-16 h-16 rounded-full flex items-center justify-center">
+                    <IconRenderer 
+                    iconName={service.icon}
+                    className="w-12 h-12 text-Color5"
+                  />
+                  </div>
                   {/* Header */}
                   <div className="flex items-start w-full">
                       <div className="flex flex-1 flex-col gap-2">
-                          <p className="text-lg text-Color5 font-medium">{project.projectName}</p>
-                          <p className='font-bold text-white text-2xl '>{project.category}</p>
-                            <p className="text-Color4 text-xl">{project.description}</p> 
+                          <p className="text-lg text-Color5 font-medium">{service.serviceName}</p>
+                          <p className='font-bold text-white text-2xl '>{service.description}</p>
                             <div className="flex flex-row gap-3">
-                              {project.tools.map((tool,index)=>
+                              {service.features.map((feature,index)=>
                               <p 
                               key={index}
                               className='text-color4 text-[13px] text-white bg-Color3 p-1 rounded-lg w-fit font-normal'>
-                                {tool}</p>
+                                {feature}</p>
                               )}
                             </div>
-                            <div className="flex flex-row gap-3">
-                             {project.features.map((feature, index)=>
-                            <p 
-                            key={index}
-                            className="text-white bg-Color3 p-1 rounded-lg text-[13px] font-normal"
-                            >
-                              {feature}</p>
-                            )}
-                            </div>
-                            <a href={project.link} className="text-white hover:text-Color5 cursor-pointer underline">Link  of project</a>
                       </div>
 
                     {/* Action Buttons */}
                     <div className="flex  shrink-0 items-center gap-2">
                       <button
                         className="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500 hover:bg-opacity-20 rounded-md transition-colors"
-                        title="Edit Experience"
-                        onClick={() => console.log(`Edit experience ${project._id}`)}
+                        title="Edit Service"
+                        onClick={() => console.log(`Edit experience ${service._id}`)}
                       >
                         <span className="text-lg"><ArrowUpRightFromSquare/></span>
                       </button>
                       <button
                         className="p-2 text-red-500 hover:text-red-300 hover:bg-red-700 hover:bg-opacity-20 rounded-md transition-colors"
-                        title="Delete Experience"
-                        onClick={() => handleDelete(project._id)}
+                        title="Delete Service"
+                        onClick={() => handleDelete(service._id)}
                       >
                         <span className="text-lg"><TrashIcon /></span>
                       </button>
@@ -160,12 +150,12 @@ const Projects = ()=> {
         <Card>
         <CardContent className="text-center py-12">
           <div className="text-6xl mb-4">📁</div>
-          <h3 className="text-lg font-medium text-white mb-2">No projects yet</h3>
-          <p className="text-white mb-4">Get started by creating your first project.</p>
+          <h3 className="text-lg font-medium text-white mb-2">No Service yet</h3>
+          <p className="text-white mb-4">Get started by creating your first Service.</p>
           <Link to="/admin/projects/new">
             <Button>
               <span className="mr-2"><MapPlus/></span>
-              Add Project
+              Add Service
             </Button>
           </Link>
         </CardContent>
@@ -174,4 +164,4 @@ const Projects = ()=> {
     </div>
   )
 }
-export default Projects
+export default Services

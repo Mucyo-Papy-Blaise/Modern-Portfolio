@@ -19,6 +19,8 @@ import Blogs from "./Admin/Pages/Blogs";
 import BlogNew from "./Admin/Pages/BlogNew";
 import Skills from "./Admin/Pages/Skills";
 import SkillNew from "./Admin/Pages/SkillNew";
+import Services from "./Admin/Pages/Services";
+import ServiceNew from "./Admin/Pages/ServiceNew";
 
 import NavBar from "./Component/NavBar";
 import AdminLayout from "./Admin/Component/AdminLayout";
@@ -48,6 +50,8 @@ const App: React.FC = () => {
           <Route path="blogs/new" element ={<BlogNew />} />
           <Route path="skills" element ={<Skills />} />
           <Route path="skills/new" element ={<SkillNew />} />
+          <Route path="services" element ={<Services />} />
+          <Route path="service/new" element={<ServiceNew />} />
         </Route>
       </Routes>
     </Router>

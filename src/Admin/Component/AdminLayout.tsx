@@ -4,6 +4,7 @@ import { Link, useLocation,Outlet } from "react-router-dom"
 const navigation = [
   { name: "Dashboard", href: "/admin/dashboard", icon: "📊" },
   { name: "Projects", href: "/admin/projects", icon: "📁" },
+  {name:"Service" ,href: "/admin/services" , icon: "🎯"},
   { name: "Blogs", href: "/admin/blogs", icon: "📝" },
   { name: "Experience", href: "/admin/experience", icon: "💼" },
   { name: "Skills", href: "/admin/skills", icon: "🏆" },

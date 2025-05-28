@@ -1,26 +1,56 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../index.css";
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { projects } from "../Data/Data";
 import { motion } from "framer-motion";
-import { ArrowRight, Globe } from "lucide-react";
+import { ArrowRight, Globe,ArrowUpRightFromSquareIcon } from "lucide-react";
 import PageTransition from '../Component/PageTransition';
+import axios from "axios";
+import Spinner from "../Component/Spinner";
 
 const Projects: React.FC = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsloading] =  useState<boolean>(false)
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [isScrollable, setIsScrollable] = useState(false);
+  const [projects, setProjects] = useState<{
+    projectName: string,
+    category:string,
+    image: string,
+    description:string,
+    tools: string[]
+    features:string[]
+    link: string
+  }[]>([])
+
+  useEffect(()=>{
+    const getProjects = async()=>{
+      setIsloading(true)
+      try {
+        const res = await axios.get('http://localhost:5000/project')
+        setProjects(res.data)
+      } catch (error) {
+        console.log("Fail to Fetch Project Data Entry!")
+      }finally{
+        setIsloading(false)
+      }
+    }
+    getProjects()
+  },[])
 
   const handleClick = (projectId: number) => {
   setSelectedId(selectedId === projectId ? null : projectId);
   setIsScrollable(selectedId !== projectId);
+
 };
   return (
     <PageTransition>
       <div className="w-full min-h-screen bg-[#111111] p-8">
-        <div className="max-w-[1024px] mx-auto">
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className="container mx-auto px-4 md:px-8 lg:px-40">
           <button
             className="pb-8 flex flex-row items-center justify-center gap-1"
             onClick={() => navigate("/")}
@@ -34,22 +64,22 @@ const Projects: React.FC = () => {
             <div className="flex-1 bg-[#1A1A1A] h-[1px]" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {projects.map((project) => (
+            {projects.map((project, index) => (
               <motion.div
-                key={project.id}
-                layoutId={`project-${project.id}`}
-                onClick={() => handleClick(project.id)}
+                key={index}
+                layoutId={`project-${index}`}
+                onClick={() => handleClick(index)}
                 className={`bg-[#1A1A1A] max-h-[400px] rounded-2xl overflow-hidden cursor-pointer group transition-all duration-300 scrollbar-thumb-[#fa0153] scrollbar-track-[#161720]  
                     ${isScrollable ? "overflow-y-auto" : "overflow-hidden"}
-                    ${selectedId && selectedId !== project.id ? 'opacity-50 scale-95' : ''
+                    ${selectedId && selectedId !== index ? 'opacity-50 scale-95' : ''
                 }`}
               >
                 <motion.div
                   initial={false}
-                  animate={{ height: selectedId === project.id ? 'auto' : '100%' }}
+                  animate={{ height: selectedId === index ? 'auto' : '100%' }}
                   transition={{ duration: 0.3 }}
                 >
-                  {selectedId === project.id ? (
+                  {selectedId === index ? (
                     <motion.div
                       className="p-6"
                       initial={{ opacity: 0 }}
@@ -59,7 +89,7 @@ const Projects: React.FC = () => {
                     >
                       <div className="flex justify-between items-center mb-4">
                         <h3 className="text-2xl font-semibold text-white">
-                          {project.title}
+                          {project.projectName}
                         </h3>
                         <ArrowRight className="text-[#ffc86b]" size={20} />
                       </div>
@@ -83,15 +113,15 @@ const Projects: React.FC = () => {
 
                       <div className="mb-4">
                         <h4 className="text-[#ffc86b] font-medium mb-2">
-                          Challenges
+                          Features
                         </h4>
-                        <ul className="list-disc list-inside text-gray-400">
-                          {project.challenges.map((challenge, index) => (
-                            <li key={index} className="text-sm mb-1">
-                              {challenge}
-                            </li>
+                        <div className="flex flex-row text-Color1 gap-3">
+                          {project.features.map((feature, index) => (
+                            <p key={index} className="text-sm mb-1 bg-Color5 p-1 rounded">
+                              {feature}
+                            </p>
                           ))}
-                        </ul>
+                        </div>
                       </div>
 
                       <a
@@ -114,7 +144,7 @@ const Projects: React.FC = () => {
                       <div className="relative overflow-hidden">
                         <img
                           src={project.image}
-                          alt={project.title}
+                          alt={project.projectName}
                           className="w-full h-[300px] object-cover transform group-hover:scale-110 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -127,7 +157,10 @@ const Projects: React.FC = () => {
                         <p className="text-gray-400 text-sm mb-2">
                           {project.category}
                         </p>
-                        <h3 className="text-xl font-semibold text-white">{project.title}</h3>
+                        <div className="flex flex-row gap-3 justify-between">
+                          <h3 className="text-xl font-semibold text-white">{project.projectName}</h3>
+                          <a href={project.link} className="flex flex-row gap-2 items-center text-Color5 hover:underline"><ArrowUpRightFromSquareIcon size={15}/><span>Demo</span></a>
+                        </div>
                       </div>
                     </motion.div>
                   )}
@@ -136,6 +169,7 @@ const Projects: React.FC = () => {
             ))}
           </div>
         </div>
+        )}
       </div>
     </PageTransition>
   );
