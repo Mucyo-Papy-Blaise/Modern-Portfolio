@@ -1,97 +1,107 @@
-import {useState } from 'react'
-import { ArrowLeft, Code,Laptop } from "lucide-react";
+import {useEffect, useState } from 'react'
+import { ArrowLeft} from "lucide-react";
 import { motion,AnimatePresence } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import PageTransition from '../Component/PageTransition';
 import { ChevronDown,ChevronUp } from 'lucide-react';
+import Spinner from '../Component/Spinner';
 import IconRenderer from '../Admin/Component/IconRender';
-
-import {
-  FaCamera,
-  FaPaintBrush,
-  FaPalette,
-  FaMobileAlt,
-} from "react-icons/fa";
+import axios from 'axios';
 
 
 const Service = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [services, setServices] = useState<{
+    _id: string,
+    icon: string,
+    serviceName: string,
+    description: string,
+    features: string[],
+  }[]>([])
 
-  interface service {
-    id:number;
-    icon: React.ReactNode;
-    descr:string;
-    title:string;
-    features: string[];
-  }
-
-  const services:service[] = [
-    {
-      id: 1,
-      icon: <Laptop size={30} />,
-      title: 'Web Design',
-      descr: 'Crafting visually stunning and user-friendly website interfaces tailored to your brand.',
-      features: [
-        "Modern and visually appealing layouts",
-        "Custom designs tailored to your brand",
-        "Consistent color schemes and typography",
-      ],
-    },
-    {
-      id: 2,
-      icon: <Code size={30} />,
-      title: 'Web Development',
-      descr: 'Building high-performance, scalable websites with cutting-edge technology',
-      features: [
-        "Clean, optimized, and scalable code",
-        "Secure and high-performance functionality",
-        "Cross-browser compatibility",
-      ],
-    },
-    {
-      id: 3,
-      icon: <FaMobileAlt />,
-      title: 'Fully Responsive',
-      descr: 'Ensuring seamless experiences across all devices with adaptive designs',
-      features: [
-        "Seamless adaptation to all screen sizes",
-        "Mobile-friendly navigation and touch gestures",
-        "Optimized images and fast loading",
-      ],
-    },
-    {
-      id: 4,
-      icon: <FaPalette />,
-      title: 'UX/UI Design',
-      descr: 'Creating intuitive and engaging user experiences for maximum usability',
-      features: [
-        "Clean, optimized, and scalable code",
-        "Secure and high-performance functionality",
-        "Cross-browser compatibility",
-      ],
-    },
-    {
-      id: 5,
-      icon: <FaPaintBrush />,
-      title: 'Graphic Design',
-      descr: 'Crafting compelling visuals that elevate your brand identity',
-      features: [
-        "Seamless adaptation to all screen sizes",
-        "Mobile-friendly navigation and touch gestures",
-        "Optimized images and fast loading",
-      ],
-    },
-    {
-      id: 6,
-      icon: <FaCamera />,
-      title: 'Photo Editing and Flyers',
-      descr: 'Enhancing images with professional retouching and creative edits.',
-      features: [
-        "Intuitive and user-friendly interfaces",
-        "Wireframing and prototyping",
-        "Accessibility and usability-focused designs",
-      ],
-    },
-  ]
+  useEffect(()=>{
+    const getServices = async()=>{
+      setIsLoading(true)
+      try {
+        const res = await axios.get('http://localhost:5000/service')
+        setServices(res.data.services)
+        console.log(res.data)
+      } catch (error) {
+        console.log('Failed to Fetch Service Data entery!')
+      }finally{
+        setIsLoading(false)
+      }
+    }
+    getServices()
+  },[])
+  // const services:service[] = [
+  //   {
+  //     id: 1,
+  //     icon: <Laptop size={30} />,
+  //     title: 'Web Design',
+  //     descr: 'Crafting visually stunning and user-friendly website interfaces tailored to your brand.',
+  //     features: [
+  //       "Modern and visually appealing layouts",
+  //       "Custom designs tailored to your brand",
+  //       "Consistent color schemes and typography",
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     icon: <Code size={30} />,
+  //     title: 'Web Development',
+  //     descr: 'Building high-performance, scalable websites with cutting-edge technology',
+  //     features: [
+  //       "Clean, optimized, and scalable code",
+  //       "Secure and high-performance functionality",
+  //       "Cross-browser compatibility",
+  //     ],
+  //   },
+  //   {
+  //     id: 3,
+  //     icon: <FaMobileAlt />,
+  //     title: 'Fully Responsive',
+  //     descr: 'Ensuring seamless experiences across all devices with adaptive designs',
+  //     features: [
+  //       "Seamless adaptation to all screen sizes",
+  //       "Mobile-friendly navigation and touch gestures",
+  //       "Optimized images and fast loading",
+  //     ],
+  //   },
+  //   {
+  //     id: 4,
+  //     icon: <FaPalette />,
+  //     title: 'UX/UI Design',
+  //     descr: 'Creating intuitive and engaging user experiences for maximum usability',
+  //     features: [
+  //       "Clean, optimized, and scalable code",
+  //       "Secure and high-performance functionality",
+  //       "Cross-browser compatibility",
+  //     ],
+  //   },
+  //   {
+  //     id: 5,
+  //     icon: <FaPaintBrush />,
+  //     title: 'Graphic Design',
+  //     descr: 'Crafting compelling visuals that elevate your brand identity',
+  //     features: [
+  //       "Seamless adaptation to all screen sizes",
+  //       "Mobile-friendly navigation and touch gestures",
+  //       "Optimized images and fast loading",
+  //     ],
+  //   },
+  //   {
+  //     id: 6,
+  //     icon: <FaCamera />,
+  //     title: 'Photo Editing and Flyers',
+  //     descr: 'Enhancing images with professional retouching and creative edits.',
+  //     features: [
+  //       "Intuitive and user-friendly interfaces",
+  //       "Wireframing and prototyping",
+  //       "Accessibility and usability-focused designs",
+  //     ],
+  //   },
+  // ]
   
   const navigate = useNavigate()
   const [expandedService, setExpandedService] = useState<number | null>(null)
@@ -118,39 +128,45 @@ const Service = () => {
             <div className="flex-1 bg-[#1A1A1A] h-[1px]" />
           </div>
 
+        {isLoading ? (
+          <Spinner />
+        )
+        :
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-          {services.map((service)=>
+          {services.map((service, index)=>
           <div
-          key={service.id}
+          key={index}
           className={`bg-[#1A1A1A] p-4 rounded-2xl overflow-hidden cursor-pointer group transition-all duration-300 ${
-            isHoveredCard === service.id ? "bg-[#333333]" : "bg-[#1A1A1A]" 
+            isHoveredCard === index ? "bg-[#333333]" : "bg-[#1A1A1A]" 
           }`
           }
-          onMouseEnter={()=> setIsHoveredCard(service.id)}
+          onMouseEnter={()=> setIsHoveredCard(index)}
           onMouseLeave={()=> setIsHoveredCard(null)}
           >
             <div className='flex flex-col p-6 gap-2'>
               <div  className={`flex items-center justify-center font-poppins mb-4 bg-[#2b2b2b] w-[70px] p-4 rounded-2xl ${
-                isHoveredCard === service.id  ? "bg-[#ffc86b]" : "bg-[#2b2b2b]"
+                isHoveredCard === index ? "bg-[#ffc86b]" : "bg-[#2b2b2b]"
                 }
                 `}>
-              <p className={`text-white text-[30px]`}
-              >{service.icon}</p>
+              <IconRenderer 
+                iconName={service.icon}
+                className='text-white text-[30px]'
+              />
               </div>
               <div className='flex flex-col'>
-              <h1 className='text-white text-[20px] font-medium'>{service.title}</h1>
-              <p className='text-gray-400'>{service.descr}</p>
+              <h1 className='text-white text-[20px] font-medium'>{service.serviceName}</h1>
+              <p className='text-gray-400'>{service.description}</p>
               </div>
               
               <button
-              onClick={()=> handleClick(service.id)}
+              onClick={()=> handleClick(index)}
               className='flex justify-start items-center font-poppins text-[#ffc86b] hover:underline'
               >
-                {expandedService === service.id? "Show Less": "Learn More"}
-                {expandedService === service.id ? <ChevronUp />: <ChevronDown/>}
+                {expandedService === index ? "Show Less": "Learn More"}
+                {expandedService === index? <ChevronUp />: <ChevronDown/>}
               </button>
               <AnimatePresence>
-              {expandedService === service.id && (
+              {expandedService === index && (
                 <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
@@ -182,6 +198,7 @@ const Service = () => {
           </div>  
           )}
         </div>
+        }
         
         {/* Custom Service */}
         <div className='bg-[#1A1A1A] p-8 w-full mt-8 rounded-2xl'>

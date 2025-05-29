@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
-import { skills } from "../Data/Data";
 import { useNavigate } from "react-router-dom";
 import { FaDownload } from "react-icons/fa";
 import axios from "axios";
@@ -35,6 +34,12 @@ const AboutMe: React.FC = () => {
       image: string,
       cv: string,
       description: string
+  }[]>([])
+
+  const [skills, setSkills] = useState<{
+    image: string,
+    title: string,
+    percentage: string,
   }[]>([])
 
   const [isloading, setIsLoading] = useState(false);
@@ -84,6 +89,22 @@ const AboutMe: React.FC = () => {
         }
     }
     getProfile()
+  },[])
+
+  useEffect(()=>{
+    const getSkills =async()=>{
+      try {
+        setIsLoading(true)
+        const res = await axios.get('http://localhost:5000/skill')
+        setSkills(res.data)
+        console.log(res.data)
+      } catch (error) {
+        console.log('Failed to Fetch Skills Data', error)
+      }finally{
+        setIsLoading(false)
+      }
+    }
+    getSkills()
   },[])
 
   return (
@@ -227,9 +248,9 @@ const AboutMe: React.FC = () => {
             {/* First 4 items */}
             {skills.slice(0, 4).map((skill, index) => (
               <div key={index} className="flex  justify-center">
-                <div className="bg-[#242424] w-[200px] h-[150px] md:w-[230px] md:h-[230px] flex flex-col gap-2 md:gap-4 items-center justify-center rounded-3xl cursor-pointer transition-all duration-300 hover:scale-[1.03]">
+                <div className="bg-[#242424] w-[200px] h-[150px] md:w-[200px] md:h-[230px] flex flex-col gap-2 md:gap-4 items-center justify-center rounded cursor-pointer transition-all duration-300 hover:scale-[1.03]">
                   <img
-                    src={skill.icon}
+                    src={skill.image}
                     alt="Icon"
                     className=" w-8 md:w-12 h-[28px] md:h-[48px]"
                   />
@@ -240,22 +261,25 @@ const AboutMe: React.FC = () => {
                     {skill.percentage}%
                   </p>
                   <div className="bg-slate-500 w-[100px] h-[5px] md:w-[160px] md:h-[10px] rounded-3xl overflow-hidden">
-                    <div className={`${skill.level} rounded-full`}></div>
-                  </div>
+                <div
+                  className="bg-Color5 h-full rounded-full"
+                  style={{ width: `${parseInt(skill.percentage)}%` }}
+                ></div>
+                </div>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Second Row: Last 2 items */}
-          <div className="flex justify-center gap-4 mt-4">
+          <div className="flex justify-start gap-4 mt-4">
             {skills.slice(4, 6).map((skill, index) => (
               <div
                 key={index}
                 className="bg-[#242424]  w-[200px] h-[150px] md:w-[230px] md:h-[230px] flex flex-col gap-4 items-center justify-center rounded-3xl cursor-pointer transition-all duration-300 hover:scale-[1.03]"
               >
                 <img
-                  src={skill.icon}
+                  src={skill.image}
                   alt="Icon"
                   className="w-8 md:w-12 h-[28px] md:h-[48px]"
                 />
@@ -266,7 +290,10 @@ const AboutMe: React.FC = () => {
                   {skill.percentage}%
                 </p>
                 <div className="bg-slate-500 w-[100px] h-[5px] md:w-[160px] md:h-[10px] rounded-3xl overflow-hidden">
-                  <div className={`${skill.level} rounded-full`}></div>
+                <div
+                  className="bg-yellow-400 h-full rounded-full"
+                  style={{ width: `${parseInt(skill.percentage)}%` }}
+                ></div>
                 </div>
               </div>
             ))}
