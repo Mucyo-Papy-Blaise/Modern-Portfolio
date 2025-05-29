@@ -1,14 +1,62 @@
-"use client"
-
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { Card, CardContent } from "../Component/Card"
 import Button from "../Component/Button"
 import Input from "../Component/Input"
+import axios from "axios"
+import Spinner from "../../Component/Spinner"
+import ConfirmDialog from "../Component/ConfirmDialog"
+import { ArrowUpRightFromSquare, TrashIcon } from "lucide-react"
 
 export default function Blogs() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [statusFilter, setStatusFilter] = useState("All")
+  const [isloading, setIsLoading] =  useState<boolean>(false)
+  const [selectedId, setSelectedId] =  useState<string | null>(null)
+  const [showDialog, setShowDialog] = useState<boolean>(false)
+  const [blogs, setBlogs] =  useState<{
+    _id: string,
+    title: string,
+    summary: string,
+    content: string,
+    author: string,
+    date: Date,
+    readTim: string,
+    category: string,
+    image: string,
+    tags:string[],
+  }[]>([])
+
+  useEffect(()=>{
+    const getBlogs = async()=>{
+      setIsLoading(true)
+      try {
+        const res  = await axios.get('http://localhost:5000/blog')
+        setBlogs(res.data)
+        console.log(res.data)
+      } catch (error) {
+        console.log('Failed to Fetch Blogs Data', error)
+      }finally{
+        setIsLoading(false)
+      }
+    }
+    getBlogs()
+  },[])
+
+  const handleConfirmDelete =async()=>{
+    if(!selectedId) return null
+    try {
+      await axios.delete(`http://localhost:5000/blog/${selectedId}`)
+      setBlogs(blogs.filter((prev)=> prev._id !== selectedId))
+      console.log('Blog deleted Successfully!') 
+    } catch (error) {
+      console.log('Failed to delete Blog!')
+    }
+  }
+
+  const handleDelete=(id: string)=>{
+    setSelectedId(id)
+    setShowDialog(false)
+  }
 
   return (
     <div className="space-y-6">
@@ -38,29 +86,67 @@ export default function Blogs() {
                 className="pl-10"
               />
             </div>
-            <div className="flex gap-2">
-              <Button variant={statusFilter === "All" ? "primary" : "outline"} onClick={() => setStatusFilter("All")}>
-                All
-              </Button>
-              <Button
-                variant={statusFilter === "Published" ? "primary" : "outline"}
-                onClick={() => setStatusFilter("Published")}
-              >
-                Published
-              </Button>
-              <Button
-                variant={statusFilter === "Draft" ? "primary" : "outline"}
-                onClick={() => setStatusFilter("Draft")}
-              >
-                Draft
-              </Button>
-            </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Empty State */}
-      <Card>
+      {isloading ? (
+        <Spinner />
+      ):
+      blogs.length > 0 ? 
+      <div className="flex flex-col gap-3">
+        {blogs.map((blog, index)=>
+          <Card key={index}>
+            <CardContent className="pt-6">
+              <div className="flex flex-col gap-4">
+                  <img src={blog.image} alt={blog.title} className="w-20 h-20" />
+                  {/* Header */}
+                  <div className="flex items-start w-full">
+                      <div className="flex flex-1 flex-col gap-2">
+                          <p className="text-lg text-Color5 font-medium">{blog.title}</p>
+                          <p className='font-bold text-white text-2xl '>{blog.category}</p>
+                            <p className="text-Color4 text-xl">{blog.readTim}</p> 
+                            <div className="flex flex-row gap-3">
+                              {blog.tags.map((tag,index)=>
+                              <p 
+                              key={index}
+                              className='text-color4 text-[13px] text-white bg-Color3 p-1 rounded-lg w-fit font-normal'>
+                                {tag}</p>
+                              )}
+                            </div>
+                      </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex  shrink-0 items-center gap-2">
+                      <button
+                        className="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500 hover:bg-opacity-20 rounded-md transition-colors"
+                        title="Edit Experience"
+                        onClick={() => console.log(`Edit experience ${blog._id}`)}
+                      >
+                        <span className="text-lg"><ArrowUpRightFromSquare/></span>
+                      </button>
+                      <button
+                        className="p-2 text-red-500 hover:text-red-300 hover:bg-red-700 hover:bg-opacity-20 rounded-md transition-colors"
+                        title="Delete Experience"
+                        onClick={() => handleDelete(blog._id)}
+                      >
+                        <span className="text-lg"><TrashIcon /></span>
+                      </button>
+                    </div>
+                  </div>
+              </div>
+              <ConfirmDialog 
+                  open = {showDialog}
+                  title='Confirm Deletion'
+                  message='Do you want to delete this education entry?'
+                  onConfirm={handleConfirmDelete}
+                  onCancel={()=> setShowDialog(false)}
+              />
+            </CardContent>
+          </Card>
+        )}
+      </div>
+      :<Card>
         <CardContent className="text-center py-12">
           <div className="text-6xl mb-4">📝</div>
           <h3 className="text-lg font-medium text-white mb-2">No blog posts yet</h3>
@@ -72,7 +158,9 @@ export default function Blogs() {
             </Button>
           </Link>
         </CardContent>
-      </Card>
+      </Card> 
+      }
     </div>
   )
 }
+

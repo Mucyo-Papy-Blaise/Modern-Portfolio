@@ -1,46 +1,82 @@
-"use client"
+import type React from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../Component/Card";
+import Button from "../Component/Button";
+import Input from "../Component/Input";
+import FileUpload from "../Component/FileUpload";
+import axios from "axios";
+import Notification from "../Component/Notification";
 
-import type React from "react"
-
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../Component/Card"
-import Button from "../Component/Button"
-import Input from "../Component/Input"
-import Textarea from "../Component/Textarea"
-import Select from "../Component/Select"
-
-const SkillNew =()=> {
-  const navigate = useNavigate()
+const SkillNew = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    title: "",
     level: "",
-    proficiency: 50,
-    category: "",
-    yearsOfExperience: "",
-    description: "",
+    percentage: "",
+    image: null as File | null
+  });
+
+  const [notification, setNotification] = useState<{
+    message: string
+    type: "success" | "error"
+    visible: boolean
+  }>({
+    message: "",
+    type: "success",
+    visible: false
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Skill data:", formData)
-    navigate("/skills")
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const data = new FormData()
+    data.append('title', formData.title)
+    data.append('level', formData.level)
+    data.append('percentage', formData.percentage)
 
-  const getLevelFromProficiency = (proficiency: number) => {
-    if (proficiency >= 90) return "Expert"
-    if (proficiency >= 70) return "Advanced"
-    if (proficiency >= 50) return "Intermediate"
-    return "Beginner"
-  }
+    if(formData.image){
+      data.append('image', formData.image)
+    }
 
-  const handleProficiencyChange = (value: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      proficiency: value,
-      level: getLevelFromProficiency(value),
-    }))
+    try {
+      const response = await axios.post('http://localhost:5000/skill', data)
+      console.log(response.data)
+
+      setFormData({
+          title: "",
+          level: "",
+          percentage: "",
+          image: null as File | null
+      })
+      setNotification({
+        message: "Experience created successfully!",
+        type: "success",
+        visible: true,
+      })
+    } catch (error) {
+      console.log('Fails to send data into database',error)
+      setNotification({
+        message: "Failed to create experience. Try again",
+        type: "error",
+        visible: true,
+      })
+    }finally{
+      setTimeout(() => {
+        setNotification((prev)=>({...prev, visible: false}))
+      }, 3000);
+    }
+  };
+
+  const handleImageUpload = (files: File[]) => {
+  if (files.length > 0) {
+    setFormData((prev) => ({ ...prev, image: files[0] }))
   }
+}
 
   return (
     <div className="space-y-6">
@@ -58,72 +94,66 @@ const SkillNew =()=> {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           <Card>
             <CardHeader>
               <CardTitle>Skill Information</CardTitle>
-              <CardDescription>Enter the basic details of your skill</CardDescription>
+              <CardDescription>
+                Enter the basic details of your skill
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-white mb-2"
+                >
                   Skill Name
                 </label>
                 <Input
                   id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                  value={formData.title}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, title: e.target.value }))
+                  }
                   placeholder="e.g., React, Python, Figma"
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="category" className="block text-sm font-medium text-white mb-2">
-                  Category
-                </label>
-                <Select
-                  id="category"
-                  value={formData.category}
-                  onChange={(value) => setFormData((prev) => ({ ...prev, category: value }))}
+                <label
+                  htmlFor="yearsOfExperience"
+                  className="block text-sm font-medium text-white mb-2"
                 >
-                  <option value="">Select category</option>
-                  <option value="Frontend">Frontend</option>
-                  <option value="Backend">Backend</option>
-                  <option value="Programming Language">Programming Language</option>
-                  <option value="Database">Database</option>
-                  <option value="Cloud">Cloud</option>
-                  <option value="Design">Design</option>
-                  <option value="DevOps">DevOps</option>
-                  <option value="Mobile">Mobile</option>
-                  <option value="Testing">Testing</option>
-                  <option value="Other">Other</option>
-                </Select>
-              </div>
-
-              <div>
-                <label htmlFor="yearsOfExperience" className="block text-sm font-medium text-white mb-2">
-                  Years of Experience
+                  Level
                 </label>
                 <Input
                   id="yearsOfExperience"
-                  value={formData.yearsOfExperience}
-                  placeholder="e.g., 2.5"
+                  value={formData.level}
+                  placeholder="e.g., Expert"
                   required
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, level: e.target.value }))
+                  }
                 />
               </div>
 
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-white mb-2">
-                  Description
+                <label
+                  htmlFor="yearsOfExperience"
+                  className="block text-sm font-medium text-white mb-2"
+                >
+                  Percentage
                 </label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-                  placeholder="Describe your experience with this skill..."
-                  rows={4}
+                <Input
+                  id="yearsOfExperience"
+                  value={formData.percentage}
+                  placeholder="e.g., 50"
                   required
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, percentage: e.target.value }))
+                  }
                 />
               </div>
             </CardContent>
@@ -131,64 +161,16 @@ const SkillNew =()=> {
 
           <Card>
             <CardHeader>
-              <CardTitle>Proficiency Level</CardTitle>
-              <CardDescription>Set your proficiency level for this skill</CardDescription>
+              <CardTitle>Project Images</CardTitle>
+              <CardDescription>Upload images for your project</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div>
-                <div className="flex justify-between items-center mb-4">
-                  <label className="text-sm font-medium text-white">Proficiency</label>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-white">{formData.proficiency}%</div>
-                    <div className="text-sm text-white">{getLevelFromProficiency(formData.proficiency)}</div>
-                  </div>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="5"
-                  value={formData.proficiency}
-                  onChange={(e) => handleProficiencyChange(Number(e.target.value))}
-                  className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                />
-                <div className="flex justify-between text-xs text-white mt-2">
-                  <span>Beginner</span>
-                  <span>Intermediate</span>
-                  <span>Advanced</span>
-                  <span>Expert</span>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <h4 className="font-medium text-white">Proficiency Guidelines:</h4>
-                <div className="space-y-2 text-sm text-white">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
-                    <span>
-                      <strong>Beginner (0-49%):</strong> Basic understanding
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <span>
-                      <strong>Intermediate (50-69%):</strong> Can work independently
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                    <span>
-                      <strong>Advanced (70-89%):</strong> Deep knowledge and experience
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <span>
-                      <strong>Expert (90-100%):</strong> Can teach and lead others
-                    </span>
-                  </div>
-                </div>
-              </div>
+            <CardContent>
+              <FileUpload
+                onFileSelect={handleImageUpload}
+                accept="image/*"
+                multiple={false}
+                maxSize={10 * 1024 * 1024}
+              />
             </CardContent>
           </Card>
         </div>
@@ -202,7 +184,13 @@ const SkillNew =()=> {
           </Link>
         </div>
       </form>
+      {notification.visible && (
+        <Notification 
+        message={notification.message}
+        type={notification.type}
+        />
+        )}
     </div>
-  )
-}
+  );
+};
 export default SkillNew

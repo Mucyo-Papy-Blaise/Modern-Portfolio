@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../Component/Card"
 import Button from "../Component/Button"
 import Input from "../Component/Input"
@@ -7,35 +7,71 @@ import Textarea from "../Component/Textarea"
 import Select from "../Component/Select"
 import Badge from "../Component/Badge"
 import FileUpload from "../Component/FileUpload"
+import axios from "axios"
+import Notification from "../Component/Notification"
 
 export default function BlogNew() {
-  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     title: "",
-    excerpt: "",
+    summary: "",
     content: "",
-    status: "Draft",
-    tags: [] as string[],
-    category: "",
-    featuredImage: null as File | null,
+    author: "",
     readTime: "",
+    category: "",
+    image: null as File | null,
+    tags: [] as string[],
   })
+
+  const [notification, setNotification] = useState<{
+      message: string
+      type: "success" | "error"
+      visible: boolean
+    }>({
+      message: "",
+      type: "success",
+      visible: false
+    })
   const [newTag, setNewTag] = useState("")
   const [isPreview, setIsPreview] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Blog data:", formData)
-    navigate("/blogs")
+    const data = new FormData()
+    data.append('title',formData.title)
+    data.append('summary',formData.summary)
+    data.append('content',formData.content)
+    data.append('author',formData.author)
+    data.append('readTime',formData.readTime)
+    data.append('category',formData.category)
+    
+    if(formData.image){
+      data.append('image', formData.image)
+    }
+    data.append('tags', JSON.stringify(formData.tags))
+
+    try {
+      const res = await axios.post('http://localhost:5000/blog', data)
+      console.log(res.data)
+
+      setNotification({
+        message: "Experience created successfully!",
+        type: "success",
+        visible: true,
+      })
+    } catch (error) {
+      console.log('Failed to Post Blog in Data Base', error)
+
+      setNotification({
+        message: "Experience created successfully!",
+        type: "error",
+        visible: true,
+      })
+    }
   }
 
   const addTag = () => {
-    if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
-      setFormData((prev) => ({
-        ...prev,
-        tags: [...prev.tags, newTag.trim()],
-      }))
-      setNewTag("")
+    if(newTag.trim() && !formData.tags.includes(newTag.trim())){
+      setFormData((prev)=> ({...prev, tags: [...prev.tags, newTag.trim()]}))
     }
   }
 
@@ -48,7 +84,7 @@ export default function BlogNew() {
 
   const handleImageUpload = (files: File[]) => {
     if (files.length > 0) {
-      setFormData((prev) => ({ ...prev, featuredImage: files[0] }))
+      setFormData((prev) => ({ ...prev, image: files[0] }))
     }
   }
 
@@ -93,18 +129,18 @@ export default function BlogNew() {
                       value={formData.title}
                       onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
                       placeholder="Enter blog post title"
-                      required
-                    />
+                      required                   
+                      />
                   </div>
 
                   <div>
                     <label htmlFor="excerpt" className="block text-sm font-medium text-white mb-2">
-                      Excerpt
+                      Summary
                     </label>
                     <Textarea
                       id="excerpt"
-                      value={formData.excerpt}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, excerpt: e.target.value }))}
+                      value={formData.summary}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, summary: e.target.value }))}
                       placeholder="Brief description of the blog post"
                       rows={3}
                       required
@@ -172,20 +208,6 @@ export default function BlogNew() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <label htmlFor="status" className="block text-sm font-medium text-white mb-2">
-                      Status
-                    </label>
-                    <Select
-                      id="status"
-                      value={formData.status}
-                      onChange={(value) => setFormData((prev) => ({ ...prev, status: value }))}
-                    >
-                      <option value="Draft">Draft</option>
-                      <option value="Published">Published</option>
-                    </Select>
-                  </div>
-
-                  <div>
                     <label htmlFor="category" className="block text-sm font-medium text-white mb-2">
                       Category
                     </label>
@@ -203,16 +225,26 @@ export default function BlogNew() {
                       <option value="Personal">Personal</option>
                     </Select>
                   </div>
-
                   <div>
                     <label htmlFor="readTime" className="block text-sm font-medium text-white mb-2">
-                      Read Time
+                      Uploaded Date
                     </label>
                     <Input
-                      id="readTime"
+                      id="author"
+                      value={formData.author}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, author: e.target.value }))}
+                      placeholder="e.g., Don Joe"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="readTime" className="block text-sm font-medium text-white mb-2">
+                      Uploaded Date
+                    </label>
+                    <Input
+                      id="text"
                       value={formData.readTime}
                       onChange={(e) => setFormData((prev) => ({ ...prev, readTime: e.target.value }))}
-                      placeholder="e.g., 5 min read"
+                      placeholder="e.g., Don Joe"
                     />
                   </div>
                 </CardContent>
@@ -250,8 +282,8 @@ export default function BlogNew() {
         <Card>
           <CardContent className="pt-6">
             <div className="prose max-w-none">
-              <h1 className="text-white text-3xl font-bold mb-4">{formData.title || "Blog Post Title"}</h1>
-              <p className="text-white mb-4">{formData.excerpt || "Blog post excerpt will appear here..."}</p>
+              <h1 className="text-white text-3xl font-bold mb-4">{formData.title}</h1>
+              <p className="text-white mb-4">{formData.summary}</p>
               <div className="flex flex-wrap gap-2 my-4">
                 {formData.tags.map((tag) => (
                   <Badge key={tag} variant="outline">
@@ -266,6 +298,12 @@ export default function BlogNew() {
           </CardContent>
         </Card>
       )}
+        {notification.visible && (
+        <Notification 
+        message={notification.message}
+        type={notification.type}
+        />
+        )}
     </div>
   )
 }

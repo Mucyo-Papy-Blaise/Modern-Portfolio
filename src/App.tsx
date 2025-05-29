@@ -21,13 +21,30 @@ import Skills from "./Admin/Pages/Skills";
 import SkillNew from "./Admin/Pages/SkillNew";
 import Services from "./Admin/Pages/Services";
 import ServiceNew from "./Admin/Pages/ServiceNew";
+import WelcomeLoader from "./Component/WelcomeLoader";
 
 import NavBar from "./Component/NavBar";
 import AdminLayout from "./Admin/Component/AdminLayout";
+import { useState,useEffect } from "react";
 
 const App: React.FC = () => {
+  const [isloading, setIsLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    // Simulate API fetch or initialization
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timeout);
+  }, []);
   return (
-    <Router>
+   isloading  ? (
+    <WelcomeLoader />
+   ):(
+     <Router>
       <Routes>
         {/* Public Layout */}
         <Route path="/" element={<><NavBar /><LandingPage /></>} />
@@ -55,6 +72,7 @@ const App: React.FC = () => {
         </Route>
       </Routes>
     </Router>
+   )
   );
 };
 

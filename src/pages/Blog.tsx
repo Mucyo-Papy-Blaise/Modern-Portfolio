@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageTransition from "../Component/PageTransition";
 import { ArrowLeft,Calendar,Clock,User } from "lucide-react";
 import { motion } from "framer-motion";
+import axios from "axios";
+import Spinner from "../Component/Spinner";
+import DateFormat from '../Component/DateFormat'
 
-interface blogProps {
-  id: number;
+type BlogPost = {
+  _id: string;
   title: string;
-  excerpt: string;
+  summary: string;
   content: string;
   author: string;
   date: string;
@@ -15,75 +18,76 @@ interface blogProps {
   category: string;
   image: string;
   tags: string[];
-}
-
+};
 
 const Blog: React.FC = () => {
-  const categories = ["All","Design Trends","Development","UI Design","Accessibility","UX Research"];
+  const categories = ["All","Technology","Web Development","Programming","Design","Tutorial","Personal"];
 
-  const blogs: blogProps[] = [
-    {
-        id: 1,
-        title: "he Future of Web Design: Trends to Watch in 2025",
-        excerpt: "Discover the emerging trends that are shaping the future of web design and how they'll impact user experience.",
-        content: "As we move further into 2024, web design continues to evolve at a rapid pace. From AI-driven personalization to immersive 3D experiences, the way we design and interact with websites is undergoing a dramatic transformation...",
-        author: "Alex Thompson",
-        date: "March 15, 2024",
-        readTime: "5 min read",
-        category:"Design Trends",
-        image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=2070",
-        tags: ["Web Design", "UX", "Trends", "Technology"]
-    },
-    {
-        id: 2,
-        title: "Mastering CSS Grid: A Comprehensive Guide",
-        excerpt: "Learn how to create complex layouts with CSS Grid and take your web development skills to the next level.",
-        content: "CSS Grid has revolutionized the way we approach web layouts. In this comprehensive guide, we'll explore advanced techniques and best practices...",
-        author: "Sarah Chen",
-        date: "March 12, 2024",
-        readTime: "8 min read",
-        category: "Development",
-        image: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?auto=format&fit=crop&q=80&w=2070",
-        tags: ["CSS", "Web Development", "Tutorial", "Frontend"]
-    },
-    {
-        id: 3,
-        title: "The Psychology of Color in UI Design",
-        excerpt: "Understanding how color choices impact user behavior and emotional responses in digital interfaces.",
-        content: "Color is more than just an aesthetic choice in UI design. It's a powerful tool that can influence user behavior, evoke emotions, and enhance the overall user experience...",
-        author: "Maria Rodriguez",
-        date: "March 10, 2024",
-        readTime: "6 min read",
-        category: "UI Design",
-        image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=2070",
-        tags: ["UI Design", "Psychology", "Color Theory", "UX"]
-    },
-    {
-        id: 4,
-        title: "Building Accessible Web Applications",
-        excerpt: "Essential practices and guidelines for creating inclusive web experiences for all users.",
-        content: "Web accessibility is not just a nice-to-have feature; it's a fundamental aspect of modern web development. Learn how to make your applications accessible to everyone...",
-        author: "James Wilson",
-        date: "March 8, 2024",
-        readTime: "7 min read",
-        category: "Accessibility",
-        image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=2070",
-        tags: ["Accessibility", "Web Development", "Inclusion", "Best Practices"]
-    },
-  ]
+  // const blogs: blogProps[] = [
+  //   {
+  //       id: 1,
+  //       title: "he Future of Web Design: Trends to Watch in 2025",
+  //       excerpt: "Discover the emerging trends that are shaping the future of web design and how they'll impact user experience.",
+  //       content: "As we move further into 2024, web design continues to evolve at a rapid pace. From AI-driven personalization to immersive 3D experiences, the way we design and interact with websites is undergoing a dramatic transformation...",
+  //       author: "Alex Thompson",
+  //       date: "March 15, 2024",
+  //       readTime: "5 min read",
+  //       category:"Design Trends",
+  //       image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=2070",
+  //       tags: ["Web Design", "UX", "Trends", "Technology"]
+  //   },
+  //   {
+  //       id: 2,
+  //       title: "Mastering CSS Grid: A Comprehensive Guide",
+  //       excerpt: "Learn how to create complex layouts with CSS Grid and take your web development skills to the next level.",
+  //       content: "CSS Grid has revolutionized the way we approach web layouts. In this comprehensive guide, we'll explore advanced techniques and best practices...",
+  //       author: "Sarah Chen",
+  //       date: "March 12, 2024",
+  //       readTime: "8 min read",
+  //       category: "Development",
+  //       image: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?auto=format&fit=crop&q=80&w=2070",
+  //       tags: ["CSS", "Web Development", "Tutorial", "Frontend"]
+  //   },
+  //   {
+  //       id: 3,
+  //       title: "The Psychology of Color in UI Design",
+  //       excerpt: "Understanding how color choices impact user behavior and emotional responses in digital interfaces.",
+  //       content: "Color is more than just an aesthetic choice in UI design. It's a powerful tool that can influence user behavior, evoke emotions, and enhance the overall user experience...",
+  //       author: "Maria Rodriguez",
+  //       date: "March 10, 2024",
+  //       readTime: "6 min read",
+  //       category: "UI Design",
+  //       image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=2070",
+  //       tags: ["UI Design", "Psychology", "Color Theory", "UX"]
+  //   },
+  //   {
+  //       id: 4,
+  //       title: "Building Accessible Web Applications",
+  //       excerpt: "Essential practices and guidelines for creating inclusive web experiences for all users.",
+  //       content: "Web accessibility is not just a nice-to-have feature; it's a fundamental aspect of modern web development. Learn how to make your applications accessible to everyone...",
+  //       author: "James Wilson",
+  //       date: "March 8, 2024",
+  //       readTime: "7 min read",
+  //       category: "Accessibility",
+  //       image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=2070",
+  //       tags: ["Accessibility", "Web Development", "Inclusion", "Best Practices"]
+  //   },
+  // ]
 
   const navigate = useNavigate();
   const [selectedCategory, setselectedCategory] = useState<string | null>(null);
   const [isHoveredCard,setIsHoveredCard] = useState<number |null>(null)
-  const [selectedPost, setSelectedPost] =  useState<blogProps | null> (null)
+  const [selectedPost, setSelectedPost] =  useState<BlogPost | null> (null)
   const [searchItem, setSearchItem] = useState("")
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [blogs, setBlogs] = useState<BlogPost[]>([])
   
  
   const handleCategory = (category: string) => {
     setselectedCategory(selectedCategory === category ? "All" : category);
   };
 
-  const filteredBlogs = blogs.filter((blog) => {
+  const filteredBlogs = blogs!.filter((blog) => {
     const matchesCategory = selectedCategory === "All" || !selectedCategory 
       ? true 
       : blog.category === selectedCategory;
@@ -94,13 +98,30 @@ const Blog: React.FC = () => {
   
     return matchesCategory && matchesSearch;
   });
-  const handleClickPost =(blog:blogProps)=>{
+  const handleClickPost =(blog: BlogPost)=>{
     setSelectedPost(blog)
   }
 
   const handleBack =()=>{
     setSelectedPost(null)
   }
+
+  useEffect(()=>{
+    const getBlogs = async()=>{
+      setIsLoading(true)
+      try {
+        const response = await axios.get('http://localhost:5000/blog')
+        setBlogs(response.data)
+        console.log(response.data)
+      } catch (error) {
+        console.log('Failed To Fetch Blogs Data')
+      }finally{
+        setIsLoading(false)
+      }
+    }
+    getBlogs()
+  },[])
+  
 
   return (
     <PageTransition>
@@ -144,7 +165,10 @@ const Blog: React.FC = () => {
 
         {/* Card */}
 
-        {selectedPost ? (
+        {isLoading ? (
+          <Spinner />
+        ):
+        selectedPost ? (
           <div className=" mt-8">
             <button
               className="pb-4 flex flex-row items-center justify-start gap-1 text-[#ffc86b] text-lg"
@@ -159,7 +183,7 @@ const Blog: React.FC = () => {
                   <User className="w-[14px]"/>
                   <p  className="text-[12px] text-nowrap md:text-14px"> {selectedPost.author}</p>• 
                   <Calendar className="w-[14px]"/>
-                   <p className="text-[12px] text-nowrap md:text-14px">{selectedPost.date} </p> • 
+                   <p className="text-[12px] text-nowrap md:text-14px">{DateFormat(selectedPost.date)} </p> • 
                    <Clock className="w-[14px]"/>
                    <p className="text-[12px] text-nowrap md:text-14px">{selectedPost.readTime}</p>
                 </div>
@@ -182,18 +206,18 @@ const Blog: React.FC = () => {
  
         :(
           <div className="grid md:grid-cols-3 gap-4 mt-8">
-            {filteredBlogs.map((blog)=>
+            {filteredBlogs.map((blog, index)=>
             <motion.div
-            key={blog.id}
+            key={index}
             className={`bg-[#111111] rounded-xl cursor-pointer ${
-                isHoveredCard === blog.id ? "bg-[#1A1A1A]" : ""
+                isHoveredCard === index ? "bg-[#1A1A1A]" : ""
             }`}
-            onMouseEnter={()=>setIsHoveredCard(blog.id)}
+            onMouseEnter={()=>setIsHoveredCard(index)}
             onMouseLeave={()=>setIsHoveredCard(null)}
             >
             <div className="bg-white overflow-hidden relative cursor-pointer rounded-t-lg">
                  <img src={blog.image} alt="" className={`w-full h-full object-cover ${
-                    isHoveredCard === blog.id ? "w-full h-52 transition-transform duration-500 ease-in-out scale-105" : "w-full h-52" }`}/>
+                    isHoveredCard === index ? "w-full h-52 transition-transform duration-500 ease-in-out scale-105" : "w-full h-52" }`}/>
             <div className="absolute bg-[#ffc86b] p-2 translate-x-3 top-3 rounded-3xl"> 
                 <p className="text-[12px] font-semibold">{blog.category}</p>
             </div>
@@ -201,14 +225,14 @@ const Blog: React.FC = () => {
             <div className="flex flex-col p-4 font-poppins">
                <div className="flex flex-row justify-start items-center gap-2">
                <Calendar className="text-gray-400  w-[12px]" />
-               <p className="text-gray-400 text-[12px]">{blog.date}</p> 
+               <p className="text-gray-400 text-[12px]">{DateFormat(blog.date)}</p> 
                <Clock className="text-gray-400 w-[12px] ml-5"/>
                <p className="text-gray-400 text-[12px] text-nowrap">{blog.readTime}</p>
                </div>
 
                <div className="flex flex-col text-white h-[160px] mt-4 text-[15px]">
-                    <h1 className={`mb-5 ${isHoveredCard === blog.id ? "text-[#ffc86b]" : ""}`}>{blog.title}</h1>
-                    <p className="text-gray-400 text-[13px]">{blog.excerpt}</p>
+                    <h1 className={`mb-5 ${isHoveredCard === index ? "text-[#ffc86b]" : ""}`}>{blog.title}</h1>
+                    <p className="text-gray-400 text-[13px]">{blog.summary}</p>
                     <button className={`text-[#ffc86b] text-[12px] mt-auto text-start cursor-pointer hover:underline`}
                     onClick={()=>handleClickPost(blog)}
                     >Read More</button>
@@ -217,7 +241,8 @@ const Blog: React.FC = () => {
             </motion.div>
             )}
         </div>
-        )}
+        )
+        }
         </div>
       </div>
     </PageTransition>
