@@ -48,7 +48,7 @@ const AboutMe: React.FC = () => {
     const getEducation = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get("http://localhost:5000/education");
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/education`);
         setEducations(res.data);
       } catch (error) {
         console.error("Error fetching education data:", error);
@@ -63,7 +63,7 @@ const AboutMe: React.FC = () => {
     const getExperience = async()=>{
       try {
         setIsLoading(true)
-        const res = await axios.get('http://localhost:5000/experience')
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/experience`)
         console.log(res.data)
         setExperiences(res.data)
       } catch (error) {
@@ -79,7 +79,7 @@ const AboutMe: React.FC = () => {
     const getProfile = async()=>{
         try {
           setIsLoading(true)
-          const res = await axios.get('http://localhost:5000/profile')
+          const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/profile`)
           console.log(res.data)
           setProfiles(res.data)
         } catch (error) {
@@ -95,7 +95,7 @@ const AboutMe: React.FC = () => {
     const getSkills =async()=>{
       try {
         setIsLoading(true)
-        const res = await axios.get('http://localhost:5000/skill')
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/skill`)
         setSkills(res.data)
         console.log(res.data)
       } catch (error) {

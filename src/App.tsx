@@ -36,7 +36,7 @@ const App: React.FC = () => {
     // Simulate API fetch or initialization
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 1500);
+    }, 3000);
 
     return () => clearTimeout(timeout);
   }, []);

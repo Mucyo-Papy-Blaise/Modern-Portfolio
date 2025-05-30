@@ -28,7 +28,7 @@ const Projects: React.FC = () => {
     const getProjects = async()=>{
       setIsloading(true)
       try {
-        const res = await axios.get('http://localhost:5000/project')
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/project`)
         setProjects(res.data)
       } catch (error) {
         console.log("Fail to Fetch Project Data Entry!")

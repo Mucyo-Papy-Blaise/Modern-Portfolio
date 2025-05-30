@@ -23,7 +23,7 @@ const Service = () => {
     const getServices = async()=>{
       setIsLoading(true)
       try {
-        const res = await axios.get('http://localhost:5000/service')
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/service`)
         setServices(res.data.services)
         console.log(res.data)
       } catch (error) {
