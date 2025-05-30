@@ -26,7 +26,7 @@ const Services = ()=> {
     const getServices = async()=>{
       setIsloading(true)
       try {
-        const res = await axios.get('http://localhost:5000/service')
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/service`)
         setServices(res.data.services)
         console.log(res.data)
       } catch (error) {
@@ -40,7 +40,7 @@ const Services = ()=> {
   const handleConfirmDelete =async()=>{
     if(!showDialog) return null
     try {
-      await axios.delete('/') 
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/service/${selectedId}`) 
       setServices((services.filter((prev)=>prev._id !== selectedId)))
     } catch (error) {
       console.log('Failed to delete Service!')

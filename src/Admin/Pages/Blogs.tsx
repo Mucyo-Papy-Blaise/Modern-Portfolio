@@ -30,7 +30,7 @@ export default function Blogs() {
     const getBlogs = async()=>{
       setIsLoading(true)
       try {
-        const res  = await axios.get('http://localhost:5000/blog')
+        const res  = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/blog`)
         setBlogs(res.data)
         console.log(res.data)
       } catch (error) {
@@ -45,7 +45,7 @@ export default function Blogs() {
   const handleConfirmDelete =async()=>{
     if(!selectedId) return null
     try {
-      await axios.delete(`http://localhost:5000/blog/${selectedId}`)
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/blog/${selectedId}`)
       setBlogs(blogs.filter((prev)=> prev._id !== selectedId))
       console.log('Blog deleted Successfully!') 
     } catch (error) {

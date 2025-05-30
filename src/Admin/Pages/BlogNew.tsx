@@ -50,7 +50,7 @@ export default function BlogNew() {
     data.append('tags', JSON.stringify(formData.tags))
 
     try {
-      const res = await axios.post('http://localhost:5000/blog', data)
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/blog`, data)
       console.log(res.data)
 
       setNotification({

@@ -25,7 +25,7 @@ const Education =()=> {
     const getEducations = async()=>{
       try {
         setIsloading(true)
-        const res = await axios.get('http://localhost:5000/education')
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/education`)
         setEducations(res.data)
       } catch (error) {
         console.log('Failed to Get Education Data', error)
@@ -44,7 +44,7 @@ const Education =()=> {
   const handleConfirmDelete = async() => {
    if(!selectedId) return null
    try {
-      await axios.delete(`http://localhost:5000/education/${selectedId}`)
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/education/${selectedId}`)
       setEducations(educations.filter((prev)=> prev._id !== selectedId))
    } catch (error) {
     console.log('Failed to delete selected education')

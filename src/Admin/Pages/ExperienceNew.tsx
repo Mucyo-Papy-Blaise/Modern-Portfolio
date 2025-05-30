@@ -31,7 +31,7 @@ export default function ExperienceNew() {
           e.preventDefault()
   
           try {
-              const response =  await axios.post('http://localhost:5000/experience', formData)
+              const response =  await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/experience`, formData)
               console.log(response.data)
 
               setFormData({

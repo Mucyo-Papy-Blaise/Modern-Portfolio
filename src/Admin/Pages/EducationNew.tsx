@@ -38,7 +38,7 @@ const EducationNew = ()=> {
     data.append('degree', formData.degree)
 
     try {
-      const response = await axios.post('http://localhost:5000/education', formData) 
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/education`, formData) 
       console.log(response.data)
 
       setFormData({
