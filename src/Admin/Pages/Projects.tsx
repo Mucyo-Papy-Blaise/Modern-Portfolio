@@ -28,7 +28,7 @@ const Projects = ()=> {
     const getProjects = async()=>{
       setIsloading(true)
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/project`)
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/project`)
         setProjects(res.data)
         console.log(res.data)
       } catch (error) {
@@ -48,7 +48,7 @@ const Projects = ()=> {
   const handleConfirmDelete =async()=>{
     if(!showDialog) return null
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/project/${selectedId}`)
+      await axios.delete(`${import.meta.env.VITE_API_URL}/project/${selectedId}`)
       setProjects(projects.filter((prev)=> prev._id !== selectedId))
     } catch (error) {
       console.log('Failed to delete Projects Entry!')

@@ -28,7 +28,7 @@ const Experience = () => {
     const getExperiences = async()=>{
       try {
         setIsLoading(true)
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/experience`)
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/experience`)
         setExperiences(res.data)
       } catch (error: any) {
         console.log('Error fetching experience Data', error)
@@ -46,7 +46,7 @@ const Experience = () => {
   const handleConfirmDelete =async()=>{
     if(!selectedId) return null
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/experience/${selectedId}`)
+      await axios.delete(`${import.meta.env.VITE_API_URL}/experience/${selectedId}`)
       setExperiences(experiences.filter((prev)=> prev._id !== selectedId))
     } catch (error) {
       console.log('failed to delete experience')

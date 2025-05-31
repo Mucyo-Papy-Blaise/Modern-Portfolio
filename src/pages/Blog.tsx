@@ -110,7 +110,7 @@ const Blog: React.FC = () => {
     const getBlogs = async()=>{
       setIsLoading(true)
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/blog`)
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/blog`)
         setBlogs(response.data)
         console.log(response.data)
       } catch (error) {

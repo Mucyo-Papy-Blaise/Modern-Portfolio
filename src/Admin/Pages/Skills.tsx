@@ -25,7 +25,7 @@ const Skills =()=> {
     const getSkills = async()=>{
       setIsLoading(true)
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/skill`)
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/skill`)
         console.log(res.data)
         setSkills(res.data)
       } catch (error) {
@@ -40,7 +40,7 @@ const Skills =()=> {
   const handleConfirmDelete =async()=>{
     if(!selectedId) return null
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/skill/${selectedId}`)
+      await axios.delete(`${import.meta.env.VITE_API_URL}/skill/${selectedId}`)
       setSkills(skills.filter((prev)=> prev._id !== selectedId))
     } catch (error) {
       console.log("Failed to Delete Skill", error)

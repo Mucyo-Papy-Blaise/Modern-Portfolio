@@ -49,7 +49,7 @@ const ProjectNew =()=> {
     data.append('Livelink', formData.Livelink)
     data.append('githubLink', formData.githubLink)
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/project`, data, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/project`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         }

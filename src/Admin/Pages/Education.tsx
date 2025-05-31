@@ -25,7 +25,7 @@ const Education =()=> {
     const getEducations = async()=>{
       try {
         setIsloading(true)
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/education`)
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/education`)
         setEducations(res.data)
       } catch (error) {
         console.log('Failed to Get Education Data', error)

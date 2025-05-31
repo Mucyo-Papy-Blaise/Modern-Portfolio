@@ -44,7 +44,7 @@ const SkillNew = () => {
     }
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/skill`, data)
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/skill`, data)
       console.log(response.data)
 
       setFormData({
