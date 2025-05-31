@@ -48,7 +48,7 @@ const AboutMe: React.FC = () => {
     const getEducation = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get(`https://modern-portfolio-server.onrender.com/education`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/education`);
         setEducations(res.data);
       } catch (error) {
         console.error("Error fetching education data:", error);
@@ -74,14 +74,6 @@ const AboutMe: React.FC = () => {
     }
     getExperience()
   },[])
-
-  useEffect(() => {
-  console.log('=== DEBUG INFO ===');
-  console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
-  console.log('typeof VITE_API_URL:', typeof import.meta.env.VITE_API_URL);
-  console.log('Full URL example:', `${import.meta.env.VITE_API_URL}/profile`);
-  console.log('=================');
-}, []);
 
   useEffect(()=>{
     const getProfile = async()=>{
