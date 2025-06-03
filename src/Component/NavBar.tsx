@@ -48,13 +48,13 @@ const LandingPage:React.FC = () => {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.1 }}
-        className='absolute z-50 top-[80px] left-0 w-[40%] bg-[#111111d7] flex flex-col items-center gap-6 py-2 md:hidde text-gray-400 font-poppins'
+        className='absolute z-50 top-[80px] left-0 w-[40%] bg-Color1 h-screen flex flex-col items-center gap-6 py-2 md:hidde text-gray-400 font-poppins'
         >
           <div className='p-4 flex flex-col gap-5'>
-          <Link to="/" className='hover:bg-gray-400 hover:text-black p-2 w-full '>Home</Link>
-          <Link to="/AboutMe"className='hover:bg-gray-400 hover:text-black p-2 w-full'>About</Link>
-          <Link to="/ShowCase" className='hover:bg-gray-400 hover:text-black p-2 w-full'>Works</Link>
-          <Link to="/Contact" className='hover:bg-gray-400 hover:text-black p-2 w-full'>Contact</Link>
+          <Link to="/" className='hover:text-Color5 p-2 w-full'>Home</Link>
+          <Link to="/AboutMe"className='hover:text-Color5 w-full'>About</Link>
+          <Link to="/ShowCase" className='hover:text-Color5 p-2 w-full'>Works</Link>
+          <Link to="/Contact" className='hover:text-Color5 p-2 w-full'>Contact</Link>
           </div>
         </motion.div>
         </AnimatePresence>

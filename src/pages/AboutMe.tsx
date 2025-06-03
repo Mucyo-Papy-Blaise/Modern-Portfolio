@@ -108,7 +108,7 @@ const AboutMe: React.FC = () => {
   },[])
 
   return (
-    <div className="w-full min-h-screen bg-[#111111] p-2 md:p-8">
+    <div className="w-full min-h-screen bg-[#111111] p-10 md:p-8">
       <div className="w-full md:max-w-[1024px] md:mx-auto">
         <motion.div
           initial={{ opacity: 0, x: -20 }}

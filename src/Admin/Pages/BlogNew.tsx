@@ -58,6 +58,17 @@ export default function BlogNew() {
         type: "success",
         visible: true,
       })
+
+      setFormData({
+        title: "",
+        summary: "",
+        content: "",
+        author: "",
+        readTime: "",
+        category: "",
+        image: null as File | null,
+        tags: [] as string[],
+      })
     } catch (error) {
       console.log('Failed to Post Blog in Data Base', error)
 
@@ -73,6 +84,7 @@ export default function BlogNew() {
     if(newTag.trim() && !formData.tags.includes(newTag.trim())){
       setFormData((prev)=> ({...prev, tags: [...prev.tags, newTag.trim()]}))
     }
+    setNewTag('')
   }
 
   const removeTag = (tag: string) => {
@@ -227,7 +239,7 @@ export default function BlogNew() {
                   </div>
                   <div>
                     <label htmlFor="readTime" className="block text-sm font-medium text-white mb-2">
-                      Uploaded Date
+                      Author
                     </label>
                     <Input
                       id="author"
@@ -238,7 +250,7 @@ export default function BlogNew() {
                   </div>
                   <div>
                     <label htmlFor="readTime" className="block text-sm font-medium text-white mb-2">
-                      Uploaded Date
+                      ReadTime
                     </label>
                     <Input
                       id="text"

@@ -31,7 +31,11 @@ import {
   Trash,
   Upload,
   Wifi,
-  Zap
+  Zap,
+  Laptop,
+  ServerCog,
+  Palette,
+  MonitorSmartphoneIcon
 } from "lucide-react"
 import { Dialog } from "@headlessui/react"
 import Button from "./Button"
@@ -70,7 +74,11 @@ const iconMap: Record<string, LucideIconComponent> = {
   Trash,
   Upload,
   Wifi,
-  Zap
+  Zap,
+  Laptop,
+  ServerCog,
+  Palette,
+  MonitorSmartphoneIcon,
 }
 
 const validIcons = Object.entries(iconMap)

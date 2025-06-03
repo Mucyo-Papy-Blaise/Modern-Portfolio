@@ -59,10 +59,10 @@ const handleDelete =(id: string)=>{
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-white">Services</h1>
-          <p className="mt-2 text-white">Manage your Services portfolio</p>
+          <p className="mt-2 text-white text-sm md:text-xl">Manage your Services portfolio</p>
         </div>
         <Link to="/admin/service/new">
-          <Button>
+          <Button className="md:text-sm text-[13px] font-bold">
             <span className="mr-2"><MapPlus/></span>
             Add Service
           </Button>
@@ -95,18 +95,18 @@ const handleDelete =(id: string)=>{
           <Card key={index}>
             <CardContent className="pt-6">
               <div className="flex flex-col gap-4">
-                  <div className="bg-Color4 p-1 w-16 h-16 rounded-full flex items-center justify-center">
+                  <div className="bg-Color3 p-1 w-16 h-16 rounded-full flex items-center justify-center">
                     <IconRenderer 
                     iconName={service.icon}
-                    className="w-12 h-12 text-Color5"
+                    className="w-10 h-10 text-Color5"
                   />
                   </div>
                   {/* Header */}
-                  <div className="flex items-start w-full">
+                  <div className="flex md:flex-row flex-col items-start w-full gap-5">
                       <div className="flex flex-1 flex-col gap-2">
                           <p className="text-lg text-Color5 font-medium">{service.serviceName}</p>
-                          <p className='font-bold text-white text-2xl '>{service.description}</p>
-                            <div className="flex flex-row gap-3">
+                          <p className='text-Color4 md:text-xl text-lg min-w-full'>{service.description}</p>
+                            <div className="flex flex-row gap-3 flex-wrap mt-3">
                               {service.features.map((feature,index)=>
                               <p 
                               key={index}
@@ -115,7 +115,7 @@ const handleDelete =(id: string)=>{
                               )}
                             </div>
                       </div>
-
+                    <div className="block md:hidden h-[1px] bg-gray-500 w-full rounded-lg"/>
                     {/* Action Buttons */}
                     <div className="flex  shrink-0 items-center gap-2">
                       <button

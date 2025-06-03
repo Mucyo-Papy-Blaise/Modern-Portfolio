@@ -4,7 +4,7 @@ import Button from "../Component/Button"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Spinner from "../../Component/Spinner"
-import { ArrowUpRightFromSquare, TrashIcon } from "lucide-react"
+import { ArrowUpRightFromSquare, TrashIcon,MapPlus } from "lucide-react"
 import ConfirmDialog from "../Component/ConfirmDialog"
 
 const Skills =()=> {
@@ -63,8 +63,8 @@ const Skills =()=> {
           <p className="mt-2 text-white">Manage your technical and professional skills</p>
         </div>
         <Link to="/admin/skills/new">
-          <Button>
-            <span className="mr-2">➕</span>
+          <Button className="md:text-sm text-[13px] text-nowrap font-bold">
+            <span className="mr-2"><MapPlus /></span>
             Add Skill
           </Button>
         </Link>
@@ -89,6 +89,7 @@ const Skills =()=> {
                       <div className="flex flex-1 flex-col gap-2">
                           <p className="text-lg text-Color5 font-medium">{skill.title}</p>
                           <p className='font-bold text-white text-2xl '>{skill.level}</p>
+                          <p className="italic text-Color5 font-bold text-sm">{skill.level}</p>
                       </div>
 
                     {/* Action Buttons */}
@@ -128,7 +129,7 @@ const Skills =()=> {
           <p className="text-white mb-4">Add your skills to showcase your expertise.</p>
           <Link to="/admin/skills/new">
             <Button>
-              <span className="mr-2">➕</span>
+              <span className="mr-2"><MapPlus/></span>
               Add Skill
             </Button>
           </Link>

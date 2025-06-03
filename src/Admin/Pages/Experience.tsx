@@ -61,10 +61,10 @@ const Experience = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-white">Experience</h1>
-          <p className="mt-2 text-white">Manage your work experience</p>
+          <p className="mt-2 text-white text-sm md:text-xl">Manage your work experience</p>
         </div>
         <Link to="/admin/experience/new">
-          <Button className="bg-color5 text-Color1 hover:bg-[#fad28d]">
+          <Button className="md:text-sm text-[13px] text-nowrap font-bold">
             <span className="mr-2"><MapPlus /></span>
             Add Experience
           </Button>
@@ -81,11 +81,11 @@ const Experience = () => {
               <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
                 <div className="flex-1">
                   {/* Header */}
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex flex-col md:flex-row items-start justify-between mb-4">
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 ">
-                        <span className="text-2xl text-white"><BriefcaseBusiness/></span>
-                        <div>
+                      <div className="flex flex-col items-start gap-3">
+                        <div className="flex flex-row gap-3">
+                          <span className="text-2xl text-white"><BriefcaseBusiness/></span>
                           <p className="text-lg text-Color5 font-medium">{experience.company}</p>
                         </div>
                         <div className="flex flex-row gap-5 items-center">
@@ -103,9 +103,9 @@ const Experience = () => {
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex items-center gap-2 ml-4">
+                    <div className="flex gap-2">
                       <button
-                        className="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500 hover:bg-opacity-20 rounded-md transition-colors"
+                        className="text-blue-400 hover:text-blue-300 hover:bg-blue-500 hover:bg-opacity-20 rounded-md transition-colors"
                         title="Edit Experience"
                         onClick={() => console.log(`Edit experience ${experience._id}`)}
                       >
@@ -144,7 +144,7 @@ const Experience = () => {
           <p className="text-white mb-4">Add your work experience to showcase your career journey.</p>
           <Link to="/admin/experience/new">
             <Button>
-              <span className="mr-2">➕</span>
+              <span className="mr-2"><MapPlus /></span>
               Add Experience
             </Button>
           </Link>

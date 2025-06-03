@@ -29,7 +29,10 @@ import {
   Trash,
   Upload,
   Wifi,
-  Zap
+  Zap,
+  ServerCog,
+  Palette,
+  MonitorSmartphoneIcon
 } from "lucide-react"
 
 type LucideIconComponent = React.FC<React.SVGProps<SVGSVGElement>>
@@ -64,7 +67,10 @@ export const iconMap: Record<string, LucideIconComponent> = {
   Trash,
   Upload,
   Wifi,
-  Zap
+  Zap,
+  ServerCog,
+  Palette,
+  MonitorSmartphoneIcon,
 }
 
 interface IconRendererProps {

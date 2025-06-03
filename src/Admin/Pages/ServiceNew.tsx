@@ -17,7 +17,7 @@ import axios from "axios"
 
 const ServiceNew = () => {
   const [formData, setFormData] = useState({
-    icon: "Circle",
+    icon: "",
     serviceName: "",
     description: "",
     features: [] as string[],
@@ -40,6 +40,12 @@ const ServiceNew = () => {
         message: "Service created successfully!",
         type: "success",
         visible: true,
+      })
+      setFormData({
+        icon: "",
+        serviceName: "",
+        description: "",
+        features: [] as string[],
       })
     } catch (error) {
       setNotification({

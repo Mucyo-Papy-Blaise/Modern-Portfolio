@@ -6,3 +6,4 @@ export const formatDat = (dateInput: string | Date) => {
     day: "numeric",
   })
 }
+export default formatDat

@@ -21,7 +21,8 @@ const Projects = ()=> {
     description: string,
     tools: string[],
     features: string[],
-    link: string,
+    Livelink: string,
+    githubLink: string,
   }[]>([])
 
   useEffect(()=>{
@@ -62,11 +63,11 @@ const Projects = ()=> {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-white">Projects</h1>
-          <p className="mt-2 text-white">Manage your project portfolio</p>
+          <h1 className="md:text-3xl text-xl font-bold text-white">Projects</h1>
+          <p className="mt-2 text-white text-sm md:text-xl">Manage your project portfolio</p>
         </div>
         <Link to="/admin/projects/new">
-          <Button>
+          <Button className="md:text-sm text-[13px] font-bold">
             <span className="mr-2"><MapPlus/></span>
             Add Project
           </Button>
@@ -101,12 +102,12 @@ const Projects = ()=> {
               <div className="flex flex-col gap-4">
                   <img src={project.image} alt={project.projectName} className="w-20 h-20" />
                   {/* Header */}
-                  <div className="flex items-start w-full">
-                      <div className="flex flex-1 flex-col gap-2">
+                  <div className="flex md:flex-row flex-col items-start w-full">
+                      <div className="flex flex-1 flex-col gap-4 w-full">
                           <p className="text-lg text-Color5 font-medium">{project.projectName}</p>
                           <p className='font-bold text-white text-2xl '>{project.category}</p>
-                            <p className="text-Color4 text-xl">{project.description}</p> 
-                            <div className="flex flex-row gap-3">
+                            <p className="text-Color4 md:text-xl text-lg min-w-full">{project.description}</p> 
+                            <div className="flex flex-row gap-3 flex-wrap">
                               {project.tools.map((tool,index)=>
                               <p 
                               key={index}
@@ -114,7 +115,8 @@ const Projects = ()=> {
                                 {tool}</p>
                               )}
                             </div>
-                            <div className="flex flex-row gap-3">
+                            <div className="block md:hidden h-[1px] bg-gray-500 w-full rounded-lg"/>
+                            <div className="flex flex-row gap-3 flex-wrap">
                              {project.features.map((feature, index)=>
                             <p 
                             key={index}
@@ -123,9 +125,13 @@ const Projects = ()=> {
                               {feature}</p>
                             )}
                             </div>
-                            <a href={project.link} className="text-white hover:text-Color5 cursor-pointer underline">Link  of project</a>
+                            <div className="md:hidden block h-[1px] bg-gray-500 w-full rounded-lg"/>
+                           <div className="flex flex-row gap-10 mb-5">
+                             <a href={project.Livelink} className="text-white hover:text-Color5 cursor-pointer underline">Live Link</a>
+                             <a href={project.githubLink} className="text-white hover:text-Color5 cursor-pointer underline">GitHub Link</a>
+                           </div>
                       </div>
-
+                      <div className="md:hidden block h-[1px] bg-gray-500 w-full rounded-lg"/>
                     {/* Action Buttons */}
                     <div className="flex  shrink-0 items-center gap-2">
                       <button

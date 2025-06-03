@@ -111,7 +111,7 @@ const Home: React.FC = () => {
   }
  
   return (
-    <div className="w-full min-h-screen bg-[#111111] pt-16 pb-10">
+    <div className="w-full min-h-screen bg-[#111111] pt-20 pb-10">
       {/* Search Box */}
       <div className="hidden md:flex justify-center items-center pt-6 sm:pt-8 md:pt-12 px-4 sm:px-8 md:px-16 lg:px-32 max-w-[1400px] mx-auto relative">
         <input

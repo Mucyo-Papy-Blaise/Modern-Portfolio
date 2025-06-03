@@ -6,7 +6,8 @@ import Input from "../Component/Input"
 import axios from "axios"
 import Spinner from "../../Component/Spinner"
 import ConfirmDialog from "../Component/ConfirmDialog"
-import { ArrowUpRightFromSquare, TrashIcon } from "lucide-react"
+import { ArrowUpRightFromSquare, TrashIcon, MapPlus } from "lucide-react"
+import DateFormat from '../Component/DateFormat'
 
 export default function Blogs() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -20,7 +21,7 @@ export default function Blogs() {
     content: string,
     author: string,
     date: Date,
-    readTim: string,
+    readTime: string,
     category: string,
     image: string,
     tags:string[],
@@ -62,12 +63,12 @@ export default function Blogs() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-white">Blog Posts</h1>
-          <p className="mt-2 text-white">Manage your blog content</p>
+          <h1 className="text-2xl font-bold text-white">Blog Posts</h1>
+          <p className="mt-2 text-white text-sm md:text-xl">Manage your blog content</p>
         </div>
         <Link to="/admin/blogs/new">
-          <Button>
-            <span className="mr-2">➕</span>
+          <Button className="md:text-sm text-[13px] font-bold">
+            <span className="mr-2"><MapPlus /></span>
             Add Blog Post
           </Button>
         </Link>
@@ -101,12 +102,20 @@ export default function Blogs() {
               <div className="flex flex-col gap-4">
                   <img src={blog.image} alt={blog.title} className="w-20 h-20" />
                   {/* Header */}
-                  <div className="flex items-start w-full">
+                  <div className="flex md:flex-row flex-col items-start w-full gap-5">
                       <div className="flex flex-1 flex-col gap-2">
                           <p className="text-lg text-Color5 font-medium">{blog.title}</p>
-                          <p className='font-bold text-white text-2xl '>{blog.category}</p>
-                            <p className="text-Color4 text-xl">{blog.readTim}</p> 
-                            <div className="flex flex-row gap-3">
+                          <p>{DateFormat(blog.date)}</p>
+                          <div className="flex md:flex-row flex-col gap-2">
+                            <p className='font-bold text-white text-xl '>{blog.category}</p>
+                            <div className="flex flex-row gap-2 items-center">
+                              <p className="italic text-Color5 font-semibold text-[13px]">{blog.author}</p> <span className="text-white">/</span>
+                              <p className="italic text-Color5 font-semibold text-[13px]">{blog.readTime}</p>
+                            </div>
+                          </div>
+                          <p className="text-sm font-semibold text-Color4 mt-2">{blog.summary}</p>
+                          <p className="line-clamp-3 text-white mt-3">{blog.content}</p>  
+                            <div className="flex flex-row flex-wrap gap-2 mt-2">
                               {blog.tags.map((tag,index)=>
                               <p 
                               key={index}
@@ -153,7 +162,7 @@ export default function Blogs() {
           <p className="text-white mb-4">Start writing your first blog post.</p>
           <Link to="/admin/blogs/new">
             <Button>
-              <span className="mr-2">➕</span>
+              <span className="mr-2"><MapPlus /></span>
               Add Blog Post
             </Button>
           </Link>

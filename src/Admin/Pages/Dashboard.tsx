@@ -8,19 +8,28 @@ import axios from "axios"
   const [counts, setCounts] = useState({
     experience: 0,
     education:0,
+    blog: 0,
+    skill:0,
+    project: 0,
   })
 
   useEffect(()=>{
     const fetchCounts =async()=>{
       try {
-        const [experiencesRes,educationsRes] = await Promise.all([
-          axios.get('http://localhost:5000/experience'),
-          axios.get('http://localhost:5000/education'),
+        const [experiencesRes,educationsRes,blogsRes,skillsRes,projectRes] = await Promise.all([
+          axios.get(`${import.meta.env.VITE_API_URL}/experience`),
+          axios.get(`${import.meta.env.VITE_API_URL}/education`),
+          axios.get(`${import.meta.env.VITE_API_URL}/blog`),
+          axios.get(`${import.meta.env.VITE_API_URL}/skill`),
+          axios.get(`${import.meta.env.VITE_API_URL}/project`)
         ])
 
         setCounts({
           experience: experiencesRes.data.length,
-          education: educationsRes.data.length
+          education: educationsRes.data.length,
+          blog: blogsRes.data.length,
+          skill: skillsRes.data.length,
+          project: projectRes.data.length,
         })
       } catch (error) {
         
@@ -30,10 +39,10 @@ import axios from "axios"
   },[])
 
   const stats = [
-    { name: "Projects", value: 0, icon: "📁", href: "/admin/projects" },
-    { name: "Blog Posts", value: 0, icon: "📝", href: "/admin/blogs" },
+    { name: "Projects", value: counts.project, icon: "📁", href: "/admin/projects" },
+    { name: "Blog Posts", value: counts.blog, icon: "📝", href: "/admin/blogs" },
     { name: "Experience", value: counts.experience, icon: "💼", href: "/admin/experience" },
-    { name: "Skills", value: 0, icon: "🏆", href: "/admin/skills" },
+    { name: "Skills", value: counts.skill, icon: "🏆", href: "/admin/skills" },
     { name: "Education", value: counts.education, icon: "🎓", href: "/admin/education" },
   ]
 

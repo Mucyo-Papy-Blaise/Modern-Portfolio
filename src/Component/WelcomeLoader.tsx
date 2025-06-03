@@ -9,7 +9,7 @@ const WelcomeLoader = () => {
         alt="Logo"
         className="w-24 h-24 animate-pulse"
       />
-      <h1 className="text-2xl font-semibold tracking-wide animate-bounce">
+      <h1 className="md:text-2xl text-xl text-center font-semibold tracking-wide animate-bounce">
         Preparing your personalized tour...
       </h1>
     </div>
