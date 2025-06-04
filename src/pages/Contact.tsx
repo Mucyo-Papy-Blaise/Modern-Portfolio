@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa";
-import emailjs from '@emailjs/browser'
 import Notification from "../Admin/Component/Notification";
 import axios from "axios";
 
