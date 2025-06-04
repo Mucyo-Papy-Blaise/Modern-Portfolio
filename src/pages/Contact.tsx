@@ -6,6 +6,7 @@ import { Mail, Phone, MapPin } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa";
 import emailjs from '@emailjs/browser'
 import Notification from "../Admin/Component/Notification";
+import axios from "axios";
 
 const Contact: React.FC = () => {
   const navigate = useNavigate();
@@ -22,39 +23,49 @@ const Contact: React.FC = () => {
     visible: false
   })
 
-  const handleSendEmail = (e: any) => {
-    e.preventDefault();
-    const serviceId = 'service_bxht7mr';
-    const templetId = 'template_tug8tna';
-    const publicKey = 'q_vWlh1UvGMBcWJop';
+  const handleSendEmail = async(e: any) => {
+    e.preventDefault()
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-    const templeteParms = {
-      from_name: name,
-      from_email: email,
-      to_name: 'Mucyo Blaise',
-      message: message
-    }
+    const data = {
+  service_id: serviceId,
+  template_id: templateId,
+  user_id: publicKey,
+  template_params: {
+    from_name: name,
+    from_email: email,
+    to_name: 'Mucyo Blaise',
+    message: message
+  }
+};
 
-    emailjs.send(serviceId,templetId,templeteParms,publicKey)
-      .then((response)=>{
-        console.log('Email sent Sucessfully!',response)
-        setNotification({
-          message: `✅ ${name} Your message was sent successfully. I will get back to you soon`,
-          type: "success",
-          visible:true
-        })
-        setName('')
-        setEmail('')
-        setMessage('')
-      }).catch((error)=>{
-        console.log('Failed to send Email', error)
+    try {
+     const res = await axios.post('https://api.emailjs.com/api/v1.0/email/send', data)
+     console.log(res.data)
+      setNotification({
+        message: `✅ ${name} Your message was sent successfully. I will get back to you soon`,
+        type: "success",
+        visible:true
+      })
+     setName('')
+     setEmail('')
+     setMessage('')
+    } catch (error) {
+      console.log('Failed to send Email', error)
         setNotification({
           message: `⚠️ Oops! Something went wrong. Please try again or contact me directly at mucyoblaise86@gmail.com.`,
-          type: "success",
+          type: "error",
           visible:true
         })
-      })
+    }finally{
+      setTimeout(() => {
+        setNotification((prev)=>({...prev, visible:false}))
+      }, 3000);
+    }
   };
+
 
   return (
     <div className="w-full min-h-screen bg-[#111111] p-8">
