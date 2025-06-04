@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/My logo.png'
 import { Link } from 'react-router-dom'
@@ -7,22 +7,36 @@ import {motion,AnimatePresence} from'framer-motion'
 
 const LandingPage:React.FC = () => {
   const navigate = useNavigate()
-
+  const navRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   
   const handleOpen =()=>{
     setIsOpen(!isOpen)
   }
 
+  useEffect(()=>{
+    if(!isOpen) return;
+    const handleClickOutside =(e: MouseEvent)=>{
+      if(navRef.current && !navRef.current.contains(e.target as Node)){
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown',handleClickOutside)
+
+    return()=>{
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
+
   return (
-    <div className='fixed w-full h-[80px] bg-[#111111] p-5 flex items-center z-10 '>
+    <div className='fixed w-full h-[80px] bg-[#111111] border-b-[1px] border-Color3 p-5 flex items-center z-10 '>
       <nav className='hidden md:flex items-center justify-center w-full md:mx-4 md:space-x-10 lg:mx-32 lg:space-x-[290px]'>
         <div>
         <img src={logo} alt="Logo" className='w-[60px] h-[40px]' />
         </div>
 
         <div className='font-poppins text-[#9396A4] text-[15px] flex justify-center items-center gap-14 '>
-            <Link to="/" className='hover:text-white'>Home</Link>
+            <Link to="/" className='hover:text-white'>Home</Link> 
             <Link to="/AboutMe" className='hover:text-white'>About</Link>
             <Link to="/ShowCase" className='hover:text-white'>Works</Link>
             <Link to="/Contact" className='hover:text-white'>Contact</Link>
@@ -48,11 +62,12 @@ const LandingPage:React.FC = () => {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.1 }}
-        className='absolute z-50 top-[80px] left-0 w-[40%] bg-Color1 h-screen flex flex-col items-center gap-6 py-2 md:hidde text-gray-400 font-poppins'
+        ref={navRef}
+        className='absolute z-50 top-[80px] left-0 w-[40%] bg-Color1 h-screen border-r-[1px] border-Color3 flex flex-col items-center gap-6 py-2 md:hidde text-gray-400 font-poppins'
         >
-          <div className='p-4 flex flex-col gap-5'>
+          <div className='p-4 flex flex-col items-start gap-5'>
           <Link to="/" className='hover:text-Color5 p-2 w-full'>Home</Link>
-          <Link to="/AboutMe"className='hover:text-Color5 w-full'>About</Link>
+          <Link to="/AboutMe" className='hover:text-Color5 p-2 w-full'>About</Link>
           <Link to="/ShowCase" className='hover:text-Color5 p-2 w-full'>Works</Link>
           <Link to="/Contact" className='hover:text-Color5 p-2 w-full'>Contact</Link>
           </div>

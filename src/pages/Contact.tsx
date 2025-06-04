@@ -1,87 +1,175 @@
 import { ArrowLeft } from "lucide-react";
 import PageTransition from "../Component/PageTransition";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
-import { FaLinkedin,FaInstagram,FaTwitter,FaGithub } from "react-icons/fa";
+import { FaLinkedin, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa";
+import emailjs from '@emailjs/browser'
+import Notification from "../Admin/Component/Notification";
 
 const Contact: React.FC = () => {
   const navigate = useNavigate();
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+  const [notification, setNotification] = useState<{
+    message: string,
+    type: "success" | "error"
+    visible: boolean
+  }>({
+    message: "",
+    type: "success",
+    visible: false
+  })
+
+  const handleSendEmail = (e: any) => {
+    e.preventDefault();
+    const serviceId = 'service_bxht7mr';
+    const templetId = 'template_tug8tna';
+    const publicKey = 'q_vWlh1UvGMBcWJop';
+
+    const templeteParms = {
+      from_name: name,
+      from_email: email,
+      to_name: 'Mucyo Blaise',
+      message: message
+    }
+
+    emailjs.send(serviceId,templetId,templeteParms,publicKey)
+      .then((response)=>{
+        console.log('Email sent Sucessfully!',response)
+        setNotification({
+          message: `✅ ${name} Your message was sent successfully. I will get back to you soon`,
+          type: "success",
+          visible:true
+        })
+        setName('')
+        setEmail('')
+        setMessage('')
+      }).catch((error)=>{
+        console.log('Failed to send Email', error)
+        setNotification({
+          message: `⚠️ Oops! Something went wrong. Please try again or contact me directly at mucyoblaise86@gmail.com.`,
+          type: "success",
+          visible:true
+        })
+      })
+  };
+
   return (
     <div className="w-full min-h-screen bg-[#111111] p-8">
-        <PageTransition>
-      <div className="max-w-[1024px] mx-auto">
-        <button
-          className="pb-8 flex flex-row items-center justify-center gap-1"
-          onClick={() => navigate("/")}
-        >
-          <ArrowLeft className="text-gray-400" />
-          <p className="text-gray-400 text-[20px]">Back</p>
-        </button>
+      <PageTransition>
+        <div className="max-w-[1024px] mx-auto">
+          <button
+            className="pb-8 flex flex-row items-center justify-center gap-1"
+            onClick={() => navigate("/")}
+          >
+            <ArrowLeft className="text-gray-400" />
+            <p className="text-gray-400 text-[20px]">Back</p>
+          </button>
 
-        <div className="flex items-center justify-center gap-4 pb-5">
-          <h1 className="font-bold text-[30px] text-[#ffc86b]">
-            Let's Work Together
-          </h1>
-          <div className="flex-1 bg-[#1A1A1A] h-[1px]" />
-        </div>
-
-        <div className="flex flex-col md:flex-row justify-between">
-          <div className="flex flex-col gap-5">
-            <h1 className="text-white text-[25px] font-poppins">
-              Get in Touch
+          <div className="flex items-center justify-center gap-4 pb-5">
+            <h1 className="font-bold text-[30px] text-[#ffc86b]">
+              Let's Work Together
             </h1>
-            <div className="flex flex-row gap-3">
-              <Mail className="text-gray-400" />
-              <p className="text-gray-400 font-poppins">
-                mucyoblaise86@gmail.com
-              </p>
-            </div>
-            <div className="flex flex-row gap-3">
-              <Phone className="text-gray-400" />
-              <p className="text-gray-400 font-poppins">
-                +250 786 663 069
-              </p>
-            </div>
-            <div className="flex flex-row gap-3">
-              <MapPin className="text-gray-400" />
-              <p className="text-gray-400 font-poppins">
-                Kigali, Rwanda
-              </p>
-            </div>
+            <div className="flex-1 bg-[#1A1A1A] h-[1px]" />
           </div>
 
-        {/* Contact Boxes */}
-          <div className="flex flex-col bg-[#1A1A1A] w-[350px] md:w-[400px] p-4 rounded-2xl gap-6 mt-10 md:mt-0">
-            <div className="flex flex-col">
-            <label htmlFor="names" className="text-gray-400 font-poppins mb-1">Names</label>
-            <input type="text" name="names" className="bg-[#333333] h-10 rounded-xl outline-none p-4 text-white font-poppins  focus:ring-2 focus:ring-[#ffc86b]"/>
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="flex flex-col gap-5">
+              <h1 className="text-white text-[25px] font-poppins">
+                Get in Touch
+              </h1>
+              <div className="flex flex-row gap-3">
+                <Mail className="text-gray-400" />
+                <p className="text-gray-400 font-poppins">
+                  mucyoblaise86@gmail.com
+                </p>
+              </div>
+              <div className="flex flex-row gap-3">
+                <Phone className="text-gray-400" />
+                <p className="text-gray-400 font-poppins">+250 786 663 069</p>
+              </div>
+              <div className="flex flex-row gap-3">
+                <MapPin className="text-gray-400" />
+                <p className="text-gray-400 font-poppins">Kigali, Rwanda</p>
+              </div>
             </div>
 
-            <div className="flex flex-col">
-            <label htmlFor="email" className="text-gray-400 font-poppins mb-1">Email</label>
-            <input type="email" name="email" className="bg-[#333333] h-10 rounded-xl outline-none p-4 text-white font-poppins focus:ring-2 focus:ring-[#ffc86b]"/>
-            </div>
-           
-             <textarea name="txtArea" id="" placeholder="Message Here" className="bg-[#333333] min-h-36 p-4 outline-none font-poppins text-white rounded-xl focus:ring-2 focus:ring-[#ffc86b]"></textarea>
+            {/* Contact Boxes */}
+            <form onSubmit={handleSendEmail} className="flex flex-col bg-[#1A1A1A] w-[350px] md:w-[400px] p-4 rounded-2xl gap-6 mt-10 md:mt-0">
+              <div className="flex flex-col">
+                <label
+                  htmlFor="names"
+                  className="text-gray-400 font-poppins mb-1"
+                >
+                  Names
+                </label>
+                <input
+                  type="text"
+                  name="names"
+                  value={name}
+                  onChange={(e)=> setName(e.target.value)}
+                  className="bg-[#333333] h-10 rounded-xl outline-none p-4 text-white font-poppins  focus:ring-2 focus:ring-[#ffc86b]"
+                />
+              </div>
 
-             <button className="text-black font-poppins text-[15px] bg-[#ffc86b] p-2 rounded-xl hover:bg-[#c09855]">
+              <div className="flex flex-col">
+                <label
+                  htmlFor="email"
+                  className="text-gray-400 font-poppins mb-1"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={email}
+                  onChange={(e)=> setEmail(e.target.value)}
+                  className="bg-[#333333] h-10 rounded-xl outline-none p-4 text-white font-poppins focus:ring-2 focus:ring-[#ffc86b]"
+                />
+              </div>
+
+              <textarea
+                name="txtArea"
+                id=""
+                placeholder="Message Here"
+                value={message}
+                onChange={(e)=> setMessage(e.target.value)}
+                className="bg-[#333333] min-h-36 p-4 outline-none font-poppins text-white rounded-xl focus:ring-2 focus:ring-[#ffc86b]"
+              ></textarea>
+
+              <button type="submit" className="text-black font-poppins text-[15px] bg-[#ffc86b] p-2 rounded-xl hover:bg-[#c09855]">
                 Send Message
-             </button>
+              </button>
+            </form>
           </div>
-        </div>
 
-        <div className="flex items-center justify-center gap-4 pb-5 mt-20">
-          <div className="flex-1 max-w-[30%] bg-[#6c6c6c] h-[1px]" />
-          <div className="flex flex-row text-[20px] font-poppins text-white gap-10">
-          <a href="" className="hover:text-[#ffc86b]"><FaLinkedin/></a>
-          <a href="" className="hover:text-[#ffc86b]"><FaGithub/></a>
-          <a href="" className="hover:text-[#ffc86b]"><FaTwitter/></a>
-          <a href="" className="hover:text-[#ffc86b]"><FaInstagram/></a>
+          <div className="flex items-center justify-center gap-4 pb-5 mt-20">
+            <div className="flex-1 max-w-[30%] bg-[#6c6c6c] h-[1px]" />
+            <div className="flex flex-row text-[20px] font-poppins text-white gap-10">
+              <a href="" className="hover:text-[#ffc86b]">
+                <FaLinkedin />
+              </a>
+              <a href="" className="hover:text-[#ffc86b]">
+                <FaGithub />
+              </a>
+              <a href="" className="hover:text-[#ffc86b]">
+                <FaTwitter />
+              </a>
+              <a href="" className="hover:text-[#ffc86b]">
+                <FaInstagram />
+              </a>
+            </div>
+            <div className="flex-1 max-w-[30%] bg-[#6c6c6c] h-[1px]" />
           </div>
-          <div className="flex-1 max-w-[30%] bg-[#6c6c6c] h-[1px]" />
+          {notification.visible && (
+            <Notification 
+            message={notification.message}
+            type={notification.type}
+          />
+          )}
         </div>
-      </div>
       </PageTransition>
     </div>
   );

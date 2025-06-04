@@ -108,8 +108,8 @@ const AboutMe: React.FC = () => {
   },[])
 
   return (
-    <div className="w-full min-h-screen bg-[#111111] p-10 md:p-8">
-      <div className="w-full md:max-w-[1024px] md:mx-auto">
+    <div className="w-full min-h-screen bg-[#111111] p-2 md:p-8 pt-10">
+      <div className="w-full container mx-auto px-2 md:px-8 lg:px-32 mt-10">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -117,7 +117,7 @@ const AboutMe: React.FC = () => {
           className="relative pl-4 pb-2  md:pl-8 md:pb-12 last:pb-0"
         >
           <button
-            className="pb-8 flex flex-row justify-center items-center gap-3"
+            className="pb-8 flex flex-row justify-center items-center gap-3 pt-5"
             onClick={() => navigate("/")}
           >
             <FaArrowLeft className="text-gray-400" />
@@ -140,9 +140,13 @@ const AboutMe: React.FC = () => {
             </div>
             <div className="flex flex-col max-w-[320px] md:max-w-[500px]">
               <h1 className="font-poppins text-white text-[25px]">Who am I?</h1>
-              <p className="text-[15px] text-gray-400 font-poppins mt-5 ">
-                {profile.description}
-              </p>
+              <div className="text-[15px] text-gray-400 font-poppins mt-5 space-y-3 ">
+                {profile.description
+                .split('. ')
+                .filter(s => s.trim()).map((p,i)=>
+                <p key={i}>{p.trim()}</p>
+                )}
+              </div>
               <a
                 href={profile.cv}
                 target="_blank"
@@ -169,7 +173,7 @@ const AboutMe: React.FC = () => {
             <div className="flex-1 bg-[#1A1A1A] h-[1px]" />
           </div>
           <div className="mt-5 md:mt-10 relative">
-            <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-[#ffc86b] opacity-20"></div>
+            <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-[#ffc86b] opacity-20"/>
             {isloading ? (
               <Spinner />
             ) : (
@@ -181,7 +185,7 @@ const AboutMe: React.FC = () => {
                   transition={{ delay: index * 0.1 }}
                   className="relative pl-4 md:pl-8 pb-12 last:pb-0"
                 >
-                  <div className="absolute left-[-5px] top-0 w-[11px] h-[11px] rounded-full bg-[#ffc86b]"></div>
+                  <div className="absolute left-[-5px] top-0 w-[11px] h-[11px] rounded-full bg-[#ffc86b]" />
                   <div className="flex flex-row gap-2">
                     <p className="text-[#ffc86b] text-sm mb-2">
                       {DateFormat(edu.startYear)}
@@ -201,12 +205,15 @@ const AboutMe: React.FC = () => {
         </div>
 
         {/* Experinces */}
-        <div className="bg-[#39393952] w-full p-2 md:p-5 rounded-2xl mt-5 md:mt-10">
-          <h1 className="text-center font-poppins text-[#ffc86b] text-[25px] md:text-[30px] font-bold">
-            Experience
-          </h1>
-          <div className="relative font-poppins text-white mt-8 md:mt-16 pl-5  md:pl-10">
-            <div className="absolute left-5 md:left-10 top-0 bottom-0 w-[1px] bg-[#ffc86b] opacity-20"></div>
+        <div className="mt-2 md:mt-8 p-6 font-poppins">
+          <div className="flex items-center justify-center gap-2  md:gap-4">
+            <h1 className="font-bold text-[18px] md:text-[30px] text-white">
+              Experience
+            </h1>
+            <div className="flex-1 bg-[#1A1A1A] h-[1px]" />
+          </div>
+          <div className="relative font-poppins text-white mt-8 md:mt-16">
+            <div className="absolute top-0 bottom-0 w-[1px] bg-[#ffc86b] opacity-20" />
             {isloading ? (
               <Spinner />
             ): (
@@ -216,9 +223,9 @@ const AboutMe: React.FC = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.3 }}
-                className="relative pl-4 md:pl-8 pb-6 md:pb-12 last:pb0"
+                className="relative pl-4 md:pl-8 pb-12 last:pb-0"
               >
-                <div className="absolute left-[-5px] top-0 w-[11px] h-[11px] rounded-full bg-[#ffc86b]"></div>
+                <div className="absolute left-[-5px] top-0 w-[11px] h-[11px] rounded-full bg-[#ffc86b]" />
                 <div className="text-[#ffc86b] text-sm mb-2">{exp.company}</div>
                 <div className="text-[15px] md:text-xl text-white font-semibold mb-1">
                   {exp.role} • {exp.employment}
@@ -226,7 +233,14 @@ const AboutMe: React.FC = () => {
                 <div className="text-gray-400 text-sm mb-2">
                   {DateFormat(exp.startDate)} -{exp.current ? "Present" : DateFormat(exp.endDate)}
                 </div>
-                <div className="text-gray-300">{exp.description}</div>
+                <div className="text-gray-300 md:space-y-2 space-y-4">
+                  {exp.description
+                    .split('. ') 
+                    .filter(s => s.trim())
+                    .map((s, i) => (
+                      <p key={i}>{s.trim()}.</p>
+                    ))}
+                </div>
               </motion.div>
             ))
             )}

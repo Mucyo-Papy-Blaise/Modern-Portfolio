@@ -105,15 +105,15 @@ export default function Blogs() {
                   <div className="flex md:flex-row flex-col items-start w-full gap-5">
                       <div className="flex flex-1 flex-col gap-2">
                           <p className="text-lg text-Color5 font-medium">{blog.title}</p>
-                          <p>{DateFormat(blog.date)}</p>
+                          <p className="text-white italic font-semibold">{DateFormat(blog.date)}</p>
                           <div className="flex md:flex-row flex-col gap-2">
                             <p className='font-bold text-white text-xl '>{blog.category}</p>
                             <div className="flex flex-row gap-2 items-center">
-                              <p className="italic text-Color5 font-semibold text-[13px]">{blog.author}</p> <span className="text-white">/</span>
-                              <p className="italic text-Color5 font-semibold text-[13px]">{blog.readTime}</p>
+                              <p className="italic text-Color5 font-semibold text-sm">{blog.author}</p> <span className="text-white">/</span>
+                              <p className="italic text-Color5 font-semibold text-sm">{blog.readTime}</p>
                             </div>
                           </div>
-                          <p className="text-sm font-semibold text-Color4 mt-2">{blog.summary}</p>
+                          <p className="text-lg font-semibold text-Color4 mt-2">{blog.summary}</p>
                           <p className="line-clamp-3 text-white mt-3">{blog.content}</p>  
                             <div className="flex flex-row flex-wrap gap-2 mt-2">
                               {blog.tags.map((tag,index)=>

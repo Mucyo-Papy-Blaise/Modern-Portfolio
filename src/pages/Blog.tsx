@@ -177,15 +177,21 @@ const Blog: React.FC = () => {
               <ArrowLeft />
               <i>Back to articles</i>
             </button>
-            <div className="bg-[#1A1A1A] p-6 rounded-lg">
-                <img src={selectedPost.image} alt={selectedPost.title} className="w-full h-72 object-cover rounded-lg" />
-                <div className="flex flex-row justify-start items-center gap-1 md:gap-4 text-gray-400 mt-3">
-                  <User className="w-[14px]"/>
-                  <p  className="text-[12px] text-nowrap md:text-14px"> {selectedPost.author}</p>• 
-                  <Calendar className="w-[14px]"/>
-                   <p className="text-[12px] text-nowrap md:text-14px">{DateFormat(selectedPost.date)} </p> • 
-                   <Clock className="w-[14px]"/>
-                   <p className="text-[12px] text-nowrap md:text-14px">{selectedPost.readTime}</p>
+            <div className="bg-[#1A1A1A] p-6 rounded">
+                <img src={selectedPost.image} alt={selectedPost.title} className="w-full h-72 object-cover rounded" />
+                <div className="flex flex-row flex-wrap justify-start items-center gap-1 md:gap-4 text-gray-400 mt-3">
+                  <div className="flex flex-row gap-3 items-center">
+                    <User className="w-[14px]"/>
+                    <p  className="text-[12px] text-nowrap md:text-14px"> {selectedPost.author}</p>•
+                  </div> 
+                  <div className="flex flex-row gap-3 items-center">
+                    <Calendar className="w-[14px]"/>
+                    <p className="text-[12px] text-nowrap md:text-14px">{DateFormat(selectedPost.date)} </p> • 
+                  </div>
+                   <div className="flex flex-row gap-3 items-center">
+                    <Clock className="w-[14px]"/>
+                    <p className="text-[12px] text-nowrap md:text-14px">{selectedPost.readTime}</p>
+                   </div>
                 </div>
 
                 <h1 className="text-[#ffc86b] text-2xl font-bold mt-4">{selectedPost.title}</h1>
@@ -198,7 +204,13 @@ const Blog: React.FC = () => {
                   </div>
                   )}
                 </div>
-                <p className="text-white mt-4">{selectedPost.content}</p>
+                <div className="text-white mt-4 space-y-3">
+                  {selectedPost.content
+                  .split('.')
+                  .filter(f=> f.trim()).map((s,i)=>
+                  <p key={i}>{s}</p>
+                  )}
+                </div>
             </div>
             </div>
           
@@ -210,7 +222,7 @@ const Blog: React.FC = () => {
             <motion.div
             key={index}
             className={`bg-[#111111] rounded-xl cursor-pointer ${
-                isHoveredCard === index ? "bg-[#1A1A1A]" : ""
+                isHoveredCard === index ? "bg-[#1A1A1A] transition-transform duration-300 hover:-translate-y-2" : ""
             }`}
             onMouseEnter={()=>setIsHoveredCard(index)}
             onMouseLeave={()=>setIsHoveredCard(null)}

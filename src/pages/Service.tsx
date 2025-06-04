@@ -11,6 +11,7 @@ import axios from 'axios';
 
 const Service = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [expandedDescription, setExpandedDescription] = useState<number | null>(null)
   const [services, setServices] = useState<{
     _id: string,
     icon: string,
@@ -155,7 +156,11 @@ const Service = () => {
               </div>
               <div className='flex flex-col'>
               <h1 className='text-white text-[20px] font-medium'>{service.serviceName}</h1>
-              <p className='text-gray-400'>{service.description}</p>
+              <p className={`text-gray-400 ${
+                expandedDescription === index  ? "" : "line-clamp-4" 
+              }`}
+              onClick={()=>setExpandedDescription((prev)=> prev ===  index ? null : index)}
+              >{service.description}</p>
               </div>
               
               <button
