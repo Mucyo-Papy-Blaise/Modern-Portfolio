@@ -29,20 +29,20 @@ const LandingPage:React.FC = () => {
   }, [isOpen])
 
   return (
-    <div className='fixed w-full h-[80px] bg-[#111111] border-b-[1px] border-Color3 p-5 flex items-center z-10 '>
+    <div className='fixed w-full h-[80px] bg-lightbg dark:bg-Color1 border-b-[1px] border-Color3 p-5 flex items-center z-10 '>
       <nav className='hidden md:flex items-center justify-center w-full md:mx-4 md:space-x-10 lg:mx-32 lg:space-x-[290px]'>
         <div>
         <img src={logo} alt="Logo" className='w-[60px] h-[40px]' />
         </div>
 
-        <div className='font-poppins text-[#9396A4] text-[15px] flex justify-center items-center gap-14 '>
-            <Link to="/" className='hover:text-white'>Home</Link> 
-            <Link to="/AboutMe" className='hover:text-white'>About</Link>
-            <Link to="/ShowCase" className='hover:text-white'>Works</Link>
-            <Link to="/Contact" className='hover:text-white'>Contact</Link>
+        <div className='font-poppins text-Color1 dark:text-[#9396A4] text-[15px] flex justify-center items-center gap-14 '>
+            <Link to="/" className='dark:hover:text-white hover:text-Color4'>Home</Link> 
+            <Link to="/AboutMe" className='dark:hover:text-white hover:text-Color4'>About</Link>
+            <Link to="/ShowCase" className='dark:hover:text-white hover:text-Color4'>Works</Link>
+            <Link to="/Contact" className='dark:hover:text-white hover:text-Color4'>Contact</Link>
         </div>
 
-        <div className='bg-Color5 w-[150px] h-10 flex justify-center items-center font-poppins rounded-md ml-[200px] hover:bg-Color6'>
+        <div className='dark:bg-Color5 bg-[#ff6041] w-[150px] h-10 flex justify-center items-center font-poppins rounded-md ml-[200px] hover:bg-Color6'>
             <button className='text-Color1 text-[20px] font-normal p-4 text-nowrap'
             onClick={() => navigate('/Contact')}
             >Let's Talk</button>
@@ -63,13 +63,13 @@ const LandingPage:React.FC = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.1 }}
         ref={navRef}
-        className='absolute z-50 top-[80px] left-0 w-[40%] bg-Color1 h-screen border-r-[1px] border-Color3 flex flex-col items-center gap-6 py-2 md:hidde text-gray-400 font-poppins'
+        className='absolute z-50 top-[80px] left-0 w-[40%] bg-lightCard dark:bg-Color1 h-screen border-r-[1px] border-Color3 flex flex-col items-center gap-6 py-2 md:hidde text-gray-400 font-poppins'
         >
           <div className='p-4 flex flex-col items-start gap-5'>
-          <Link to="/" className='hover:text-Color5 p-2 w-full'>Home</Link>
-          <Link to="/AboutMe" className='hover:text-Color5 p-2 w-full'>About</Link>
-          <Link to="/ShowCase" className='hover:text-Color5 p-2 w-full'>Works</Link>
-          <Link to="/Contact" className='hover:text-Color5 p-2 w-full'>Contact</Link>
+          <Link to="/" className='dark:hover:text-Color5 text-black p-2 w-full'>Home</Link>
+          <Link to="/AboutMe" className='dark:hover:text-Color5 text-black p-2 w-full'>About</Link>
+          <Link to="/ShowCase" className='dark:hover:text-Color5 text-black p-2 w-full'>Works</Link>
+          <Link to="/Contact" className='dark:hover:text-Color5 text-black p-2 w-full'>Contact</Link>
           </div>
         </motion.div>
         </AnimatePresence>

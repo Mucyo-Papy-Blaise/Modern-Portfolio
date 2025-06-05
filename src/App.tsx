@@ -26,6 +26,7 @@ import WelcomeLoader from "./Component/WelcomeLoader";
 import NavBar from "./Component/NavBar";
 import AdminLayout from "./Admin/Component/AdminLayout";
 import { useState,useEffect } from "react";
+import Darkmode from "./Component/Darkmode";
 
 const App: React.FC = () => {
   const [isloading, setIsLoading] = useState<boolean>(false)
@@ -45,6 +46,7 @@ const App: React.FC = () => {
     <WelcomeLoader />
    ):(
      <Router>
+      <Darkmode />
       <Routes>
         {/* Public Layout */}
         <Route path="/" element={<><NavBar /><LandingPage /></>} />

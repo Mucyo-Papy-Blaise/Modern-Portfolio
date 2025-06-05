@@ -67,7 +67,7 @@ const Contact: React.FC = () => {
 
 
   return (
-    <div className="w-full min-h-screen bg-[#111111] p-8">
+    <div className="w-full min-h-screen bg-lightbg dark:bg-Color1 p-8">
       <PageTransition>
         <div className="max-w-[1024px] mx-auto">
           <button
@@ -79,39 +79,39 @@ const Contact: React.FC = () => {
           </button>
 
           <div className="flex items-center justify-center gap-4 pb-5">
-            <h1 className="font-bold text-[30px] text-[#ffc86b]">
+            <h1 className="font-bold text-[30px] text-lightThirdColor dark:text-[#ffc86b]">
               Let's Work Together
             </h1>
-            <div className="flex-1 bg-[#1A1A1A] h-[1px]" />
+            <div className="flex-1 bg-Color2 h-[1px]" />
           </div>
 
           <div className="flex flex-col md:flex-row justify-between">
             <div className="flex flex-col gap-5">
-              <h1 className="text-white text-[25px] font-poppins">
+              <h1 className="text-Color1 dark:text-white text-[25px] font-poppins">
                 Get in Touch
               </h1>
               <div className="flex flex-row gap-3">
-                <Mail className="text-gray-400" />
-                <p className="text-gray-400 font-poppins">
+                <Mail className="text-lightText dark:text-gray-400" />
+                <p className="text-lightText dark:text-gray-400 font-poppins">
                   mucyoblaise86@gmail.com
                 </p>
               </div>
               <div className="flex flex-row gap-3">
-                <Phone className="text-gray-400" />
-                <p className="text-gray-400 font-poppins">+250 786 663 069</p>
+                <Phone className="text-lightText dark:text-gray-400" />
+                <p className="text-lightText dark:text-gray-400 font-poppins">+250 786 663 069</p>
               </div>
               <div className="flex flex-row gap-3">
-                <MapPin className="text-gray-400" />
-                <p className="text-gray-400 font-poppins">Kigali, Rwanda</p>
+                <MapPin className="text-lightText dark:text-gray-400" />
+                <p className="text-lightText dark:text-gray-400 font-poppins">Kigali, Rwanda</p>
               </div>
             </div>
 
             {/* Contact Boxes */}
-            <form onSubmit={handleSendEmail} className="flex flex-col bg-[#1A1A1A] w-[350px] md:w-[400px] p-4 rounded-2xl gap-6 mt-10 md:mt-0">
+            <form onSubmit={handleSendEmail} className="flex flex-col bg-lightCard dark:bg-Color2 w-[350px] md:w-[400px] p-4 rounded-2xl gap-6 mt-10 md:mt-0">
               <div className="flex flex-col">
                 <label
                   htmlFor="names"
-                  className="text-gray-400 font-poppins mb-1"
+                  className="text-lightText dark:text-gray-400 font-poppins mb-1"
                 >
                   Names
                 </label>
@@ -120,14 +120,14 @@ const Contact: React.FC = () => {
                   name="names"
                   value={name}
                   onChange={(e)=> setName(e.target.value)}
-                  className="bg-[#333333] h-10 rounded-xl outline-none p-4 text-white font-poppins  focus:ring-2 focus:ring-[#ffc86b]"
+                  className="dark:bg-[#333333] bg-lightbg h-10 rounded-xl outline-none p-4 text-lightText dark:text-white font-poppins  focus:ring-2 focus:ring-lightThirdColor dark:focus:ring-[#ffc86b]"
                 />
               </div>
 
               <div className="flex flex-col">
                 <label
                   htmlFor="email"
-                  className="text-gray-400 font-poppins mb-1"
+                  className="text-lightText dark:text-gray-400 font-poppins mb-1"
                 >
                   Email
                 </label>
@@ -136,7 +136,7 @@ const Contact: React.FC = () => {
                   name="email"
                   value={email}
                   onChange={(e)=> setEmail(e.target.value)}
-                  className="bg-[#333333] h-10 rounded-xl outline-none p-4 text-white font-poppins focus:ring-2 focus:ring-[#ffc86b]"
+                  className="dark:bg-[#333333] bg-lightbg h-10 rounded-xl outline-none p-4 text-lightText dark:text-white font-poppins focus:ring-2 focus:ring-lightThirdColor dark:focus:ring-[#ffc86b]"
                 />
               </div>
 
@@ -146,10 +146,10 @@ const Contact: React.FC = () => {
                 placeholder="Message Here"
                 value={message}
                 onChange={(e)=> setMessage(e.target.value)}
-                className="bg-[#333333] min-h-36 p-4 outline-none font-poppins text-white rounded-xl focus:ring-2 focus:ring-[#ffc86b]"
+                className="dark:bg-[#333333] bg-lightbg min-h-36 p-4 outline-none font-poppins text-lightText dark:text-whitee rounded-xl focus:ring-2 focus:ring-lightThirdColor dark:focus:ring-[#ffc86b]"
               ></textarea>
 
-              <button type="submit" className="text-black font-poppins text-[15px] bg-[#ffc86b] p-2 rounded-xl hover:bg-[#c09855]">
+              <button type="submit" className="text-black font-poppins text-[15px] bg-lightThirdColor dark:bg-[#ffc86b] p-2 rounded-xl hover:hover:bg-[#cf825f] dark:hover:bg-[#c09855]">
                 Send Message
               </button>
             </form>
@@ -157,17 +157,17 @@ const Contact: React.FC = () => {
 
           <div className="flex items-center justify-center gap-4 pb-5 mt-20">
             <div className="flex-1 max-w-[30%] bg-[#6c6c6c] h-[1px]" />
-            <div className="flex flex-row text-[20px] font-poppins text-white gap-10">
-              <a href="" className="hover:text-[#ffc86b]">
+            <div className="flex flex-row text-[20px] font-poppins text-Color1 dark:text-white gap-10">
+              <a href="" className="hover:text-lightThirdColor dark:hover:text-[#ffc86b]">
                 <FaLinkedin />
               </a>
-              <a href="" className="hover:text-[#ffc86b]">
+              <a href="" className="hover:text-lightThirdColor dark:hover:text-[#ffc86b]">
                 <FaGithub />
               </a>
-              <a href="" className="hover:text-[#ffc86b]">
+              <a href="" className="hover:text-lightThirdColor dark:hover:text-[#ffc86b]">
                 <FaTwitter />
               </a>
-              <a href="" className="hover:text-[#ffc86b]">
+              <a href="" className="hover:text-lightThirdColor dark:hover:text-[#ffc86b]">
                 <FaInstagram />
               </a>
             </div>

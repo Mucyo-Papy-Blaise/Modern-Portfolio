@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -16,7 +17,12 @@ export default {
         'Color3': '#393939',
         'Color4': '#9396A4',
         'Color5': '#ffc86b',
-        'Color6': '#fad28d'
+        'Color6': '#fad28d',
+        'lightbg': '#f0f2f5',
+        'lightCard': '#cbcbcb',
+        'lightText': '#1a1a1a',
+        'lightHoverCard': '#e0e0e0',
+        'lightThirdColor': '#ff6041',
       },
       keyframes: {
         fadeIn: {
