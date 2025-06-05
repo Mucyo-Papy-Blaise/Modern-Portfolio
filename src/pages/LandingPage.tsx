@@ -18,7 +18,6 @@ import {
 import blogPng from "../assets/Blog.png";
 import { AnimatePresence, motion } from "framer-motion";
 import PageTransition from "../Component/PageTransition";
-import Darkmode from "../Component/Darkmode";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
