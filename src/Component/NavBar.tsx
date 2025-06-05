@@ -66,11 +66,11 @@ const LandingPage:React.FC = () => {
         className='absolute z-50 top-[80px] left-0 w-[40%] bg-lightCard dark:bg-Color1 h-screen border-r-[1px] border-Color3 flex flex-col items-center gap-6 py-2 md:hidde text-gray-400 font-poppins'
         >
           <div className='p-4 flex flex-col items-start gap-5'>
-          <Link to="/" className='dark:hover:text-Color5 text-black p-2 w-full'>Home</Link>
-          <Link to="/AboutMe" className='dark:hover:text-Color5 text-black p-2 w-full'>About</Link>
-          <Link to="/service" className='dark:hover:text-Color5 text-black p-2 w-full'>Services</Link>
-          <Link to="/ShowCase" className='dark:hover:text-Color5 text-black p-2 w-full'>Works</Link>
-          <Link to="/Contact" className='dark:hover:text-Color5 text-black p-2 w-full'>Contact</Link>
+          <Link to="/" className='dark:hover:text-Color5 hover:text-lightThirdColor text-black  dark:text-white p-2 w-full'>Home</Link>
+          <Link to="/AboutMe" className='dark:hover:text-Color5 hover:text-lightThirdColor text-black  dark:text-white p-2 w-full'>About</Link>
+          <Link to="/service" className='dark:hover:text-Color5 hover:text-lightThirdColor text-black  dark:text-white p-2 w-full'>Services</Link>
+          <Link to="/ShowCase" className='dark:hover:text-Color5 hover:text-lightThirdColor text-black  dark:text-white p-2 w-full'>Works</Link>
+          <Link to="/Contact" className='dark:hover:text-Color5 hover:text-lightThirdColor text-black  dark:text-white    p-2 w-full'>Contact</Link>
           </div>
         </motion.div>
         </AnimatePresence>
