@@ -68,6 +68,7 @@ const LandingPage:React.FC = () => {
           <div className='p-4 flex flex-col items-start gap-5'>
           <Link to="/" className='dark:hover:text-Color5 text-black p-2 w-full'>Home</Link>
           <Link to="/AboutMe" className='dark:hover:text-Color5 text-black p-2 w-full'>About</Link>
+          <Link to="/service" className='dark:hover:text-Color5 text-black p-2 w-full'>Services</Link>
           <Link to="/ShowCase" className='dark:hover:text-Color5 text-black p-2 w-full'>Works</Link>
           <Link to="/Contact" className='dark:hover:text-Color5 text-black p-2 w-full'>Contact</Link>
           </div>

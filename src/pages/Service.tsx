@@ -114,19 +114,19 @@ const Service = () => {
  
   return (
     <PageTransition>
-    <div className='w-full min-h-screen bg-[#111111] p-8'>
+    <div className='w-full min-h-screen bg-lightbg dark:bg-Color1 p-8'>
       <div className='max-w-[1024px] mx-auto'>
       <button
             className="pb-8 flex flex-row items-center justify-center gap-1"
             onClick={() => navigate("/")}
           >
-            <ArrowLeft className="text-gray-400" />
-            <p className="text-gray-400 text-[20px]">Back</p>
+            <ArrowLeft className="text-lightText dark:text-gray-400" />
+            <p className="text-lightText dark:text-gray-400 text-[20px]">Back</p>
           </button>
 
           <div className="flex items-center justify-center gap-4 pb-5">
-            <h1 className="font-bold text-[30px] text-[#ffc86b]">Services</h1>
-            <div className="flex-1 bg-[#1A1A1A] h-[1px]" />
+            <h1 className="font-bold text-[30px] text-lightThirdColor dark:text-[#ffc86b]">Services</h1>
+            <div className="flex-1 bg-Color2 h-[1px]" />
           </div>
 
         {isLoading ? (
@@ -138,7 +138,7 @@ const Service = () => {
           <div
           key={index}
           className={`bg-[#1A1A1A] p-4 rounded-2xl overflow-hidden cursor-pointer group transition-all duration-300 ${
-            isHoveredCard === index ? "bg-[#333333]" : "bg-[#1A1A1A]" 
+            isHoveredCard === index ? "dark:bg-[#333333] bg-lightHoverCard" : "dark:bg-[#1A1A1A] bg-lightCard" 
           }`
           }
           onMouseEnter={()=> setIsHoveredCard(index)}
@@ -146,17 +146,17 @@ const Service = () => {
           >
             <div className='flex flex-col p-6 gap-2'>
               <div  className={`flex items-center justify-center font-poppins mb-4 bg-[#2b2b2b] w-[70px] p-4 rounded-2xl ${
-                isHoveredCard === index ? "bg-[#ffc86b]" : "bg-[#2b2b2b]"
+                isHoveredCard === index ? "dark:bg-[#ffc86b] bg-lightThirdColor" : "dark:bg-[#2b2b2b] bg-lightbg"
                 }
                 `}>
               <IconRenderer 
                 iconName={service.icon}
-                className='text-white text-[30px]'
+                className='dark:text-white text-lightText text-[30px]'
               />
               </div>
               <div className='flex flex-col'>
-              <h1 className='text-white text-[20px] font-medium'>{service.serviceName}</h1>
-              <p className={`text-gray-400 ${
+              <h1 className='dark:text-white text-lightText text-[20px] font-medium'>{service.serviceName}</h1>
+              <p className={`dark:text-gray-400 text-black ${
                 expandedDescription === index  ? "" : "line-clamp-4" 
               }`}
               onClick={()=>setExpandedDescription((prev)=> prev ===  index ? null : index)}
@@ -165,7 +165,7 @@ const Service = () => {
               
               <button
               onClick={()=> handleClick(index)}
-              className='flex justify-start items-center font-poppins text-[#ffc86b] hover:underline'
+              className='flex justify-start items-center font-poppins text-lightThirdColor dark:text-[#ffc86b] hover:underline'
               >
                 {expandedService === index ? "Show Less": "Learn More"}
                 {expandedService === index? <ChevronUp />: <ChevronDown/>}
@@ -182,13 +182,13 @@ const Service = () => {
                   <div>
                     <div className='flex-1 bg-[#1A1A1A] h-[1px]'/>
                     <div className='font-poppins'>
-                      <h1 className='text-white text-[20px] mt-3 pb-3'>Features</h1>
-                      <ul className=' flex flex-col space-y-2 text-gray-400'>
+                      <h1 className='dark:text-white text-lightText text-[20px] mt-3 pb-3'>Features</h1>
+                      <ul className=' flex flex-col space-y-2 text-black dark:text-gray-400'>
                         {service.features.map((feature, i)=>
                         <li key={i}
                         className='flex items-center gap-3 text-[13px]'
                         >
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#ffc86b] flex-shrink-0 " />
+                          <div className="w-1.5 h-1.5 rounded-full bg-lightThirdColor dark:bg-[#ffc86b] flex-shrink-0 " />
                           {feature}
                         </li>
                         )}
@@ -206,11 +206,11 @@ const Service = () => {
         }
         
         {/* Custom Service */}
-        <div className='bg-[#1A1A1A] p-8 w-full mt-8 rounded-2xl'>
+        <div className='bg-lightCard dark:bg-Color2 p-8 w-full mt-8 rounded-2xl'>
           <div className='font-poppins flex flex-col justify-center items-center gap-6'>
-          <h1 className='text-white text-[20px] font-medium'>Need a Custom Service?</h1>
-          <p className='text-gray-400 text-[15px]'>Let's discuss your specific requirements and create a tailored solution</p>
-          <button className='text-white text-[15px] font-poppins bg-[#cfa04e] p-4 rounded-3xl font-medium hover:bg-[#856734]'
+          <h1 className='text-lightText dark:text-white text-[20px] font-medium'>Need a Custom Service?</h1>
+          <p className='text-lightText dark:text-gray-400 text-[15px]'>Let's discuss your specific requirements and create a tailored solution</p>
+          <button className='text-white text-[15px] font-poppins bg-lightThirdColor dark:bg-[#cfa04e] p-4 rounded-3xl font-medium hover:bg-[#e27855] dark:hover:bg-[#856734]'
           onClick={()=> navigate('/Contact')}
           >
             Get in Touch
