@@ -146,7 +146,7 @@ const Contact: React.FC = () => {
                 placeholder="Message Here"
                 value={message}
                 onChange={(e)=> setMessage(e.target.value)}
-                className="dark:bg-[#333333] bg-lightbg min-h-36 p-4 outline-none font-poppins text-lightText dark:text-whitee rounded-xl focus:ring-2 focus:ring-lightThirdColor dark:focus:ring-[#ffc86b]"
+                className="dark:bg-[#333333] bg-lightbg min-h-36 p-4 outline-none font-poppins dark:text-lightbg text-lightText dark:text-whitee rounded-xl focus:ring-2 focus:ring-lightThirdColor dark:focus:ring-[#ffc86b]"
               ></textarea>
 
               <button type="submit" className="text-black font-poppins text-[15px] bg-lightThirdColor dark:bg-[#ffc86b] p-2 rounded-xl hover:hover:bg-[#cf825f] dark:hover:bg-[#c09855]">
