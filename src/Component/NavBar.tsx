@@ -51,7 +51,7 @@ const LandingPage:React.FC = () => {
 
       <button
       onClick={()=> handleOpen()}
-      className='md:hidden text-white'
+      className='md:hidden text-lightText dark:text-white'
       >
         {isOpen ? <X />: <Menu />}
       </button>
