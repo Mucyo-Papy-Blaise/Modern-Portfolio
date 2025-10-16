@@ -128,13 +128,13 @@ const Home: React.FC = () => {
           />
           <div className="flex flex-col mt-2 sm:mt-4 text-center sm:text-left">
             <p className="dark:text-gray-400 text-lightText mb-1 sm:mb-2 text-[11px] sm:text-[13px]">
-              A WEB DESIGNER
+              A WEB DEVELOPER
             </p>
             <h1 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2 text-Color1 dark:text-white">
               MUCYO <br className="hidden sm:block" /> Papy Blaise
             </h1>
             <p className="dark:text-gray-400 text-Color2 text-[13px] sm:text-[15px] max-w-full sm:max-w-52">
-              I am a Web Designer based Kigali Rwanda.
+              I am a Web Developer based Kigali Rwanda.
             </p>
           </div>
         </div>
